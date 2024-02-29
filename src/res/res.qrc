@@ -1,0 +1,8 @@
+<RCC>
+    <qresource prefix="/svg">
+        <file>Icon.svg</file>
+    </qresource>
+    <qresource prefix="/markdown">
+        <file>about.md</file>
+    </qresource>
+</RCC>
