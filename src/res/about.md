@@ -10,5 +10,5 @@
     <p>
         By <a href="https://github.com/CodingRookie98">CodingRookie</a>
     </p>
-    <p><a href="https://github.com/CodingRookie98/winAutoShutdown">项目地址：https://github.com/CodingRookie98/winAutoShutdown</a></p>
+    <p><a href="https://github.com/CodingRookie98/Sudoku-Solo">项目地址：https://github.com/CodingRookie98/Sudoku-Solo</a></p>
 </div>
