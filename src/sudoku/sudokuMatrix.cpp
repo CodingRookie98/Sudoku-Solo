@@ -135,7 +135,8 @@ std::vector<int> SudokuMatrix::getNums() const {
 void SudokuMatrix::printToOstreram(std::ostream &ostream) {
     for (int row = 0; row < rowCount; ++row) {
         for (int col = 0; col < columnCount; ++col) {
-            if (!invalidPositions.contains(std::pair<int, int>(row, col))) {
+            if (invalidPositions.find(std::pair<int, int>(row, col)) == invalidPositions.end()) { // c++ 17
+                //            if (!invalidPositions.contains(std::pair<int, int>(row, col))) { // c++ 20
                 ostream << std::to_string(matrix.at(row).at(col)) << std::string(", ");
             } else {
                 ostream << std::to_string(0) << std::string(", ");

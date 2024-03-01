@@ -112,8 +112,9 @@ void SudokuGridWidget::updateBtns() {
             if (value != 0) {
                 btn->setText(QString::number(value));
                 btn->setEnabled(false);
-
-                if (invalidPos.contains(std::pair<int, int>(row, col))) {
+                
+                if (invalidPos.find(std::pair<int, int>(row, col)) != invalidPos.end()) { // c++ 17
+//                if (invalidPos.contains(std::pair<int, int>(row, col))) { // c++ 20
                     btn->setEnabled(true);
                     btn->setStyleSheet("background-color: lightcoral;");
                 }
