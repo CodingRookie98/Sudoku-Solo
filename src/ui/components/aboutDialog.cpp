@@ -33,3 +33,11 @@ void AboutDialog::init() {
 void AboutDialog::signalsProcess() {
     connect(ui->btnClose, &QPushButton::clicked, this, &QDialog::close);
 }
+
+bool AboutDialog::event(QEvent *event) {
+    if (event->type() == QEvent::LanguageChange) {
+        ui->retranslateUi(this);
+        return true;
+    }
+    return QWidget::event(event);
+}

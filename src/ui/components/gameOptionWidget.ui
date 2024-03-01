@@ -28,7 +28,7 @@
      <item>
       <layout class="QFormLayout" name="formLayout">
        <property name="labelAlignment">
-        <set>Qt::AlignCenter</set>
+        <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
        </property>
        <property name="formAlignment">
         <set>Qt::AlignHCenter|Qt::AlignTop</set>
@@ -132,6 +132,9 @@
            <bold>true</bold>
           </font>
          </property>
+         <property name="sizeAdjustPolicy">
+          <enum>QComboBox::AdjustToContents</enum>
+         </property>
         </widget>
        </item>
        <item row="1" column="0">
@@ -155,7 +158,7 @@
      <item>
       <widget class="QPushButton" name="pBtnGenSudoku">
        <property name="sizePolicy">
-        <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+        <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
          <horstretch>0</horstretch>
          <verstretch>0</verstretch>
         </sizepolicy>

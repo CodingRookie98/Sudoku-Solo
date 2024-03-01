@@ -26,8 +26,7 @@ InputSudokuDialog::~InputSudokuDialog() {
 }
 
 void InputSudokuDialog::init() {
-    ui->plainTextEdit->setPlaceholderText("请在此输入数独矩阵\n"
-                                          "数字之间请用空格\" \"或逗号 \",\" 隔开, \"0\" 表示待解决格子");
+    ui->plainTextEdit->setPlaceholderText(QApplication::translate(metaObject()->className(), placeHoldelText.toStdString().c_str()));
     setModal(true);
 }
 
@@ -41,7 +40,7 @@ void InputSudokuDialog::signalsProcess() {
 void InputSudokuDialog::processInputText() {
     QString text = ui->plainTextEdit->toPlainText();
     if (text.isEmpty()) {
-        ui->label->setText("请在输入框中输入数独矩阵");
+        ui->label->setText(QApplication::translate(metaObject()->className(), tr("请在输入框中输入数独矩阵").toStdString().c_str()));
         return;
     } else {
         std::vector<int> nums;
@@ -62,7 +61,7 @@ void InputSudokuDialog::processInputText() {
         } else if (size == Sudoku::SudokuMatrix::getMatrixSize(Sudoku::SudokuMatrix::Nine_Nine)) {
             sudokuMatrixType = Sudoku::SudokuMatrix::Nine_Nine;
         } else {
-            ui->label->setText("输入的矩阵类型不在支持范围内，支持的矩阵有 4*4 6*6 9*9");
+            ui->label->setText(QApplication::translate(metaObject()->className(), tr("输入的矩阵类型不在支持范围内，支持的矩阵有 4*4 6*6 9*9").toStdString().c_str()));
             return;
         }
         
@@ -76,4 +75,16 @@ void InputSudokuDialog::processInputText() {
         
         emit sigInputSudokuMatrix(sudokuMatrix);
     }
+}
+
+void InputSudokuDialog::onLanguageChanged() {
+    ui->plainTextEdit->setPlaceholderText(QApplication::translate(metaObject()->className(), placeHoldelText.toStdString().c_str()));
+}
+
+bool InputSudokuDialog::event(QEvent *event) {
+    if (event->type() == QEvent::LanguageChange) {
+        ui->retranslateUi(this);
+        onLanguageChanged();
+    }
+    return QWidget::event(event);
 }

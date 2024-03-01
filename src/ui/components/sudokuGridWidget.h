@@ -52,6 +52,9 @@ public slots:
     void readSudokuFromFile();
     void promptAnswer();
     void inputSudoku();
+    
+protected:
+    bool event(QEvent *event) override;
 
 private:
     Ui::SudokuGridWidget *ui;

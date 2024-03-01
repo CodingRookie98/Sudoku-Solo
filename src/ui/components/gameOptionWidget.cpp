@@ -26,7 +26,7 @@ GameOptionWidget::~GameOptionWidget() {
 
 void GameOptionWidget::signalsProcess() {
     connect(ui->pBtnGenSudoku, &QPushButton::clicked, this, [&] {
-        Sudoku::SudokuMatrix::SudokuMatrix::SudokuMatrixTypes type                                = (Sudoku::SudokuMatrix::SudokuMatrix::SudokuMatrixTypes)ui->sudokuType->currentData().toInt();
+        Sudoku::SudokuMatrix::SudokuMatrix::SudokuMatrixTypes type = (Sudoku::SudokuMatrix::SudokuMatrix::SudokuMatrixTypes)ui->sudokuType->currentData().toInt();
         Sudoku::SudokuGenerator::GenerateMethod generateMethod = (Sudoku::SudokuGenerator::GenerateMethod)ui->cbGenerateMethod->currentData().toInt();
         emit sigGenerateRandomSudoku(type, generateMethod, ui->qsbNum->value());
         // 游戏开始时以下按钮处于不可用状态
@@ -54,7 +54,7 @@ void GameOptionWidget::init() {
     Sudoku::SudokuMatrix::SudokuMatrixTypes type = (Sudoku::SudokuMatrix::SudokuMatrixTypes)ui->sudokuType->currentData().toInt();
     ui->qsbNum->setRange(1, Sudoku::SudokuMatrix::SudokuMatrix::getMatrixSize(type));
 
-    ui->cbGenerateMethod->addItem("递归", QVariant(Sudoku::SudokuGenerator::GenerateMethod::Recursion));
+    ui->cbGenerateMethod->addItem(tr("递归"), QVariant(Sudoku::SudokuGenerator::GenerateMethod::Recursion));
 
     // 游戏初始未生成数独时以下按钮处于不可用状态
     enabledSudokuOperateBtns(false);
@@ -71,4 +71,13 @@ void GameOptionWidget::onSudokuIsSolved() {
     ui->btnCheck->setEnabled(false);
     ui->btnSolve->setEnabled(false);
     ui->btnPromptAnswer->setEnabled(false);
+}
+
+bool GameOptionWidget::event(QEvent *event) {
+    if (event->type() == QEvent::LanguageChange) {
+        ui->retranslateUi(this);
+        ui->cbGenerateMethod->setItemText(ui->cbGenerateMethod->currentIndex(), QApplication::translate("GameOptionWidget", "递归"));
+    }
+    
+    return QWidget::event(event);
 }

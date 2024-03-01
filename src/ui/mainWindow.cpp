@@ -16,10 +16,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->setupUi(this);
 
     icon = QIcon(":/svg/Icon.svg");
-    title = QString("Sudoku-Solo By CodingRookie");
-
-    actionAbout = new QAction("关于", ui->menuHelp);
-
+    translator_ = new QTranslator(this);
     grid_layout_ = new QGridLayout(ui->centralwidget);
     gamingWidget_ = new GamingWidget();
 
@@ -29,24 +26,55 @@ MainWindow::MainWindow(QWidget *parent) :
 
 MainWindow::~MainWindow() {
     delete ui;
-    delete actionAbout;
+    delete translator_;
     delete grid_layout_;
     delete gamingWidget_;
 }
 
 void MainWindow::init() {
     this->setWindowIcon(icon);
-    this->setWindowTitle(title);
-
-    ui->menuHelp->addAction(actionAbout);
 
     ui->centralwidget->setLayout(grid_layout_);
     ui->centralwidget->layout()->addWidget(gamingWidget_);
+
+    if (translator_->load(":/language/zh_CN.qm")) {
+        QApplication::installTranslator(translator_);
+    }
 }
 
 void MainWindow::signalsProcess() {
-    connect(actionAbout, &QAction::triggered, [&] {
+    connect(ui->actionAbout, &QAction::triggered, [&] {
         AboutDialog aboutDialog(this);
         aboutDialog.exec();
     });
+
+    connect(ui->actionEngLish, &QAction::triggered, [&] {
+        if (translator_->load(":/language/en_US.qm")) {
+            QApplication::installTranslator(translator_);
+        }
+    });
+    connect(ui->actionChinese, &QAction::triggered, [&] {
+        if (translator_->load(":/language/zh_CN.qm")) {
+            QApplication::installTranslator(translator_);
+        }
+    });
+}
+
+bool MainWindow::eventFilter(QObject *object, QEvent *event) {
+    if (event->type() == QEvent::LanguageChange) {
+        qDebug() << "update language for MainWindow success";
+        ui->retranslateUi(this);
+        return true;
+    }
+
+    qDebug() << "update language for MainWindow failed";
+    return QMainWindow::eventFilter(object, event);
+}
+
+bool MainWindow::event(QEvent *event) {
+    if (event->type() == QEvent::LanguageChange) {
+        ui->retranslateUi(this);
+    }
+
+    return QMainWindow::event(event);
 }

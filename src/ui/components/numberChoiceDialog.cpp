@@ -34,8 +34,6 @@ void NumberChoiceDialog::init() {
     btnGroupNumChoices->setExclusive(true);
     this->setSizePolicy(QSizePolicy::Policy::Minimum, QSizePolicy::Policy::Minimum);
     this->setWindowFlag(Qt::FramelessWindowHint);
-    //    this->setWindowOpacity(0.5);                      // 设置窗口透明度
-
     font.setPointSize(14);
     font.setBold(true);
 
@@ -77,9 +75,6 @@ void NumberChoiceDialog::setChoices(const int &rowCount, const int &columnCount,
             auto *btn = new QPushButton(QString::number(nums.at(i * columnCount + j)));
             btn->setFixedSize(40, 40);
             btn->setFont(font);
-            //            btn->setWindowOpacity(1);
-            //            btn->setStyleSheet("background-color: white;");
-
             btnChoices->at(i).at(j) = btn;
             ui->gridLayout->addWidget(btn, i, j);
             btnGroupNumChoices->addButton(btn);
@@ -99,4 +94,12 @@ void NumberChoiceDialog::delete_btnChoices() {
         }
         delete btnChoices;
     }
+}
+
+bool NumberChoiceDialog::event(QEvent *event) {
+    if (event->type() == QEvent::LanguageChange) {
+        ui->retranslateUi(this);
+    }
+    
+    return QDialog::event(event);
 }

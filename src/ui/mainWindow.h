@@ -12,6 +12,7 @@
 #define SUDOKUMASTER_SUDOKUMASTER_CLIENT_SRC_SINGLEPLAYER_MAINWINDOW_H_
 
 #include <QMainWindow>
+#include <QTranslator>
 #include "sudokuGridWidget.h"
 #include "gamingWidget.h"
 #include "aboutDialog.h"
@@ -28,15 +29,16 @@ class MainWindow : public QMainWindow {
 public:
     explicit MainWindow(QWidget *parent = nullptr);
     ~MainWindow() override;
+    
+protected:
+    bool eventFilter(QObject *object, QEvent *event) override;
+    bool event(QEvent *event) override;
 
 private:
     Ui::MainWindow *ui;
     
     QIcon icon;
-    QString title;
-    
-    QAction *actionAbout;
-    
+    QTranslator *translator_;
     QGridLayout *grid_layout_;
     GamingWidget *gamingWidget_;
     

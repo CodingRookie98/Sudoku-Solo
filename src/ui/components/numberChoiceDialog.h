@@ -35,10 +35,10 @@ public:
 protected:
     void mousePressEvent(QMouseEvent *event) override;
     void mouseMoveEvent(QMouseEvent *event) override;
+    bool event(QEvent *event) override;
 
 private:
     Ui::NumberChoiceDialog *ui;
-    QHBoxLayout *hLayout;
     std::vector<std::vector<QPushButton *>> *btnChoices;
     QButtonGroup *btnGroupNumChoices;
     QPoint offset;

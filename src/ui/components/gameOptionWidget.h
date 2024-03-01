@@ -40,6 +40,8 @@ public slots:
     void enabledSudokuOperateBtns(const bool &status);
     void onSudokuIsSolved();
 
+protected:
+    bool event(QEvent *event) override;
 
 private:
     Ui::GameOptionWidget *ui;

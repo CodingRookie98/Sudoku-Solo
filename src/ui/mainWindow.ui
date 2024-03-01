@@ -33,10 +33,34 @@
     <property name="title">
      <string>帮助</string>
     </property>
+    <addaction name="actionAbout"/>
    </widget>
+   <widget class="QMenu" name="menuLanguage">
+    <property name="title">
+     <string>语言</string>
+    </property>
+    <addaction name="actionEngLish"/>
+    <addaction name="actionChinese"/>
+   </widget>
+   <addaction name="menuLanguage"/>
    <addaction name="menuHelp"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
+  <action name="actionEngLish">
+   <property name="text">
+    <string>EngLish</string>
+   </property>
+  </action>
+  <action name="actionChinese">
+   <property name="text">
+    <string>简体中文</string>
+   </property>
+  </action>
+  <action name="actionAbout">
+   <property name="text">
+    <string>关于</string>
+   </property>
+  </action>
  </widget>
  <resources/>
  <connections/>

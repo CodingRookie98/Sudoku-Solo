@@ -187,7 +187,7 @@ void SudokuGridWidget::solveCurrentSudoku() {
     } else {
         QMessageBox messageBox(this);
         messageBox.setModal(true);
-        messageBox.setText("当前数独无解");
+        messageBox.setText(QApplication::translate(metaObject()->className(), tr("当前数独无解").toStdString().c_str()));
         messageBox.exec();
     }
 }
@@ -197,7 +197,7 @@ void SudokuGridWidget::saveCurrentSudoku() {
     if (!sudokuMatrixWorker->getInvalidPositions().empty()) {
         QMessageBox messageBox(this);
         messageBox.setModal(true);
-        messageBox.setText("当前数独含有无效值，若保存则不保存无效值");
+        messageBox.setText(QApplication::translate(metaObject()->className(), tr("当前数独含有无效值，若保存则不保存无效值").toStdString().c_str()));
         messageBox.addButton(QMessageBox::StandardButton::Apply);
         messageBox.addButton(QMessageBox::StandardButton::Cancel);
         messageBox.setDefaultButton(QMessageBox::StandardButton::Apply);
@@ -349,7 +349,7 @@ void SudokuGridWidget::promptAnswer() {
     if (checkedBtn == nullptr) {
         QMessageBox messageBox(this);
         messageBox.setModal(true);
-        messageBox.setText("Please click where you need the answer");
+        messageBox.setText(QApplication::translate(metaObject()->className(), tr("Please click where you need the answer").toStdString().c_str()));
         messageBox.exec();
     } else {
         if (sudokuMatrixAnswer == nullptr || !sudokuMatrixAnswer->isSudokuFilled()) {
@@ -381,4 +381,11 @@ void SudokuGridWidget::inputSudoku() {
     });
     
     inputSudokuDialog_->exec();
+}
+
+bool SudokuGridWidget::event(QEvent *event) {
+    if (event->type() == QEvent::LanguageChange) {
+        ui->retranslateUi(this);
+    }
+    return QWidget::event(event);
 }

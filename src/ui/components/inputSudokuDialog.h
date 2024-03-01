@@ -29,13 +29,19 @@ public:
 
 signals:
     void sigInputSudokuMatrix(const Sudoku::SudokuMatrix &matrix);
+    
+protected:
+    bool event(QEvent *event) override;
 
 private:
     Ui::InputSudokuDialog *ui;
+    QString placeHoldelText = tr("请在此输入数独矩阵\n"
+                                 "数字之间请用空格\" \"或逗号 \",\" 隔开, \"0\" 表示待解决格子");
 
     void init();
     void signalsProcess();
     void processInputText();
+    void onLanguageChanged();
 };
 
 #endif // SUDOKU_SOLO_SRC_UI_COMPONENTS_INPUTSUDOKUDIALOG_H_

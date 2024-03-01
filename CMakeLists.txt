@@ -32,6 +32,7 @@ add_library(Sudoku SHARED)
 target_link_libraries(Sudoku-Solo PRIVATE Sudoku)
 
 add_subdirectory(src)
+add_subdirectory(translations)
 
 set_target_properties(Sudoku-Solo PROPERTIES
         MACOSX_BUNDLE_GUI_IDENTIFIER my.example.com
