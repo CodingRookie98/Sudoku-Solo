@@ -18,8 +18,8 @@ namespace Sudoku {
 class SolverBase {
 public:
     SolverBase();
-    ~SolverBase();
-    
+    virtual ~SolverBase();
+
     virtual bool solve() = 0;
     virtual SudokuMatrix getAnswer() = 0;
 private:

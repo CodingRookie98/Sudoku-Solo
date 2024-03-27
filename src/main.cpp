@@ -9,11 +9,14 @@
  */
 #include "ui/mainWindow.h"
 #include <QApplication>
+#include "gameSettings.h"
 
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
     MainWindow w;
+    
+    GameSettings::getInstance()->preCheck();
     
     w.show();
     return a.exec();

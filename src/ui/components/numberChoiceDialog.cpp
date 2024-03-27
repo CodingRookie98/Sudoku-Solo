@@ -40,13 +40,13 @@ void NumberChoiceDialog::init() {
 }
 
 void NumberChoiceDialog::signalsProcess() {
-    connect(btnGroupNumChoices, &QButtonGroup::buttonClicked, this, [=, this](QAbstractButton *btn) {
+    connect(btnGroupNumChoices, &QButtonGroup::buttonClicked, this, [&](QAbstractButton *btn) {
         emit choiceMade(btn->text().toInt());
-        this->hide();
+        this->close();
     });
 
     connect(ui->btnHide, &QPushButton::clicked, this, &QDialog::hide);
-    connect(ui->btnClear, &QPushButton::clicked, this, [=, this]() {
+    connect(ui->btnClear, &QPushButton::clicked, this, [&]() {
         emit choiceMade(0);
     });
 }
@@ -56,7 +56,7 @@ void NumberChoiceDialog::mousePressEvent(QMouseEvent *event) {
         offset = event->pos();
     }
     if (event->button() == Qt::RightButton) {
-        this->hide();
+        this->close();
     }
 }
 

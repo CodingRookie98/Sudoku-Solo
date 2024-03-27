@@ -19,7 +19,6 @@ BackgroundWidget::BackgroundWidget(QWidget *parent) :
     ui->setupUi(this);
 
     m_webEngineView = new WebEngineView(this);
-//    m_webEngineView = nullptr;
 
     init();
     signalProcess();

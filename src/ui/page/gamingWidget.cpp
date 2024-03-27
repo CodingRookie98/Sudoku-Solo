@@ -10,8 +10,11 @@
 
 // You may need to build the project (run Qt uic code generator) to get "ui_GamingWidget.h" resolved
 
-#include "gamingWidget.h"
+#include <thread>
 #include "ui_GamingWidget.h"
+#include "gamingWidget.h"
+#include "gameManager.h"
+#include "gameSettings.h"
 
 GamingWidget::GamingWidget(QWidget *parent) :
     QWidget(parent), ui(new Ui::GamingWidget) {
@@ -40,16 +43,7 @@ void GamingWidget::signalsProcess() {
 
 void GamingWidget::generateSudokuMatrix(const Sudoku::SudokuMatrix::SudokuMatrixType &sudokuMatrixType) {
     m_sudokuGridWidget->generateRandomSudoku(sudokuMatrixType);
-    if (m_timerForGameSpent == nullptr) {
-        m_timerForGameSpent = new QTimer;
-        connect(m_timerForGameSpent, &QTimer::timeout, [&]{
-           m_timeElapsed++;
-           ui->labelTime->setText(QString::number(m_timeElapsed));
-        });
-    }
-    m_timeElapsed = 0;
-    ui->labelTime->setText("0");
-    m_timerForGameSpent->start(1000);
+    timerInitAndSignalsProcess();
 }
 
 void GamingWidget::keyReleaseEvent(QKeyEvent *event) {
@@ -84,6 +78,27 @@ void GamingWidget::startTimeCount() {
     m_timerForGameSpent->start(1000);
 }
 
-void GamingWidget::saveGame() const{
-    m_sudokuGridWidget->saveCurrentSudoku();
+void GamingWidget::saveGame() const {
+    std::thread thread1(&SudokuGridWidget::saveCurrentSudoku, m_sudokuGridWidget, m_timeElapsed);
+    thread1.detach();
+}
+
+void GamingWidget::loadLastGame() {
+    SudokuGameData sudoData = GameManager::getInstance()->loadWithId(GameSettings::getInstance()->getSetting(GameSettings::getInstance()->m_lastGameId).toString());
+    m_sudokuGridWidget->setGameMatrix(sudoData.m_answerMatrix, sudoData.m_originalMatrix, sudoData.m_workMatrix);
+
+    timerInitAndSignalsProcess();
+}
+
+void GamingWidget::timerInitAndSignalsProcess() {
+    if (m_timerForGameSpent == nullptr) {
+        m_timerForGameSpent = new QTimer;
+        connect(m_timerForGameSpent, &QTimer::timeout, [&] {
+            m_timeElapsed++;
+            ui->labelTime->setText(QApplication::translate(metaObject()->className(), tr("时间：").toStdString().c_str()) + QString::number(m_timeElapsed));
+        });
+    }
+    m_timeElapsed = 0;
+    ui->labelTime->setText(QApplication::translate(metaObject()->className(), tr("时间: 0").toStdString().c_str()));
+    startTimeCount();
 }

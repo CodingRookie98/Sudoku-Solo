@@ -1,8 +1,14 @@
 <RCC>
-    <qresource prefix="/svg">
-        <file>Icon.svg</file>
-    </qresource>
-    <qresource prefix="/markdown">
-        <file>about.md</file>
-    </qresource>
+  <qresource prefix="/svg">
+    <file>svg/hint.svg</file>
+    <file>svg/Icon.svg</file>
+    <file>svg/previous.svg</file>
+    <file>svg/next.svg</file>
+  </qresource>
+  <qresource prefix="/markdown">
+    <file>about.md</file>
+  </qresource>
+  <qresource prefix="/json">
+    <file>saveTemplate.json</file>
+  </qresource>
 </RCC>

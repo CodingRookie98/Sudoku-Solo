@@ -5,3 +5,4 @@ target_sources(Sudoku-Solo PRIVATE
 )
 target_include_directories(Sudoku-Solo PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
 add_subdirectory(components)
+add_subdirectory(page)

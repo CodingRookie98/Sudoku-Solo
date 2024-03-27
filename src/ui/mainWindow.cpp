@@ -15,10 +15,12 @@ MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent), ui(new Ui::MainWindow) {
     ui->setupUi(this);
 
-    icon = QIcon(":/svg/Icon.svg");
-    translator_ = new QTranslator(this);
-    grid_layout_ = new QGridLayout(ui->centralwidget);
-    gamingWidget_ = new GamingWidget();
+    m_icon = QIcon(":/svg/svg/Icon.svg");
+    m_translator = new QTranslator(this);
+
+    m_stackedLayout = new QStackedLayout();
+    m_stackedWidget = new StackedWidget();
+    m_backgroundWidget = new BackgroundWidget();
 
     init();
     signalsProcess();
@@ -26,48 +28,47 @@ MainWindow::MainWindow(QWidget *parent) :
 
 MainWindow::~MainWindow() {
     delete ui;
-    delete translator_;
-    delete grid_layout_;
-    delete gamingWidget_;
+    delete m_translator;
+    delete m_stackedLayout;
+    delete m_stackedWidget;
+    delete m_backgroundWidget;
 }
 
 void MainWindow::init() {
-    this->setWindowIcon(icon);
+    this->setWindowIcon(m_icon);
+//    this->setWindowFlag(Qt::FramelessWindowHint);
 
-    ui->centralwidget->setLayout(grid_layout_);
-    ui->centralwidget->layout()->addWidget(gamingWidget_);
+    m_stackedLayout->addWidget(m_backgroundWidget);
+    m_stackedLayout->addWidget(m_stackedWidget);
+    m_stackedLayout->setContentsMargins(0, 0, 0, 0);
+    m_stackedLayout->setStackingMode(QStackedLayout::StackAll);
+    ui->gridLayout->addLayout(m_stackedLayout, 0, 0);
 
-    if (translator_->load(":/language/zh_CN.qm")) {
-        QApplication::installTranslator(translator_);
+    if (m_translator->load(":/language/zh_CN.qm")) {
+        QApplication::installTranslator(m_translator);
     }
 }
 
 void MainWindow::signalsProcess() {
-    connect(ui->actionAbout, &QAction::triggered, [&] {
-        AboutDialog aboutDialog(this);
-        aboutDialog.exec();
-    });
-
-    connect(ui->actionEngLish, &QAction::triggered, [&] {
-        if (translator_->load(":/language/en_US.qm")) {
-            QApplication::installTranslator(translator_);
-        }
-    });
-    connect(ui->actionChinese, &QAction::triggered, [&] {
-        if (translator_->load(":/language/zh_CN.qm")) {
-            QApplication::installTranslator(translator_);
-        }
-    });
+//    connect(ui->actionEngLish, &QAction::triggered, [&] {
+//        if (m_translator->load(":/language/en_US.qm")) {
+//            QApplication::installTranslator(m_translator);
+//        }
+//    });
+//
+//    connect(ui->actionChinese, &QAction::triggered, [&] {
+//        if (m_translator->load(":/language/zh_CN.qm")) {
+//            QApplication::installTranslator(m_translator);
+//        }
+//    });
 }
 
 bool MainWindow::eventFilter(QObject *object, QEvent *event) {
     if (event->type() == QEvent::LanguageChange) {
-        qDebug() << "update language for MainWindow success";
         ui->retranslateUi(this);
         return true;
     }
 
-    qDebug() << "update language for MainWindow failed";
     return QMainWindow::eventFilter(object, event);
 }
 

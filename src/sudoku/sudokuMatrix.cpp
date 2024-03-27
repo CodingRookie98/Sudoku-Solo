@@ -1,4 +1,4 @@
-/**
+﻿/**
  ******************************************************************************
  * @file           : sudokuMatrix.cpp
  * @author         : hui
@@ -9,33 +9,35 @@
  */
 
 #include "sudokuMatrix.h"
+#include <string>
+#include <fstream>
 
 namespace Sudoku {
 
-SudokuMatrix::SudokuMatrix(const SudokuMatrixTypes &_sudokuType) {
-    sudokuType_ = _sudokuType;
-    switch (sudokuType_) {
-    case Sudoku::SudokuMatrix::Four_Four:
-        rowCount = columnCount = numSize = 4;
-        boxRowCount = boxColumnCount = 2;
+SudokuMatrix::SudokuMatrix(const SudokuMatrixType &sudokuType) {
+    m_sudokuType = sudokuType;
+    switch (m_sudokuType) {
+    case Sudoku::SudokuMatrix::FourFour:
+        m_rowCount = m_columnCount = m_numSize = 4;
+        m_boxRowCount = m_boxColumnCount = 2;
         break;
-    case Sudoku::SudokuMatrix::Six_Six:
-        rowCount = columnCount = numSize = 6;
-        boxRowCount = 2;
-        boxColumnCount = 3;
+    case Sudoku::SudokuMatrix::SixSix:
+        m_rowCount = m_columnCount = m_numSize = 6;
+        m_boxRowCount = 2;
+        m_boxColumnCount = 3;
         break;
-    case Sudoku::SudokuMatrix::Nine_Nine:
-        rowCount = columnCount = numSize = 9;
-        boxRowCount = boxColumnCount = 3;
+    case Sudoku::SudokuMatrix::NineNine:
+        m_rowCount = m_columnCount = m_numSize = 9;
+        m_boxRowCount = m_boxColumnCount = 3;
         break;
     default:
         break;
     }
 
-    matrix = std::vector<std::vector<int>>(rowCount, std::vector<int>(columnCount, 0));
+    m_matrix = std::vector<std::vector<int>>(m_rowCount, std::vector<int>(m_columnCount, 0));
 
-    for (int val = 1; val <= numSize; ++val) {
-        nums.push_back(val);
+    for (int val = 1; val <= m_numSize; ++val) {
+        m_nums.push_back(val);
     }
 }
 
@@ -44,18 +46,18 @@ SudokuMatrix::~SudokuMatrix() = default;
 bool SudokuMatrix::setValue(const int &row, const int &col, const int &value, const bool &checkIsValid) {
     // 若不进行插入合法检查
     if (!checkIsValid) {
-        if (value != 0 && matrix.at(row).at(col) == 0) {
-            filledNum++;
-        } else if (value == 0 && matrix.at(row).at(col) != 0) {
-            filledNum--;
+        if (value != 0 && m_matrix.at(row).at(col) == 0) {
+            m_filledNum++;
+        } else if (value == 0 && m_matrix.at(row).at(col) != 0) {
+            m_filledNum--;
         }
-        matrix.at(row).at(col) = value;
+        m_matrix.at(row).at(col) = value;
         // 如果插入的值非法，则将其坐标存储
         if (!isValidValueForPos(row, col, value)) {
-            invalidPositions.insert(std::pair<int, int>(row, col));
+            m_invalidPositions.insert(std::pair<int, int>(row, col));
         } else { // 若合法
             // 若插入的位置在非法位置表里，则移除它
-            invalidPositions.erase((std::pair<int, int>(row, col)));
+            m_invalidPositions.erase((std::pair<int, int>(row, col)));
             checkCurrentInvalidPos();
         }
         return true;
@@ -66,15 +68,15 @@ bool SudokuMatrix::setValue(const int &row, const int &col, const int &value, co
         return false;
     }
 
-    if (value != 0 && matrix.at(row).at(col) == 0) {
-        filledNum++;
-    } else if (value == 0 && matrix.at(row).at(col) != 0) {
-        filledNum--;
+    if (value != 0 && m_matrix.at(row).at(col) == 0) {
+        m_filledNum++;
+    } else if (value == 0 && m_matrix.at(row).at(col) != 0) {
+        m_filledNum--;
     }
-    matrix.at(row).at(col) = value;
+    m_matrix.at(row).at(col) = value;
 
     // 若插入的位置在非法位置表里，则移除它
-    invalidPositions.erase((std::pair<int, int>(row, col)));
+    m_invalidPositions.erase((std::pair<int, int>(row, col)));
     checkCurrentInvalidPos();
     return true;
 }
@@ -85,25 +87,25 @@ bool SudokuMatrix::isValidValueForPos(const int &row, const int &col, const int 
     }
 
     // 检查同一行
-    for (int i = 0; i < columnCount; ++i) {
-        if (matrix.at(row).at(i) == value && i != col) {
+    for (int i = 0; i < m_columnCount; ++i) {
+        if (m_matrix.at(row).at(i) == value && i != col) {
             return false;
         }
     }
 
     // 检查同一列
-    for (int j = 0; j < rowCount; ++j) {
-        if (matrix.at(j).at(col) == value && j != row) {
+    for (int j = 0; j < m_rowCount; ++j) {
+        if (m_matrix.at(j).at(col) == value && j != row) {
             return false;
         }
     }
 
     // 检查同一宫
-    int startRow = boxRowCount * (row / boxRowCount);
-    int startCol = boxColumnCount * (col / boxColumnCount);
-    for (int i = 0; i < boxRowCount; ++i) {
-        for (int j = 0; j < boxColumnCount; ++j) {
-            if (matrix.at(startRow + i).at(startCol + j) == value && (startRow + i) != row && (startCol + j) != col) {
+    int startRow = m_boxRowCount * (row / m_boxRowCount);
+    int startCol = m_boxColumnCount * (col / m_boxColumnCount);
+    for (int i = 0; i < m_boxRowCount; ++i) {
+        for (int j = 0; j < m_boxColumnCount; ++j) {
+            if (m_matrix.at(startRow + i).at(startCol + j) == value && (startRow + i) != row && (startCol + j) != col) {
                 return false;
             }
         }
@@ -113,39 +115,39 @@ bool SudokuMatrix::isValidValueForPos(const int &row, const int &col, const int 
 }
 
 int SudokuMatrix::getRowCount() const {
-    return rowCount;
+    return m_rowCount;
 }
 
 int SudokuMatrix::getColumnCount() const {
-    return columnCount;
+    return m_columnCount;
 }
 
 int SudokuMatrix::getBoxRowCount() const {
-    return boxRowCount;
+    return m_boxRowCount;
 }
 
 int SudokuMatrix::getBoxColumnCount() const {
-    return boxColumnCount;
+    return m_boxColumnCount;
 }
 
 std::vector<int> SudokuMatrix::getNums() const {
-    return nums;
+    return m_nums;
 }
 
-void SudokuMatrix::printToOstreram(std::ostream &ostream) {
-    for (int row = 0; row < rowCount; ++row) {
-        for (int col = 0; col < columnCount; ++col) {
-            if (invalidPositions.find(std::pair<int, int>(row, col)) == invalidPositions.end()) { // c++ 17
-                //            if (!invalidPositions.contains(std::pair<int, int>(row, col))) { // c++ 20
-                ostream << std::to_string(matrix.at(row).at(col)) << std::string(", ");
+void SudokuMatrix::printToOstream(std::ostream &ostream) {
+    for (int row = 0; row < m_rowCount; ++row) {
+        for (int col = 0; col < m_columnCount; ++col) {
+            if (m_invalidPositions.find(std::pair<int, int>(row, col)) == m_invalidPositions.end()) { // c++ 17
+                //            if (!m_invalidPositions.contains(std::pair<int, int>(row, col))) { // c++ 20
+                ostream << std::to_string(m_matrix.at(row).at(col)) << std::string(", ");
             } else {
                 ostream << std::to_string(0) << std::string(", ");
             }
-            if ((col + 1) % boxColumnCount == 0) {
+            if ((col + 1) % m_boxColumnCount == 0) {
                 ostream << std::string(" ");
             }
         }
-        if ((row + 1) % boxRowCount == 0) {
+        if ((row + 1) % m_boxRowCount == 0) {
             ostream << std::string("\n\n");
         } else {
             ostream << std::string("\n");
@@ -158,13 +160,13 @@ void SudokuMatrix::removeNumbers(const int &removeNumCount) {
     std::mt19937 rng(std::random_device{}());
 
     for (int i = 0; i < removeNumCount; ++i) {
-        int row = std::uniform_int_distribution<int>(0, rowCount - 1)(rng);
-        int col = std::uniform_int_distribution<int>(0, columnCount - 1)(rng);
+        int row = std::uniform_int_distribution<int>(0, m_rowCount - 1)(rng);
+        int col = std::uniform_int_distribution<int>(0, m_columnCount - 1)(rng);
 
         // 如果已经是空的位置，则重新选择位置
-        while (matrix.at(row).at(col) == 0) {
-            row = std::uniform_int_distribution<int>(0, rowCount - 1)(rng);
-            col = std::uniform_int_distribution<int>(0, columnCount - 1)(rng);
+        while (m_matrix.at(row).at(col) == 0) {
+            row = std::uniform_int_distribution<int>(0, m_rowCount - 1)(rng);
+            col = std::uniform_int_distribution<int>(0, m_columnCount - 1)(rng);
         }
 
         setValue(row, col, 0, true);
@@ -172,27 +174,27 @@ void SudokuMatrix::removeNumbers(const int &removeNumCount) {
 }
 
 int SudokuMatrix::getValue(const int &row, const int &col) const {
-    return matrix.at(row).at(col);
+    return m_matrix.at(row).at(col);
 }
 
 int SudokuMatrix::getBoxCount() const {
-    return (rowCount / boxRowCount) * (columnCount / boxColumnCount);
+    return (m_rowCount / m_boxRowCount) * (m_columnCount / m_boxColumnCount);
 }
 
-Sudoku::SudokuMatrix::SudokuMatrixTypes SudokuMatrix::getSudokuType() const {
-    return sudokuType_;
+Sudoku::SudokuMatrix::SudokuMatrixType SudokuMatrix::getSudokuType() const {
+    return m_sudokuType;
 }
 
-int SudokuMatrix::getMatrixSize(const SudokuMatrixTypes &type) {
+int SudokuMatrix::getMatrixSize(const SudokuMatrixType &type) {
     int size;
     switch (type) {
-    case Sudoku::SudokuMatrix::Four_Four:
+    case Sudoku::SudokuMatrix::FourFour:
         size = 4 * 4;
         break;
-    case Sudoku::SudokuMatrix::Six_Six:
+    case Sudoku::SudokuMatrix::SixSix:
         size = 6 * 6;
         break;
-    case Sudoku::SudokuMatrix::Nine_Nine:
+    case Sudoku::SudokuMatrix::NineNine:
         size = 9 * 9;
         break;
     default:
@@ -202,15 +204,15 @@ int SudokuMatrix::getMatrixSize(const SudokuMatrixTypes &type) {
 }
 
 int SudokuMatrix::getMatrixSize() const {
-    return rowCount * columnCount;
+    return m_rowCount * m_columnCount;
 }
 
 std::unordered_set<std::pair<int, int>, pair_hash> SudokuMatrix::getInvalidPositions() const {
-    return invalidPositions;
+    return m_invalidPositions;
 }
 
 bool SudokuMatrix::isSudokuFilled() const {
-    if (filledNum == rowCount * columnCount) {
+    if (m_filledNum == m_rowCount * m_columnCount) {
         return true;
     }
     return false;
@@ -219,22 +221,22 @@ bool SudokuMatrix::isSudokuFilled() const {
 // 将检查当前所有不合法位置, 若其中的位置合法，则移除
 void SudokuMatrix::checkCurrentInvalidPos() {
     std::vector<std::pair<int,int>> vec;
-    for (auto &pos : invalidPositions) {
-        if (isValidValueForPos(pos.first, pos.second, matrix.at(pos.first).at(pos.second))) {
+    for (auto &pos : m_invalidPositions) {
+        if (isValidValueForPos(pos.first, pos.second, m_matrix.at(pos.first).at(pos.second))) {
             vec.emplace_back(pos);
         }
     }
     for (const auto &pos : vec) {
-        invalidPositions.erase(pos);
+        m_invalidPositions.erase(pos);
     }
 }
 
 int SudokuMatrix::getBoxIndex(const int &row, const int &col) const {
-    return (row / boxRowCount) * boxRowCount + (col / boxColumnCount);
+    return (row / m_boxRowCount) * m_boxRowCount + (col / m_boxColumnCount);
 }
 
 bool SudokuMatrix::isEmpty() const {
-    if (filledNum == 0) return true;
+    if (m_filledNum == 0) return true;
     else return false;
 }
 } // namespace Sudoku

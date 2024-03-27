@@ -13,6 +13,7 @@
 #include "homeWidget.h"
 #include "ui_HomeWidget.h"
 #include "mapForQObject.h"
+#include "gameSettings.h"
 
 HomeWidget::HomeWidget(QWidget *parent) :
     QWidget(parent), ui(new Ui::HomeWidget) {
@@ -27,7 +28,7 @@ HomeWidget::~HomeWidget() {
 }
 
 void HomeWidget::init() {
-    MapForQObject::getInstance()->registerObject(TypeName<HomeWidget>::get(), this);
+
 }
 
 void HomeWidget::signalProcess() {
@@ -37,5 +38,13 @@ void HomeWidget::signalProcess() {
        QApplication::closeAllWindows();
     });
 
+    connect(ui->btnGameSaves, &QPushButton::clicked, this, &HomeWidget::sigGameSaves);
+
     connect(ui->btnSetting, &QPushButton::clicked, this, &HomeWidget::sigGameSetting);
+
+    connect(GameSettings::getInstance(), &GameSettings::sigLastGameIsEmpty, this, [&]{
+       ui->btnGameContinue->setVisible(false);
+    });
+
+    connect(ui->btnGameContinue, &QPushButton::clicked, this, &HomeWidget::sigLoadLastGame);
 }

@@ -34,9 +34,7 @@ public:
     void registerObject(const std::string &typeName, QObject *qObject);
 
 private:
-    // 私有构造函数，防止外部通过构造函数创建实例
     MapForQObject();
-    // 私有析构函数，当然这块也可以写自己的清理逻辑
     ~MapForQObject();
 
     std::unique_ptr<std::map<std::string, QObject *>> m_objects;

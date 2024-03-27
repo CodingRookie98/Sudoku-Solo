@@ -28,6 +28,7 @@ public:
     ~GamingWidget() override;
 
     void generateSudokuMatrix(const Sudoku::SudokuMatrix::SudokuMatrixType &sudokuMatrixType);
+    void loadLastGame();
     void startTimeCount();
     void saveGame() const;
 
@@ -46,6 +47,7 @@ private:
     void init();
     void signalsProcess();
     void sudokuGridWidgetSignalsProcess();
+    void timerInitAndSignalsProcess();
 };
 
 #endif // SUDOKUMASTER_SUDOKUMASTER_CLIENT_SRC_SINGLEPLAYER_GAMINGWIDGET_H_

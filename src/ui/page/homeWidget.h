@@ -8,8 +8,8 @@
  ******************************************************************************
  */
 
-#ifndef SUDOKU_SOLO_SRC_UI_COMPONENTS_HOMEWIDGET_H_
-#define SUDOKU_SOLO_SRC_UI_COMPONENTS_HOMEWIDGET_H_
+#ifndef SUDOKU_SOLO_SRC_UI_PAGE_HOMEWIDGET_H_
+#define SUDOKU_SOLO_SRC_UI_PAGE_HOMEWIDGET_H_
 
 #include <QWidget>
 
@@ -29,6 +29,8 @@ public:
 signals:
     void sigNewGame();
     void sigGameSetting();
+    void sigGameSaves();
+    void sigLoadLastGame();
     
 private:
     Ui::HomeWidget *ui;
@@ -37,4 +39,4 @@ private:
     void signalProcess();
 };
 
-#endif // SUDOKU_SOLO_SRC_UI_COMPONENTS_HOMEWIDGET_H_
+#endif // SUDOKU_SOLO_SRC_UI_PAGE_HOMEWIDGET_H_

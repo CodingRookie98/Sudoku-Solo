@@ -13,9 +13,10 @@
 
 #include <QMainWindow>
 #include <QTranslator>
-#include "sudokuGridWidget.h"
-#include "gamingWidget.h"
-#include "aboutDialog.h"
+#include <QStackedLayout>
+#include <QStackedWidget>
+#include "stackedWidget.h"
+#include "backgroundWidget.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -29,19 +30,20 @@ class MainWindow : public QMainWindow {
 public:
     explicit MainWindow(QWidget *parent = nullptr);
     ~MainWindow() override;
-    
+
 protected:
     bool eventFilter(QObject *object, QEvent *event) override;
     bool event(QEvent *event) override;
 
 private:
     Ui::MainWindow *ui;
-    
-    QIcon icon;
-    QTranslator *translator_;
-    QGridLayout *grid_layout_;
-    GamingWidget *gamingWidget_;
-    
+
+    QIcon m_icon;
+    QTranslator *m_translator;
+    QStackedLayout *m_stackedLayout;
+    QStackedWidget *m_stackedWidget;
+    BackgroundWidget *m_backgroundWidget;
+
     void init();
     void signalsProcess();
 };

@@ -32,9 +32,9 @@ GamePrepareWidget::~GamePrepareWidget() {
 }
 
 void GamePrepareWidget::init() {
-    m_btnWithSudokuType->insert(std::make_pair(ui->btnFour, Sudoku::SudokuMatrix::SudokuMatrixType::Four_Four));
-    m_btnWithSudokuType->insert(std::make_pair(ui->btnSix, Sudoku::SudokuMatrix::SudokuMatrixType::Six_Six));
-    m_btnWithSudokuType->insert(std::make_pair(ui->btnNine, Sudoku::SudokuMatrix::SudokuMatrixType::Nine_Nine));
+    m_btnWithSudokuType->insert(std::make_pair(ui->btnFour, Sudoku::SudokuMatrix::SudokuMatrixType::FourFour));
+    m_btnWithSudokuType->insert(std::make_pair(ui->btnSix, Sudoku::SudokuMatrix::SudokuMatrixType::SixSix));
+    m_btnWithSudokuType->insert(std::make_pair(ui->btnNine, Sudoku::SudokuMatrix::SudokuMatrixType::NineNine));
 
     for (const auto &val : *m_btnWithSudokuType) {
         m_buttonGroup->addButton(val.first);

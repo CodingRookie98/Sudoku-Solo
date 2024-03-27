@@ -23,15 +23,18 @@ BtnSudokuUnit::~BtnSudokuUnit() {
 }
 
 void BtnSudokuUnit::init() {
-    this->setFixedSize(50, 50);
+    this->setMinimumSize(60, 60);
 }
 
 void BtnSudokuUnit::signalsProcess() {
+
 }
 
 void BtnSudokuUnit::resizeEvent(QResizeEvent *event) {
-    //    this->setMaximumWidth(this->height());
+        this->setMaximumWidth(this->height());
+        event->accept();
 }
+
 std::pair<int, int> BtnSudokuUnit::getPosForMatrix() const {
     return pos;
 }

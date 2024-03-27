@@ -26,5 +26,5 @@ WebEngineView::~WebEngineView() {
 }
 
 void WebEngineView::init() {
-    this->load(QUrl("C:/Program Files (x86)/Steam/steamapps/workshop/content/431960/1321411879/index.html"));
+//    this->load(QUrl("C:/Program Files (x86)/Steam/steamapps/workshop/content/431960/1321411879/index.html"));
 }

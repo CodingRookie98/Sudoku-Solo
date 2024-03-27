@@ -27,6 +27,7 @@ StackedWidget::StackedWidget(QWidget *parent) :
     m_gamePauseWidget = nullptr;
     m_gamingWidget = nullptr;
     m_gameSettingWidget = nullptr;
+    m_savesBrowserWidget = new SavesBrowserWidget; // 在此处初始化是为了界面响应速度
 
     init();
     signalsProcess();
@@ -43,12 +44,16 @@ StackedWidget::~StackedWidget() {
 
 void StackedWidget::init() {
     m_mapWidgets->insert(std::make_pair(qobject_cast<QWidget *>(m_homeWidget), this->addWidget(m_homeWidget)));
-    MapForQObject::getInstance()->registerObject(TypeName<StackedWidget>::get(), this);
+    m_mapWidgets->insert(std::make_pair(qobject_cast<QWidget *>(m_savesBrowserWidget), this->addWidget(m_savesBrowserWidget)));
 }
 
 void StackedWidget::signalsProcess() {
     if (m_homeWidget != nullptr) {
         homeWidgetSignalsProcess();
+    }
+
+    if (m_savesBrowserWidget != nullptr) {
+        saveBrowserWidgetSignalsProcess();
     }
 }
 
@@ -81,6 +86,7 @@ void StackedWidget::gamePauseWidgetSignalsProcess() {
 
     connect(m_gamePauseWidget, &GamePauseWidget::sigBackToGame, this, [&] {
         this->setCurrentIndex(m_mapWidgets->at(qobject_cast<QWidget *>(m_gamingWidget)));
+        m_gamingWidget->startTimeCount();
     });
 
     connect(m_gamePauseWidget, &GamePauseWidget::sigSaveGame, this, [&] {
@@ -143,6 +149,15 @@ void StackedWidget::homeWidgetSignalsProcess() {
         this->setCurrentIndex(m_mapWidgets->at(qobject_cast<QWidget *>(m_gamePrepareWidget)));
     });
 
+    connect(m_homeWidget, &HomeWidget::sigGameSaves, this, [&] {
+        if (m_savesBrowserWidget == nullptr) {
+            m_savesBrowserWidget = new SavesBrowserWidget;
+            m_mapWidgets->insert(std::make_pair(qobject_cast<QWidget *>(m_savesBrowserWidget), this->addWidget(m_savesBrowserWidget)));
+            saveBrowserWidgetSignalsProcess();
+        }
+        this->setCurrentIndex(m_mapWidgets->at(qobject_cast<QWidget *>(m_savesBrowserWidget)));
+    });
+
     connect(m_homeWidget, &HomeWidget::sigGameSetting, this, [&] {
         if (m_gameSettingWidget == nullptr) {
             m_gameSettingWidget = new GameSettingWidget;
@@ -152,5 +167,21 @@ void StackedWidget::homeWidgetSignalsProcess() {
 
         m_stackWidgets->push(m_homeWidget);
         this->setCurrentIndex(m_mapWidgets->at(qobject_cast<QWidget *>(m_gameSettingWidget)));
+    });
+
+    connect(m_homeWidget, &HomeWidget::sigLoadLastGame, this, [&] {
+        if (m_gamingWidget == nullptr) {
+            m_gamingWidget = new GamingWidget;
+            m_mapWidgets->insert(std::make_pair(qobject_cast<QWidget *>(m_gamingWidget), this->addWidget(m_gamingWidget)));
+            gamingWidgetSignalsProcess();
+        }
+        m_gamingWidget->loadLastGame();
+        this->setCurrentIndex(m_mapWidgets->at(qobject_cast<QWidget *>(m_gamingWidget)));
+    });
+}
+
+void StackedWidget::saveBrowserWidgetSignalsProcess() {
+    connect(m_savesBrowserWidget, &SavesBrowserWidget::sigBackToHome, this, [&] {
+        this->setCurrentIndex(m_mapWidgets->at(qobject_cast<QWidget *>(m_homeWidget)));
     });
 }
