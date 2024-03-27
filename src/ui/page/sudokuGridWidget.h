@@ -58,11 +58,13 @@ private:
     Sudoku::SudokuGenerator *m_generator;                         // 用作生成完全数独
     std::shared_ptr<Sudoku::SudokuMatrix> m_sudokuMatrixAnswer;   // 数独答案
     std::shared_ptr<Sudoku::SudokuMatrix> m_sudokuMatrixOriginal; // 用作数独初始状态
+    BtnSudokuUnit *m_lastClickedBtnSudokuUnit;
 
     void init();
     void signalsProcess();
     void initChoiceDialog();
     [[nodiscard]] int getRandomInitialNumber() const;
+    void choiceDialogSignalsProcess();
 
 private slots:
     void handleButtonClicked(BtnSudokuUnit *btn);

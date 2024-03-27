@@ -23,6 +23,7 @@ SudokuGridWidget::SudokuGridWidget(QWidget *parent) :
     m_sudokuMatrixAnswer = nullptr;
     m_sudokuMatrixOriginal = nullptr;
     m_generator = new Sudoku::SudokuGenerator();
+    m_lastClickedBtnSudokuUnit = nullptr;
 
     init();
     signalsProcess();
@@ -33,6 +34,7 @@ SudokuGridWidget::~SudokuGridWidget() {
 
     delete m_choiceDialog;
     delete m_generator;
+    m_lastClickedBtnSudokuUnit = nullptr;
 }
 
 void SudokuGridWidget::init() {
@@ -47,21 +49,14 @@ void SudokuGridWidget::signalsProcess() {
             emit sigMessageReadyToRead(Message::IsFilledButNotFinished);
         }
     });
+    choiceDialogSignalsProcess();
 }
 
 void SudokuGridWidget::handleButtonClicked(BtnSudokuUnit *btn) {
     QPoint buttonBottomRight(QCursor::pos().x(), QCursor::pos().y());
     m_choiceDialog->move(buttonBottomRight);
     m_choiceDialog->show();
-    connect(m_choiceDialog, &NumberChoiceDialog::choiceMade, btn, [&](const int &num) {
-        if (num == 0) {
-            btn->setText("");
-        } else {
-            btn->setText(QString::number(num));
-        }
-        auto *btnUnit = qobject_cast<BtnSudokuUnit *>(btn);
-        this->setMatrixValue(btnUnit->getPosForMatrix().first, btnUnit->getPosForMatrix().second, num);
-    });
+    m_lastClickedBtnSudokuUnit = btn;
 }
 
 void SudokuGridWidget::generateRandomSudoku(const Sudoku::SudokuMatrix::SudokuMatrixType &sudokuMatrixType) {
@@ -149,10 +144,24 @@ void SudokuGridWidget::keyReleaseEvent(QKeyEvent *event) {
     }
     QWidget::keyReleaseEvent(event);
 }
+
 void SudokuGridWidget::setGameMatrix(std::shared_ptr<Sudoku::SudokuMatrix> answer,
                                      std::shared_ptr<Sudoku::SudokuMatrix> original,
                                      std::shared_ptr<Sudoku::SudokuMatrix> work) {
     m_sudokuMatrixAnswer = answer;
     m_sudokuMatrixOriginal = original;
     this->buildMatrix(*work);
+    
+    initChoiceDialog();
+}
+
+void SudokuGridWidget::choiceDialogSignalsProcess() {
+    connect(m_choiceDialog, &NumberChoiceDialog::choiceMade, this, [&](const int &num) {
+        if (num == 0) {
+            m_lastClickedBtnSudokuUnit->setText("");
+        } else {
+            m_lastClickedBtnSudokuUnit->setText(QString::number(num));
+        }
+        this->setMatrixValue(m_lastClickedBtnSudokuUnit->getPosForMatrix().first, m_lastClickedBtnSudokuUnit->getPosForMatrix().second, num);
+    });
 }
