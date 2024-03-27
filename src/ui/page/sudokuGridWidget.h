@@ -16,15 +16,14 @@
 #include <QButtonGroup>
 #include <QFrame>
 #include <vector>
+#include <QStackedLayout>
+#include <atomic>
 #include "btnSudokuUnit.h"
 #include "numberChoiceDialog.h"
 #include "sudokuMatrix.h"
 #include "sudokuMatrix.h"
 #include "sudokuGenerator.h"
 #include "solverBase.h"
-#include "solverDl.h"
-#include <iostream>
-#include <fstream>
 #include "inputSudokuDialog.h"
 
 QT_BEGIN_NAMESPACE
@@ -39,46 +38,54 @@ class SudokuGridWidget : public QWidget {
 public:
     explicit SudokuGridWidget(QWidget *parent = nullptr);
     ~SudokuGridWidget() override;
+    
+    enum Message {
+        IsFilledButNotFinished,
+        IsFilledAndFinished,
+        PleaseSelectButtonToHint,
+    };
 
 signals:
     void sigShowWidget();
     void sigCurrentSudokuIsSolved();
+    void sigMessageReadyToRead(const Message &gameState);
 
 public slots:
-    void generateRandomSudoku(const Sudoku::SudokuMatrix::SudokuMatrixTypes &sodokuType, const Sudoku::SudokuGenerator::GenerateMethod &generateMethod, const int &num);
+    void generateRandomSudoku(const Sudoku::SudokuMatrix::SudokuMatrixType &sudokuMatrixType);
     void checkCurrentSudoku();
     void solveCurrentSudoku();
     void saveCurrentSudoku();
     void readSudokuFromFile();
-    void promptAnswer();
+    void hintAnswer();
     void inputSudoku();
-    
+
 protected:
     bool event(QEvent *event) override;
 
 private:
     Ui::SudokuGridWidget *ui;
 
-    QGridLayout *board;
-    std::vector<QGridLayout *> *boxesGridLayout;
-    std::vector<std::vector<BtnSudokuUnit *>> *btns;
-    QButtonGroup *btnGroup;
-    NumberChoiceDialog *choiceDialog;
-    Sudoku::SudokuGenerator *generator_;                      // 用作生成完全数独
-    std::shared_ptr<Sudoku::SudokuMatrix> sudokuMatrixAnswer; // 数独答案
-    std::shared_ptr<Sudoku::SudokuMatrix> sudokuMatrixWorker; // 用作数独中间态
-    Sudoku::SolverBase *solverBase_;
-    InputSudokuDialog *inputSudokuDialog_;
+    QGridLayout *m_gridLayoutBoard;
+    std::vector<QGridLayout *> *m_boxesGridLayout;
+    std::vector<std::vector<BtnSudokuUnit *>> *m_buttons;
+    QButtonGroup *m_btnGroup;
+    NumberChoiceDialog *m_choiceDialog;
+    Sudoku::SudokuGenerator *m_generator;                      // 用作生成完全数独
+    std::shared_ptr<Sudoku::SudokuMatrix> m_sudokuMatrixAnswer; // 数独答案
+    std::shared_ptr<Sudoku::SudokuMatrix> m_sudokuMatrixWorker; // 用作数独中间态
+    Sudoku::SolverBase *m_solverBase;
+    InputSudokuDialog *m_inputSudokuDialog;
 
     void init();
     void initBoard();
     void signalsProcess();
-    void initBtns();
-    void updateBtns();
-    void deleteBtns();
+    void initButtons();
+    void updateButtons();
+    void deleteButtons();
     void initBoxes();
     void deleteBoxes();
     void initChoiceDialog();
+    [[nodiscard]] int getRandomInitialNumber() const;
 
 private slots:
     void handleButtonClicked(QAbstractButton *btn);
