@@ -14,6 +14,8 @@
 #include "savesBrowserWidget.h"
 #include "ui_SavesBrowserWidget.h"
 #include "sudokuMatrix.h"
+#include "mapForQObject.h"
+#include "sudokuGridWidget.h"
 
 SavesBrowserWidget::SavesBrowserWidget(QWidget *parent) :
     QWidget(parent), ui(new Ui::SavesBrowserWidget) {
@@ -93,12 +95,21 @@ void SavesBrowserWidget::signalsProcess() {
     });
 
     connect(ui->btnOK, &QPushButton::clicked, this, [&] {
-       GameManager::getInstance()->setSaveFilePath(m_fileSystemModel->filePath(ui->filesView->currentIndex()));
-       emit sigBackToHome();
+        GameManager::getInstance()->setSaveFilePath(m_fileSystemModel->filePath(ui->filesView->currentIndex()));
+        emit sigBackToHome();
     });
-    
+
     connect(ui->btnContinueGame, &QPushButton::clicked, this, [&] {
-    
+        auto sudokuGridWidget = qobject_cast<SudokuGridWidget *>(MapForQObject::getInstance()->getObject(TypeName<SudokuGridWidget>::get()));
+        if (sudokuGridWidget == nullptr) {
+            // Todo log: 从mapForQObject中取得的sudokuGridWidget是空指针
+            return;
+        } else {
+            sudokuGridWidget->setGameMatrix(m_sudokuGameData->at(m_indexForGameData).m_answerMatrix,
+                                            m_sudokuGameData->at(m_indexForGameData).m_originalMatrix,
+                                            m_sudokuGameData->at(m_indexForGameData).m_workMatrix);
+            emit sigStartGame();
+        }
     });
 }
 

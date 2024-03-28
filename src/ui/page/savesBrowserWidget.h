@@ -30,6 +30,7 @@ public:
 
 signals:
     void sigBackToHome();
+    void sigStartGame();
 
 private:
     Ui::SavesBrowserWidget *ui;

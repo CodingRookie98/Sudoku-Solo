@@ -14,6 +14,7 @@
 #include "GameManager.h"
 #include "ui_sudokuGridWidget.h"
 #include "sudokuGridWidget.h"
+#include "mapForQObject.h"
 
 SudokuGridWidget::SudokuGridWidget(QWidget *parent) :
     SudokuMatrixWidget(parent), ui(new Ui::SudokuGridWidget) {
@@ -38,6 +39,8 @@ SudokuGridWidget::~SudokuGridWidget() {
 }
 
 void SudokuGridWidget::init() {
+    // 将实例注册到MapForQObject, 方便跨实例操作，不用通过单例和中间对象
+    MapForQObject::getInstance()->registerObject(TypeName<SudokuGridWidget>::get(), this);
 }
 
 void SudokuGridWidget::signalsProcess() {

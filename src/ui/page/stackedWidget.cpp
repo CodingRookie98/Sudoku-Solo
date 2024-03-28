@@ -155,6 +155,12 @@ void StackedWidget::homeWidgetSignalsProcess() {
             m_mapWidgets->insert(std::make_pair(qobject_cast<QWidget *>(m_savesBrowserWidget), this->addWidget(m_savesBrowserWidget)));
             saveBrowserWidgetSignalsProcess();
         }
+        // 当打开存档浏览界面时，玩家可能会直接从存档继续游戏，所以需要在这里初始化m_gamingWidget
+        if (m_gamingWidget == nullptr) {
+            m_gamingWidget = new GamingWidget;
+            m_mapWidgets->insert(std::make_pair(qobject_cast<QWidget *>(m_gamingWidget), this->addWidget(m_gamingWidget)));
+            gamingWidgetSignalsProcess();
+        }
         this->setCurrentIndex(m_mapWidgets->at(qobject_cast<QWidget *>(m_savesBrowserWidget)));
     });
 
@@ -183,5 +189,9 @@ void StackedWidget::homeWidgetSignalsProcess() {
 void StackedWidget::saveBrowserWidgetSignalsProcess() {
     connect(m_savesBrowserWidget, &SavesBrowserWidget::sigBackToHome, this, [&] {
         this->setCurrentIndex(m_mapWidgets->at(qobject_cast<QWidget *>(m_homeWidget)));
+    });
+
+    connect(m_savesBrowserWidget, &SavesBrowserWidget::sigStartGame, this, [&] {
+        this->setCurrentIndex(m_mapWidgets->at(qobject_cast<QWidget *>(m_gamingWidget)));
     });
 }
