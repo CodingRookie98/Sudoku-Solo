@@ -36,7 +36,7 @@
     <number>0</number>
    </property>
    <property name="bottomMargin">
-    <number>0</number>
+    <number>10</number>
    </property>
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout" stretch="1,0,1,0,0">
@@ -130,7 +130,7 @@
     <widget class="QLabel" name="labelMessage">
      <property name="font">
       <font>
-       <pointsize>13</pointsize>
+       <pointsize>18</pointsize>
       </font>
      </property>
      <property name="text">
