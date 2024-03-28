@@ -129,7 +129,7 @@ void GameManager::save(const Sudoku::SudokuMatrix &originalMatrix, const Sudoku:
             // 如果id已经在存档中，则只需要更新workMatrix即可
             jsonObjectNew[m_workerMatrix] = qStringWorkMatrix;
         } else {
-            // 如果id已经在存档中，则存储所有信息
+            // 如果id不在存档中，则存储所有信息
             jsonObjectNew[m_gameId] = id;
             jsonObjectNew[m_sudokuMatrixType] = type;
             jsonObjectNew[m_sudokuMatrixSize] = originalMatrix.getMatrixSize();
@@ -147,7 +147,7 @@ void GameManager::save(const Sudoku::SudokuMatrix &originalMatrix, const Sudoku:
         newJsonObject[m_gameTimeSpent] = jsonObjectNew[m_gameTimeSpent];
         newJsonObject[m_workerMatrix] = jsonObjectNew[m_workerMatrix];
         (*m_jsonSavesArray)[index] = newJsonObject;
-    } else {
+    } else { // 将新的游戏数据添加到当前存档
         m_jsonSavesArray->append(jsonObjectNew);
     }
 
@@ -204,12 +204,12 @@ void GameManager::setSaveFilePath(const QString &filePath) {
                         maxJsonObject = curJsonObject;
                     }
                 }
-                
+
                 GameSettings::getInstance()->setSetting(GameSettings::getInstance()->m_lastGameSaveName, m_jsonFilePath);
                 GameSettings::getInstance()->setSetting(GameSettings::getInstance()->m_lastGameId, maxJsonObject[m_gameId]);
             }
             // End
-            
+
         } else {
             m_jsonObjectRoot = new QJsonObject;
         }
