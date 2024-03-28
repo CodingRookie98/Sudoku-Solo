@@ -52,11 +52,9 @@ void SudokuMatrixWidget::init() {
 }
 
 void SudokuMatrixWidget::signalsProcess() {
-
 }
 
 void SudokuMatrixWidget::updateBoard() {
-
 }
 
 void SudokuMatrixWidget::updateBoxes() {
@@ -170,10 +168,10 @@ Sudoku::SudokuMatrix SudokuMatrixWidget::getSudokuMatrix() const {
 }
 
 bool SudokuMatrixWidget::isSolved() const {
-    if (m_sudokuMatrix->isSudokuFilled() || m_sudokuMatrix->getInvalidPositions().empty()) {
-        return false;
+    if (m_sudokuMatrix->isSudokuFilled() && m_sudokuMatrix->getInvalidPositions().empty()) {
+        return true;
     }
-    return true;
+    return false;
 }
 
 BtnSudokuUnit *SudokuMatrixWidget::getCheckedButton() const {

@@ -62,9 +62,7 @@ void GamingWidget::sudokuGridWidgetSignalsProcess() {
                                                               tr("数独已经填完但答案不正确，请仔细检查").toStdString().c_str()));
             break;
         case SudokuGridWidget::IsFilledAndFinished:
-            // Todo 游戏结束
-            ui->labelMessage->setText(QApplication::translate(metaObject()->className(),
-                                                              tr("游戏结束").toStdString().c_str()));
+            onGameFinished();
             break;
         case SudokuGridWidget::PleaseSelectButtonToHint:
             ui->labelMessage->setText(QApplication::translate(metaObject()->className(),
@@ -101,4 +99,9 @@ void GamingWidget::timerInitAndSignalsProcess() {
     m_timeElapsed = 0;
     ui->labelTime->setText(QApplication::translate(metaObject()->className(), tr("时间: 0").toStdString().c_str()));
     startTimeCount();
+}
+
+void GamingWidget::onGameFinished() {
+    // 显示游戏结束消息
+    ui->labelMessage->setText(QApplication::translate(metaObject()->className(), tr("游戏结束").toStdString().c_str()));
 }

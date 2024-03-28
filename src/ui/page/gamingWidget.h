@@ -48,6 +48,7 @@ private:
     void signalsProcess();
     void sudokuGridWidgetSignalsProcess();
     void timerInitAndSignalsProcess();
+    void onGameFinished();
 };
 
 #endif // SUDOKUMASTER_SUDOKUMASTER_CLIENT_SRC_SINGLEPLAYER_GAMINGWIDGET_H_
