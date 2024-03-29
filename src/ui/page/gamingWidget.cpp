@@ -102,6 +102,9 @@ void GamingWidget::timerInitAndSignalsProcess() {
 }
 
 void GamingWidget::onGameFinished() {
+    m_timerForGameSpent->stop();
     // 显示游戏结束消息
     ui->labelMessage->setText(QApplication::translate(metaObject()->className(), tr("游戏结束").toStdString().c_str()));
+    // 存档
+    saveGame();
 }
