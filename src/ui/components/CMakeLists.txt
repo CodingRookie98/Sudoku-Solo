@@ -4,6 +4,6 @@ set(CMAKE_AUTOMOC ON)
 
 set(CMAKE_AUTORCC ON)
 
-file(GLOB sources CONFIGURE_DEPENDS *.cpp *.h *.ui)
+file(GLOB sources CONFIGURE_DEPENDS *.cpp *.h *.ui *.qrc)
 target_sources(Sudoku-Solo PRIVATE ${sources})
 target_include_directories(Sudoku-Solo PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})

@@ -17,7 +17,7 @@
    <bool>false</bool>
   </property>
   <property name="styleSheet">
-   <string notr="true">color: rgb(0, 255, 255);</string>
+   <string notr="true"/>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_2">
    <item>
@@ -72,7 +72,7 @@
      <item>
       <layout class="QVBoxLayout" name="verticalLayout">
        <item>
-        <widget class="QPushButton" name="btnBackToGame">
+        <widget class="GameButton" name="btnBackToGame">
          <property name="font">
           <font>
            <pointsize>20</pointsize>
@@ -87,7 +87,7 @@
         </widget>
        </item>
        <item>
-        <widget class="QPushButton" name="btnSaveGame">
+        <widget class="GameButton" name="btnSaveGame">
          <property name="font">
           <font>
            <pointsize>20</pointsize>
@@ -102,7 +102,7 @@
         </widget>
        </item>
        <item>
-        <widget class="QPushButton" name="btnLoadGameSave">
+        <widget class="GameButton" name="btnLoadGameSave">
          <property name="font">
           <font>
            <pointsize>20</pointsize>
@@ -117,7 +117,7 @@
         </widget>
        </item>
        <item>
-        <widget class="QPushButton" name="btnGameSetting">
+        <widget class="GameButton" name="btnGameSetting">
          <property name="font">
           <font>
            <pointsize>20</pointsize>
@@ -132,7 +132,7 @@
         </widget>
        </item>
        <item>
-        <widget class="QPushButton" name="btnHome">
+        <widget class="GameButton" name="btnHome">
          <property name="font">
           <font>
            <pointsize>20</pointsize>
@@ -147,7 +147,7 @@
         </widget>
        </item>
        <item>
-        <widget class="QPushButton" name="btnExitGame">
+        <widget class="GameButton" name="btnExitGame">
          <property name="font">
           <font>
            <pointsize>20</pointsize>
@@ -193,6 +193,13 @@
    </item>
   </layout>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>GameButton</class>
+   <extends>QPushButton</extends>
+   <header location="global">gameButton.h</header>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections/>
 </ui>

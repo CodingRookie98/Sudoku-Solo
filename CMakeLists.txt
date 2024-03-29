@@ -14,6 +14,7 @@ find_package(Qt6 REQUIRED COMPONENTS
         Core
         Multimedia
         WebEngineWidgets
+        Multimedia
 )
 
 if (CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
@@ -44,6 +45,7 @@ target_link_libraries(Sudoku-Solo PRIVATE
         Qt6::Core
         Qt6::Multimedia
         Qt6::WebEngineWidgets
+        Qt6::Multimedia
 )
 
 add_subdirectory(src)

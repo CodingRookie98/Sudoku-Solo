@@ -14,7 +14,7 @@
    <string>HomeWidget</string>
   </property>
   <property name="styleSheet">
-   <string notr="true">color: rgb(0, 255, 255);</string>
+   <string notr="true"/>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout" stretch="1">
    <property name="leftMargin">
@@ -33,7 +33,7 @@
     <widget class="QWidget" name="widget_2" native="true">
      <layout class="QGridLayout" name="gridLayout">
       <item row="0" column="0">
-       <layout class="QHBoxLayout" name="horizontalLayout_2">
+       <layout class="QHBoxLayout" name="horizontalLayout_2" stretch="1,0,1">
         <item>
          <spacer name="horizontalSpacer_2">
           <property name="orientation">
@@ -72,7 +72,7 @@
               <number>10</number>
              </property>
              <item>
-              <widget class="QPushButton" name="btnGameContinue">
+              <widget class="GameButton" name="btnGameContinue">
                <property name="font">
                 <font>
                  <pointsize>20</pointsize>
@@ -90,7 +90,7 @@
               </widget>
              </item>
              <item>
-              <widget class="QPushButton" name="btnNewGame">
+              <widget class="GameButton" name="btnNewGame">
                <property name="sizePolicy">
                 <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
                  <horstretch>0</horstretch>
@@ -120,7 +120,7 @@
               </widget>
              </item>
              <item>
-              <widget class="QPushButton" name="btnGameSaves">
+              <widget class="GameButton" name="btnGameSaves">
                <property name="font">
                 <font>
                  <pointsize>20</pointsize>
@@ -135,7 +135,7 @@
               </widget>
              </item>
              <item>
-              <widget class="QPushButton" name="btnSetting">
+              <widget class="GameButton" name="btnSetting">
                <property name="sizePolicy">
                 <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
                  <horstretch>0</horstretch>
@@ -162,7 +162,7 @@
               </widget>
              </item>
              <item>
-              <widget class="QPushButton" name="btnExit">
+              <widget class="GameButton" name="btnExit">
                <property name="sizePolicy">
                 <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
                  <horstretch>0</horstretch>
@@ -226,6 +226,13 @@
    </item>
   </layout>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>GameButton</class>
+   <extends>QPushButton</extends>
+   <header location="global">gameButton.h</header>
+  </customwidget>
+ </customwidgets>
  <resources>
   <include location="../../res/res.qrc"/>
  </resources>
