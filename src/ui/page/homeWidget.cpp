@@ -18,7 +18,7 @@
 HomeWidget::HomeWidget(QWidget *parent) :
     QWidget(parent), ui(new Ui::HomeWidget) {
     ui->setupUi(this);
-    
+
     init();
     signalProcess();
 }
@@ -28,22 +28,21 @@ HomeWidget::~HomeWidget() {
 }
 
 void HomeWidget::init() {
-
 }
 
 void HomeWidget::signalProcess() {
     connect(ui->btnNewGame, &QPushButton::clicked, this, &HomeWidget::sigNewGame);
-    
-    connect(ui->btnExit, &QPushButton::clicked, this, [&]{
-       QApplication::closeAllWindows();
+
+    connect(ui->btnExit, &QPushButton::clicked, this, [&] {
+        QApplication::closeAllWindows();
     });
 
     connect(ui->btnGameSaves, &QPushButton::clicked, this, &HomeWidget::sigGameSaves);
 
     connect(ui->btnSetting, &QPushButton::clicked, this, &HomeWidget::sigGameSetting);
 
-    connect(GameSettings::getInstance(), &GameSettings::sigLastGameIsEmpty, this, [&]{
-       ui->btnGameContinue->setVisible(false);
+    connect(GameSettings::getInstance(), &GameSettings::sigLastGameIsEmpty, this, [&] {
+        ui->btnGameContinue->setVisible(false);
     });
 
     connect(ui->btnGameContinue, &QPushButton::clicked, this, &HomeWidget::sigLoadLastGame);
