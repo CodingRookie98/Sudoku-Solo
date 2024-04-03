@@ -8,20 +8,17 @@
  ******************************************************************************
  */
 
-#include "soundEffects.h"
 #include <mutex>
+#include "soundEffects.h"
+#include "gameSettings.h"
+#include "gameSoundSetting.h"
 
 SoundEffects::SoundEffects() {
     m_soundEffectMap = new std::unordered_map<QString, QSoundEffect *>;
-
     (*m_soundEffectMap)[m_click_001] = nullptr;
     (*m_soundEffectMap)[m_hover_34] = nullptr;
 
-    for (auto &item : *m_soundEffectMap) {
-        auto *soundEffect = new QSoundEffect;
-        soundEffect->setSource(QUrl::fromLocalFile(item.first));
-        item.second = soundEffect;
-    }
+    init();
 }
 
 SoundEffects::~SoundEffects() {
@@ -55,5 +52,31 @@ SoundEffects *SoundEffects::getInstance() {
 void SoundEffects::play(const QString &soundEffectName) {
     if (m_soundEffectMap->contains(soundEffectName)) {
         m_soundEffectMap->at(soundEffectName)->play();
+    }
+}
+
+void SoundEffects::setVolume(const float &volume) {
+    if (volume > 1.0 || volume < 0) {
+        return;
+    }
+
+    for (auto &item : *m_soundEffectMap) {
+        item.second->setVolume(volume);
+    }
+}
+
+void SoundEffects::init() {
+    QJsonValue value = GameSettings::getInstance()->getSetting(GameSettings::getInstance()->m_soundEffectVolume);
+    float volume = 100;
+
+    if (!value.isNull()) {
+        volume = (float)value.toInt() / 100;
+    }
+
+    for (auto &item : *m_soundEffectMap) {
+        auto *soundEffect = new QSoundEffect;
+        soundEffect->setSource(QUrl::fromLocalFile(item.first));
+        item.second = soundEffect;
+        soundEffect->setVolume(volume);
     }
 }

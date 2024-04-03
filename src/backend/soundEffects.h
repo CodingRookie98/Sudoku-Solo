@@ -22,6 +22,7 @@ public:
     SoundEffects &operator=(const SoundEffects &) = delete;
 
     void play(const QString &soundEffectName);
+    void setVolume(const float &volume);
 
     const QString m_hover_34 = ":/audio/audio/hover_34.wav";
     const QString m_click_001 = ":/audio/audio/click_001.wav";
@@ -29,6 +30,8 @@ public:
 private:
     SoundEffects();
     ~SoundEffects();
+
+    void init();
 
     std::unordered_map<QString, QSoundEffect *> *m_soundEffectMap;
 };
