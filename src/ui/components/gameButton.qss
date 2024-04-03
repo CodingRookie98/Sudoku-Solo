@@ -3,6 +3,7 @@ QPushButton {
     border-radius: 10px;
     padding: 5px 10px;
     color: #00ffff;
+    font-family: "Arial Black";
 }
 
 QPushButton:hover {
