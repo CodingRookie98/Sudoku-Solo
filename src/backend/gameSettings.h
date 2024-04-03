@@ -21,26 +21,28 @@ class GameSettings : public QObject {
 public:
     GameSettings(const GameSettings &) = delete;
     GameSettings &operator=(const GameSettings &) = delete;
-    
+
     static GameSettings *getInstance();
     void preCheck();
     void setSetting(const QString &key, const QJsonValue &value);
     QJsonValue getSetting(const QString &key);
-    
+
     const QString m_lastGameId = "LastGameID";
     const QString m_lastGameSaveName = "LastGameSaveName";
-    
+    const QString m_soundEffectVolume = "soundEffectVolume";
+    const QString m_backgroundMusicVolume = "backgroundMusicVolume";
+
 signals:
     void sigLastGameIsEmpty();
-    
+
 private:
     explicit GameSettings(QObject *parent = nullptr);
     ~GameSettings() override;
-    
+
     std::shared_mutex m_mutex;
     const QString m_settingsJsonFileName = "./settings.json";
     QJsonObject *m_jsonObjectSettings;
-    
+
     void init();
     void writeToFile();
 };

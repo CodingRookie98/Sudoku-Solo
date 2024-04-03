@@ -2,6 +2,7 @@
 #define GAMESETTING_H
 
 #include <QWidget>
+#include "gameSoundSetting.h"
 
 namespace Ui {
 class GameSettingWidget;
@@ -19,7 +20,8 @@ signals:
 
 private:
     Ui::GameSettingWidget *ui;
-    
+    GameSoundSetting *m_gameSoundSetting;
+
     void init();
     void signalsProcess();
 };
