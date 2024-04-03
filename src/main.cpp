@@ -10,14 +10,15 @@
 #include "ui/mainWindow.h"
 #include <QApplication>
 #include "gameSettings.h"
+#include "bgmPlayer.h"
 
-int main(int argc, char *argv[])
-{
+int main(int argc, char *argv[]) {
     QApplication a(argc, argv);
     MainWindow w;
-    
+
     GameSettings::getInstance()->preCheck();
-    
+    BGMPlayer::getInstance()->play();
+
     w.show();
     return a.exec();
 }
