@@ -28,6 +28,7 @@ StackedWidget::StackedWidget(QWidget *parent) :
     m_gamingWidget = nullptr;
     m_gameSettingWidget = nullptr;
     m_savesBrowserWidget = new SavesBrowserWidget; // 在此处初始化是为了界面响应速度
+    m_aboutWidget = nullptr;
 
     init();
     signalsProcess();
@@ -184,6 +185,15 @@ void StackedWidget::homeWidgetSignalsProcess() {
         m_gamingWidget->loadLastGame();
         this->setCurrentIndex(m_mapWidgets->at(qobject_cast<QWidget *>(m_gamingWidget)));
     });
+
+    connect(m_homeWidget, &HomeWidget::sigAbout, this, [&] {
+        if (m_aboutWidget == nullptr) {
+            m_aboutWidget = new AboutWidget;
+            m_mapWidgets->insert(std::make_pair(qobject_cast<QWidget *>(m_aboutWidget), this->addWidget(m_aboutWidget)));
+            aboutWidgetSignalsProcess();
+        }
+        this->setCurrentIndex(m_mapWidgets->at(qobject_cast<QWidget *>(m_aboutWidget)));
+    });
 }
 
 void StackedWidget::saveBrowserWidgetSignalsProcess() {
@@ -193,5 +203,11 @@ void StackedWidget::saveBrowserWidgetSignalsProcess() {
 
     connect(m_savesBrowserWidget, &SavesBrowserWidget::sigStartGame, this, [&] {
         this->setCurrentIndex(m_mapWidgets->at(qobject_cast<QWidget *>(m_gamingWidget)));
+    });
+}
+
+void StackedWidget::aboutWidgetSignalsProcess() {
+    connect(m_aboutWidget, &AboutWidget::sigClose, this, [&] {
+        this->setCurrentIndex(m_mapWidgets->at(qobject_cast<QWidget *>(m_homeWidget)));
     });
 }

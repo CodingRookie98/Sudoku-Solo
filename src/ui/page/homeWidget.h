@@ -31,7 +31,8 @@ signals:
     void sigGameSetting();
     void sigGameSaves();
     void sigLoadLastGame();
-    
+    void sigAbout();
+
 private:
     Ui::HomeWidget *ui;
 

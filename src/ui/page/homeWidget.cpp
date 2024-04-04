@@ -46,4 +46,6 @@ void HomeWidget::signalProcess() {
     });
 
     connect(ui->btnGameContinue, &QPushButton::clicked, this, &HomeWidget::sigLoadLastGame);
+
+    connect(ui->btnAbout, &QPushButton::clicked, this, &HomeWidget::sigAbout);
 }

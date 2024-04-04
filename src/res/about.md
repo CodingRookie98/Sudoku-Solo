@@ -1,5 +1,5 @@
 ﻿<div style="text-align:center">
-    <img src=":/svg/Icon.svg" width="100" height="100"/>
+    <img src=":/svg/svg/Icon.svg" width="100" height="100"/>
 </div>
 
 <div style="text-align:center">
@@ -12,3 +12,6 @@
     </p>
     <p><a href="https://github.com/CodingRookie98/Sudoku-Solo">项目地址：https://github.com/CodingRookie98/Sudoku-Solo</a></p>
 </div>
+
+
+

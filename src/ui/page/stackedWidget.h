@@ -19,6 +19,7 @@
 #include "gamePauseWidget.h"
 #include "gamingWidget.h"
 #include "savesBrowserWidget.h"
+#include "aboutWidget.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -48,6 +49,7 @@ private:
     GamingWidget *m_gamingWidget;
     GameSettingWidget *m_gameSettingWidget;
     SavesBrowserWidget *m_savesBrowserWidget;
+    AboutWidget *m_aboutWidget;
 
     void init();
     void signalsProcess();
@@ -57,6 +59,7 @@ private:
     void gamingWidgetSignalsProcess();
     void gameSettingWidgetSignalsProcess();
     void saveBrowserWidgetSignalsProcess();
+    void aboutWidgetSignalsProcess();
 };
 
 #endif // SUDOKU_SOLO_SRC_UI_STACKEDWIDGET_H_
