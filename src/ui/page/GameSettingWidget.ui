@@ -14,10 +14,24 @@
    <string>Form</string>
   </property>
   <layout class="QHBoxLayout" name="horizontalLayout_2">
+   <property name="leftMargin">
+    <number>5</number>
+   </property>
+   <property name="topMargin">
+    <number>0</number>
+   </property>
+   <property name="rightMargin">
+    <number>5</number>
+   </property>
    <item>
     <layout class="QVBoxLayout" name="verticalLayout_SettingOptions">
      <item>
-      <widget class="QPushButton" name="pushButton_3">
+      <widget class="GameButton" name="pushButton_3">
+       <property name="font">
+        <font>
+         <pointsize>16</pointsize>
+        </font>
+       </property>
        <property name="text">
         <string>声音</string>
        </property>
@@ -29,6 +43,9 @@
     <layout class="QVBoxLayout" name="verticalLayout">
      <item>
       <widget class="QScrollArea" name="scrollArea">
+       <property name="horizontalScrollBarPolicy">
+        <enum>Qt::ScrollBarAlwaysOff</enum>
+       </property>
        <property name="widgetResizable">
         <bool>true</bool>
        </property>
@@ -37,7 +54,7 @@
          <rect>
           <x>0</x>
           <y>0</y>
-          <width>476</width>
+          <width>484</width>
           <height>419</height>
          </rect>
         </property>
@@ -64,7 +81,12 @@
         </spacer>
        </item>
        <item>
-        <widget class="QPushButton" name="btnOK">
+        <widget class="GameButton" name="btnOK">
+         <property name="font">
+          <font>
+           <pointsize>14</pointsize>
+          </font>
+         </property>
          <property name="text">
           <string>确定</string>
          </property>
@@ -84,7 +106,12 @@
         </spacer>
        </item>
        <item>
-        <widget class="QPushButton" name="btnCancel">
+        <widget class="GameButton" name="btnCancel">
+         <property name="font">
+          <font>
+           <pointsize>14</pointsize>
+          </font>
+         </property>
          <property name="text">
           <string>取消</string>
          </property>
@@ -104,7 +131,12 @@
         </spacer>
        </item>
        <item>
-        <widget class="QPushButton" name="btnApply">
+        <widget class="GameButton" name="btnApply">
+         <property name="font">
+          <font>
+           <pointsize>14</pointsize>
+          </font>
+         </property>
          <property name="text">
           <string>应用</string>
          </property>
@@ -129,6 +161,13 @@
    </item>
   </layout>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>GameButton</class>
+   <extends>QPushButton</extends>
+   <header location="global">gameButton.h</header>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections/>
 </ui>
