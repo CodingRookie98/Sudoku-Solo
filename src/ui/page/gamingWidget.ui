@@ -16,6 +16,11 @@
     <verstretch>0</verstretch>
    </sizepolicy>
   </property>
+  <property name="font">
+   <font>
+    <family>Arial Black</family>
+   </font>
+  </property>
   <property name="windowTitle">
    <string notr="true">GamingWidget</string>
   </property>
@@ -57,8 +62,14 @@
       <widget class="QLabel" name="labelTime">
        <property name="font">
         <font>
-         <pointsize>15</pointsize>
+         <family>Arial Black</family>
+         <pointsize>16</pointsize>
+         <italic>false</italic>
+         <bold>true</bold>
         </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">font: 900 16pt &quot;Arial Black&quot;;</string>
        </property>
        <property name="text">
         <string/>
@@ -85,6 +96,9 @@
          <horstretch>0</horstretch>
          <verstretch>0</verstretch>
         </sizepolicy>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">color: rgb(0, 255, 255);</string>
        </property>
        <property name="text">
         <string>提示</string>
@@ -130,6 +144,7 @@
     <widget class="QLabel" name="labelMessage">
      <property name="font">
       <font>
+       <family>Arial Black</family>
        <pointsize>18</pointsize>
       </font>
      </property>

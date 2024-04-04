@@ -96,11 +96,11 @@ void GamingWidget::timerInitAndSignalsProcess() {
         m_timerForGameSpent = new QTimer;
         connect(m_timerForGameSpent, &QTimer::timeout, [&] {
             m_timeElapsed++;
-            ui->labelTime->setText(QApplication::translate(metaObject()->className(), tr("时间：").toStdString().c_str()) + QString::number(m_timeElapsed));
+            ui->labelTime->setText(QApplication::translate(metaObject()->className(), tr("时间 ").toStdString().c_str()) + QString::number(m_timeElapsed) + QString(" S"));
         });
     }
     m_timeElapsed = 0;
-    ui->labelTime->setText(QApplication::translate(metaObject()->className(), tr("时间: 0").toStdString().c_str()));
+    ui->labelTime->setText(QApplication::translate(metaObject()->className(), tr("时间 0 S").toStdString().c_str()));
     startTimeCount();
 }
 
@@ -119,7 +119,7 @@ void GamingWidget::showMessage(const QString &message) {
         m_timerForMessageLabel = new QTimer;
     }
 
-    m_timerForMessageLabel->start(5000);
+    m_timerForMessageLabel->start(10000);
     connect(m_timerForMessageLabel, &QTimer::timeout, this, [&] {
         ui->labelMessage->setText("");
         m_timerForMessageLabel->stop();
