@@ -43,12 +43,14 @@ private:
     SudokuGridWidget *m_sudokuGridWidget;
     QTimer *m_timerForGameSpent;
     int m_timeElapsed = 0;
+    QTimer *m_timerForMessageLabel;
 
     void init();
     void signalsProcess();
     void sudokuGridWidgetSignalsProcess();
     void timerInitAndSignalsProcess();
     void onGameFinished();
+    void showMessage(const QString &message);
 };
 
 #endif // SUDOKUMASTER_SUDOKUMASTER_CLIENT_SRC_SINGLEPLAYER_GAMINGWIDGET_H_

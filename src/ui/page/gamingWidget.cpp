@@ -21,6 +21,7 @@ GamingWidget::GamingWidget(QWidget *parent) :
     ui->setupUi(this);
     m_sudokuGridWidget = new SudokuGridWidget(this);
     m_timerForGameSpent = nullptr;
+    m_timerForMessageLabel = nullptr;
 
     init();
     signalsProcess();
@@ -29,6 +30,8 @@ GamingWidget::GamingWidget(QWidget *parent) :
 GamingWidget::~GamingWidget() {
     delete ui;
     delete m_sudokuGridWidget;
+    delete m_timerForGameSpent;
+    delete m_timerForMessageLabel;
 }
 
 void GamingWidget::init() {
@@ -58,15 +61,15 @@ void GamingWidget::sudokuGridWidgetSignalsProcess() {
     connect(m_sudokuGridWidget, &SudokuGridWidget::sigMessageReadyToRead, this, [&](const SudokuGridWidget::Message &message) {
         switch (message) {
         case SudokuGridWidget::IsFilledButNotFinished:
-            ui->labelMessage->setText(QApplication::translate(metaObject()->className(),
-                                                              tr("数独已经填完但答案不正确，请仔细检查").toStdString().c_str()));
+            showMessage(QApplication::translate(metaObject()->className(),
+                                                tr("数独已经填完但答案不正确，请仔细检查").toStdString().c_str()));
             break;
         case SudokuGridWidget::IsFilledAndFinished:
             onGameFinished();
             break;
         case SudokuGridWidget::PleaseSelectButtonToHint:
-            ui->labelMessage->setText(QApplication::translate(metaObject()->className(),
-                                                              tr("请选择需要提示答案的位置").toStdString().c_str()));
+            showMessage(QApplication::translate(metaObject()->className(),
+                                                tr("请选择需要提示答案的位置").toStdString().c_str()));
             break;
         }
     });
@@ -104,7 +107,21 @@ void GamingWidget::timerInitAndSignalsProcess() {
 void GamingWidget::onGameFinished() {
     m_timerForGameSpent->stop();
     // 显示游戏结束消息
-    ui->labelMessage->setText(QApplication::translate(metaObject()->className(), tr("游戏结束").toStdString().c_str()));
+    showMessage(QApplication::translate(metaObject()->className(), tr("游戏结束").toStdString().c_str()));
     // 存档
     saveGame();
+}
+
+void GamingWidget::showMessage(const QString &message) {
+    ui->labelMessage->setText(message);
+
+    if (m_timerForMessageLabel == nullptr) {
+        m_timerForMessageLabel = new QTimer;
+    }
+
+    m_timerForMessageLabel->start(5000);
+    connect(m_timerForMessageLabel, &QTimer::timeout, this, [&] {
+        ui->labelMessage->setText("");
+        m_timerForMessageLabel->stop();
+    });
 }
