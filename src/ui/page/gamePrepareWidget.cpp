@@ -38,6 +38,7 @@ void GamePrepareWidget::init() {
 
     for (const auto &val : *m_btnWithSudokuType) {
         m_buttonGroup->addButton(val.first);
+        val.first->setCheckable(true);
     }
     m_buttonGroup->setExclusive(true);
     ui->btnFour->setChecked(true);
@@ -45,7 +46,7 @@ void GamePrepareWidget::init() {
 
 void GamePrepareWidget::signalProcess() {
     connect(ui->btnStart, &QPushButton::clicked, this, [&] {
-        emit sigStart(m_btnWithSudokuType->at(qobject_cast<QPushButton*>(m_buttonGroup->checkedButton())));
+        emit sigStart(m_btnWithSudokuType->at(qobject_cast<QPushButton *>(m_buttonGroup->checkedButton())));
     });
     connect(ui->btnCancel, &QPushButton::clicked, this, &GamePrepareWidget::sigCancel);
 }
