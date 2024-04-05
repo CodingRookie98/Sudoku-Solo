@@ -22,12 +22,27 @@
      <item>
       <layout class="QHBoxLayout" name="horizontalLayout">
        <item>
-        <widget class="QLineEdit" name="lineEdit"/>
+        <widget class="QLineEdit" name="lineEdit">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Expanding" vsizetype="Minimum">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+        </widget>
        </item>
        <item>
-        <widget class="QPushButton" name="btnNewSave">
+        <widget class="GameButton" name="btnNewSave">
+         <property name="font">
+          <font>
+           <pointsize>12</pointsize>
+          </font>
+         </property>
          <property name="text">
           <string>新建存档</string>
+         </property>
+         <property name="flat">
+          <bool>false</bool>
          </property>
         </widget>
        </item>
@@ -62,9 +77,17 @@
         </spacer>
        </item>
        <item>
-        <widget class="QPushButton" name="btnDeleteSave">
+        <widget class="GameButton" name="btnDeleteSave">
+         <property name="font">
+          <font>
+           <pointsize>12</pointsize>
+          </font>
+         </property>
          <property name="text">
           <string>删除存档</string>
+         </property>
+         <property name="flat">
+          <bool>false</bool>
          </property>
         </widget>
        </item>
@@ -143,7 +166,7 @@
       <item>
        <layout class="QHBoxLayout" name="horizontalLayout_3" stretch="0,1,0">
         <item>
-         <widget class="QToolButton" name="btnPre">
+         <widget class="GameButton" name="btnPre">
           <property name="text">
            <string/>
           </property>
@@ -157,7 +180,7 @@
             <height>30</height>
            </size>
           </property>
-          <property name="autoRaise">
+          <property name="flat">
            <bool>true</bool>
           </property>
          </widget>
@@ -194,7 +217,7 @@
          </widget>
         </item>
         <item>
-         <widget class="QToolButton" name="btnNext">
+         <widget class="GameButton" name="btnNext">
           <property name="text">
            <string/>
           </property>
@@ -208,7 +231,7 @@
             <height>30</height>
            </size>
           </property>
-          <property name="autoRaise">
+          <property name="flat">
            <bool>true</bool>
           </property>
          </widget>
@@ -231,7 +254,7 @@
          </spacer>
         </item>
         <item>
-         <widget class="QPushButton" name="btnOK">
+         <widget class="GameButton" name="btnOK">
           <property name="font">
            <font>
             <pointsize>15</pointsize>
@@ -239,6 +262,9 @@
           </property>
           <property name="text">
            <string>确定</string>
+          </property>
+          <property name="flat">
+           <bool>true</bool>
           </property>
          </widget>
         </item>
@@ -256,7 +282,7 @@
          </spacer>
         </item>
         <item>
-         <widget class="QPushButton" name="btnContinueGame">
+         <widget class="GameButton" name="btnContinueGame">
           <property name="font">
            <font>
             <pointsize>15</pointsize>
@@ -264,6 +290,9 @@
           </property>
           <property name="text">
            <string>继续游戏</string>
+          </property>
+          <property name="flat">
+           <bool>true</bool>
           </property>
          </widget>
         </item>
@@ -281,7 +310,7 @@
          </spacer>
         </item>
         <item>
-         <widget class="QPushButton" name="btnCancel">
+         <widget class="GameButton" name="btnCancel">
           <property name="font">
            <font>
             <pointsize>15</pointsize>
@@ -289,6 +318,9 @@
           </property>
           <property name="text">
            <string>返回</string>
+          </property>
+          <property name="flat">
+           <bool>true</bool>
           </property>
          </widget>
         </item>
@@ -313,6 +345,11 @@
   </layout>
  </widget>
  <customwidgets>
+  <customwidget>
+   <class>GameButton</class>
+   <extends>QPushButton</extends>
+   <header location="global">gameButton.h</header>
+  </customwidget>
   <customwidget>
    <class>SudokuMatrixWidget</class>
    <extends>QWidget</extends>
