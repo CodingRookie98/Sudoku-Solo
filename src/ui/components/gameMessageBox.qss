@@ -1,0 +1,4 @@
+﻿QDialog#GameMessageBox {
+/*	background-color: rgba(255, 255, 255, 255); *//* 使用 RGBA 表示颜色，最后一个参数表示透明度（0-255）*/
+	border-radius: 20px;
+}

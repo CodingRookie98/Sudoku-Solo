@@ -1,5 +1,6 @@
 <RCC>
     <qresource prefix="/qss">
         <file>gameButton.qss</file>
+        <file>gameMessageBox.qss</file>
     </qresource>
 </RCC>
