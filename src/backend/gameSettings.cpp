@@ -91,6 +91,13 @@ void GameSettings::preCheck() {
         if (!m_jsonObjectSettings->value(m_lastGameSaveName).isNull()
             && !m_jsonObjectSettings->value(m_lastGameSaveName).toString().isEmpty()) {
             GameManager::getInstance()->setSaveFilePath(m_jsonObjectSettings->value(m_lastGameSaveName).toString());
+            // 如果上一次游玩的游戏Id为空或者在存档里面加载不出来
+            if (m_jsonObjectSettings->value(m_lastGameId).isNull()
+                || m_jsonObjectSettings->value(m_lastGameId).toString().isEmpty()
+                || GameManager::getInstance()->loadWithId(m_lastGameId).m_workMatrix == nullptr) {
+                emit sigLastGameIsEmpty();
+                setSetting(m_lastGameId, QJsonValue());
+            }
         }
     }
 
