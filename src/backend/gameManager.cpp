@@ -263,6 +263,9 @@ void GameManager::writeTofile() {
 }
 
 SudokuGameData GameManager::loadWithId(const QString &gameId) {
+    if (m_jsonSavesArray == nullptr) {
+        return {};
+    }
     for (QJsonValueRef jsonValue : *m_jsonSavesArray) {
         if (jsonValue.isObject()) {
             QJsonObject jsonObject = jsonValue.toObject();
