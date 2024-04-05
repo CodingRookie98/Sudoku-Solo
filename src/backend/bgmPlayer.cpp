@@ -8,10 +8,10 @@
  ******************************************************************************
  */
 
-#include <QDebug>
 #include <mutex>
 #include "bgmPlayer.h"
 #include "gameSettings.h"
+#include "logger.h"
 
 BGMPlayer *BGMPlayer::getInstance() {
     static BGMPlayer *instance;
@@ -63,7 +63,9 @@ void BGMPlayer::play() {
     if (m_mediaPlayer->error() == QMediaPlayer::NoError) {
         m_mediaPlayer->play();
     } else {
-        // Todo log:
+        Logger::getInstance()->log(Logger::Error, QString(__FUNCTION__) + " "
+                                                      + QString::number(__LINE__) + " "
+                                                      + QString(m_mediaPlayer->errorString()));
     }
 }
 

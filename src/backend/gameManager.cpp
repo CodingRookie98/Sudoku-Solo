@@ -12,6 +12,7 @@
 #include <QDir>
 #include "gameManager.h"
 #include "gameSettings.h"
+#include "logger.h"
 
 GameManager::GameManager() {
     m_saveJsonDocument = nullptr;
@@ -52,12 +53,15 @@ GameManager *GameManager::getInstance() {
 std::vector<SudokuGameData> GameManager::loadWithPath(const QString &saveFilePath) {
     QFile loadFile(saveFilePath);
     if (!loadFile.exists()) {
-        // Todo log: 文件不存在
-
+        Logger::getInstance()->log(Logger::Error, QString(__FUNCTION__) + " "
+                                                      + QString::number(__LINE__) + " "
+                                                      + saveFilePath + " is not exits");
         return std::vector<SudokuGameData>{};
     } else {
         if (!loadFile.open(QIODevice::ReadOnly)) {
-            // Todo log：文件打开失败
+            Logger::getInstance()->log(Logger::Error, QString(__FUNCTION__) + " "
+                                                          + QString::number(__LINE__) + " "
+                                                          + saveFilePath + " open failed (ReadOnly)");
             return {};
         }
     }
@@ -65,7 +69,9 @@ std::vector<SudokuGameData> GameManager::loadWithPath(const QString &saveFilePat
     QJsonParseError jsonParseError;
     QJsonDocument jsonDocument = QJsonDocument::fromJson(loadFile.readAll(), &jsonParseError);
     if (jsonParseError.error != QJsonParseError::NoError) {
-        // Todo log: json解析错误
+        Logger::getInstance()->log(Logger::Error, QString(__FUNCTION__) + " "
+                                                      + QString::number(__LINE__) + " "
+                                                      + jsonParseError.errorString());
         return {};
     }
 
@@ -170,8 +176,11 @@ void GameManager::setSaveFilePath(const QString &filePath) {
     // 如果文件不存在
     if (!saveFile.exists()) {
         if (!saveFile.open(QIODevice::ReadWrite)) {
-            // Todo 日志输出文件创建失败
-            //            qDebug() << "Failed to create file:" << saveFile.errorString();
+            // 日志输出文件创建失败
+            Logger::getInstance()->log(Logger::Error, QString(__FUNCTION__) + " "
+                                                          + QString::number(__LINE__) + " "
+                                                          + "Failed to create file:"
+                                                          + saveFile.errorString());
             return;
         }
         saveFile.close();
@@ -180,7 +189,10 @@ void GameManager::setSaveFilePath(const QString &filePath) {
     // 文件存在则只读打开
     if (!saveFile.isOpen()) {
         if (!saveFile.open(QIODevice::ReadOnly)) {
-            // Todo log: 以只读模式打开文件失败
+            // log: 以只读模式打开文件失败
+            Logger::getInstance()->log(Logger::Error, QString(__FUNCTION__) + " "
+                                                          + QString::number(__LINE__) + " "
+                                                          + saveFile.errorString());
             return;
         }
     }
@@ -225,7 +237,10 @@ void GameManager::init() {
 
     if (!dir.exists()) {
         if (!dir.mkdir(".")) {
-            // Todo 日志输出创建目录失败
+            // 存档目录失败
+            Logger::getInstance()->log(Logger::Error, QString(__FUNCTION__) + " "
+                                                          + QString::number(__LINE__) + " "
+                                                          + "create \"save\" directory failed");
         }
     }
 }
@@ -233,8 +248,10 @@ void GameManager::init() {
 void GameManager::writeTofile() {
     QFile file(m_jsonFilePath);
     if (!file.open(QIODevice::WriteOnly)) {
-        // Todo 日志输出文件打开失败
-        //        qDebug() << __FUNCTION__ << ":" << __LINE__;
+        // 输出文件打开失败
+        Logger::getInstance()->log(Logger::Error, QString(__FUNCTION__) + " "
+                                                      + QString::number(__LINE__) + " "
+                                                      + file.errorString());
     } else {
         QTextStream stream(&file);
         stream.setEncoding(QStringConverter::Encoding::Utf8);
@@ -274,7 +291,10 @@ SudokuGameData GameManager::loadWithJsonObject(const QJsonObject &jsonObject) {
     }
 
     if (jsonObject[m_originalMatrix].toString().size() != Sudoku::SudokuMatrix::getMatrixSize(matrixType)) {
-        // Todo log:
+        // 存档的矩阵尺寸与此类型的矩阵尺寸不一致
+        Logger::getInstance()->log(Logger::Error, QString(__FUNCTION__) + " "
+                                                      + QString::number(__LINE__) + " "
+                                                      + "Archived matrix dimensions are inconsistent with matrix dimensions of this type");
         return {};
     }
 

@@ -16,12 +16,14 @@
 #include "sudokuMatrix.h"
 #include "mapForQObject.h"
 #include "sudokuGridWidget.h"
+#include "logger.h"
 
 SavesBrowserWidget::SavesBrowserWidget(QWidget *parent) :
     QWidget(parent), ui(new Ui::SavesBrowserWidget) {
     ui->setupUi(this);
     m_fileSystemModel = new QFileSystemModel;
     m_sudokuGameData = nullptr;
+    m_indexForGameData = 0;
 
     init();
     signalsProcess();
@@ -102,7 +104,10 @@ void SavesBrowserWidget::signalsProcess() {
     connect(ui->btnContinueGame, &QPushButton::clicked, this, [&] {
         auto sudokuGridWidget = qobject_cast<SudokuGridWidget *>(MapForQObject::getInstance()->getObject(TypeName<SudokuGridWidget>::get()));
         if (sudokuGridWidget == nullptr) {
-            // Todo log: 从mapForQObject中取得的sudokuGridWidget是空指针
+            // 从mapForQObject中取得的sudokuGridWidget是空指针
+            Logger::getInstance()->log(Logger::Error, QString(__FUNCTION__) + " "
+                                                          + QString::number(__LINE__) + " "
+                                                          + "The sudokuGridWidget obtained from mapForQObject is a null pointer");
             return;
         } else {
             sudokuGridWidget->setGameMatrix(m_sudokuGameData->at(m_indexForGameData).m_answerMatrix,
@@ -147,7 +152,10 @@ void SavesBrowserWidget::creatNewSave() {
         ui->filesView->setCurrentIndex(m_fileSystemModel->index(saveFileName));
     } else {
         if (!file->open(QIODevice::WriteOnly)) {
-            // Todo 日志输出文件打开失败
+            // 日志输出文件打开失败
+            Logger::getInstance()->log(Logger::Error, QString(__FUNCTION__) + " "
+                                                          + QString::number(__LINE__) + " "
+                                                          + file->errorString());
             return;
         }
         file->close();
@@ -157,7 +165,10 @@ void SavesBrowserWidget::creatNewSave() {
 
 void SavesBrowserWidget::deleteSave(const QString &filePath) {
     if (!QFile::remove(filePath)) {
-        // Todo 日志: 删除文件失败
+        // 删除文件失败
+        Logger::getInstance()->log(Logger::Error, QString(__FUNCTION__) + " "
+                                                      + QString::number(__LINE__) + " "
+                                                      + "delete " + filePath + " failed");
     }
 }
 

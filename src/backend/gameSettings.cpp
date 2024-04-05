@@ -13,6 +13,7 @@
 #include <QJsonDocument>
 #include "gameSettings.h"
 #include "gameManager.h"
+#include "logger.h"
 
 GameSettings::GameSettings(QObject *parent) :
     QObject(parent) {
@@ -45,31 +46,39 @@ GameSettings *GameSettings::getInstance() {
 }
 
 void GameSettings::init() {
-
 }
 
 void GameSettings::preCheck() {
     auto *settingsFile = new QFile(m_settingsJsonFileName);
     if (!settingsFile->open(QIODevice::ReadOnly)) {
-        // Todo log: 设置文件创建或打开失败
+        // log: 设置文件创建或打开失败
+        Logger::getInstance()->log(Logger::Error, QString(__FUNCTION__) + " "
+                                                      + QString::number(__LINE__) + " "
+                                                      + settingsFile->errorString());
         emit sigLastGameIsEmpty();
         m_jsonObjectSettings = new QJsonObject;
         return;
     }
-    
+
     auto *jsonParseError = new QJsonParseError;
     auto *jsonDocument = new QJsonDocument(QJsonDocument::fromJson(settingsFile->readAll(), jsonParseError));
 
     if (jsonParseError->error != QJsonParseError::NoError) {
         emit sigLastGameIsEmpty();
-        // Todo log: 设置文件解析失败
+        // log: 设置文件解析失败
+        Logger::getInstance()->log(Logger::Error, QString(__FUNCTION__) + " "
+                                                      + QString::number(__LINE__) + " "
+                                                      + jsonParseError->errorString());
         m_jsonObjectSettings = new QJsonObject;
         return;
     }
 
     if (jsonDocument->isEmpty()) {
         emit sigLastGameIsEmpty();
-        // Todo log: 设置文件为空
+        // log: 设置文件为空
+        Logger::getInstance()->log(Logger::Error, QString(__FUNCTION__) + " "
+                                                      + QString::number(__LINE__) + " "
+                                                      + "jsonDocument is empty");
         m_jsonObjectSettings = new QJsonObject;
         return;
     } else {
@@ -98,21 +107,27 @@ void GameSettings::setSetting(const QString &key, const QJsonValue &value) {
     }
 
     m_jsonObjectSettings->insert(key, value);
-    
+
     std::thread thread1(&GameSettings::writeToFile, this);
     thread1.detach();
 }
 
 void GameSettings::writeToFile() {
     if (m_jsonObjectSettings == nullptr) {
-        // Todo log: 写入设置到文件时m_jsonObjectSettings为空指针
+        // log: 写入设置到文件时m_jsonObjectSettings为空指针
+        Logger::getInstance()->log(Logger::Error, QString(__FUNCTION__) + " "
+                                                      + QString::number(__LINE__) + " "
+                                                      + " m_jsonObjectSettings is nullptr");
         m_jsonObjectSettings = new QJsonObject;
         return;
     }
 
     QFile file(m_settingsJsonFileName);
     if (!file.open(QIODevice::WriteOnly)) {
-        // Todo log: 以只写模式打开或创建文件失败
+        // 以只写模式打开或创建文件失败
+        Logger::getInstance()->log(Logger::Error, QString(__FUNCTION__) + " "
+                                                      + QString::number(__LINE__) + " "
+                                                      + file.errorString());
         return;
     } else {
         QTextStream stream(&file);

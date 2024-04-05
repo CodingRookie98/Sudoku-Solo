@@ -15,6 +15,7 @@
 #include "ui_sudokuGridWidget.h"
 #include "sudokuGridWidget.h"
 #include "mapForQObject.h"
+#include "logger.h"
 
 SudokuGridWidget::SudokuGridWidget(QWidget *parent) :
     SudokuMatrixWidget(parent), ui(new Ui::SudokuGridWidget) {
@@ -75,7 +76,10 @@ void SudokuGridWidget::generateRandomSudoku(const Sudoku::SudokuMatrix::SudokuMa
         for (int j = 0; j < sudokuMatrixWorker.getRowCount(); ++j) {
             if (sudokuMatrixWorker.getValue(i, j) != 0) {
                 if (!this->setButtonEnable(i, j, false)) {
-                    // Todo log: 设置button状态失败
+                    // log: 设置button状态失败
+                    Logger::getInstance()->log(Logger::Error, QString(__FUNCTION__) + " "
+                                                                  + QString::number(__LINE__) + " "
+                                                                  + "Failed to set button state");
                 }
             }
         }
@@ -93,7 +97,10 @@ void SudokuGridWidget::saveCurrentSudoku(const int &timeSpent) {
 
 void SudokuGridWidget::initChoiceDialog() {
     if (m_sudokuMatrixOriginal == nullptr) {
-        // Todo 日志: 初始化选择对话框时sudokuMatrixWorker is nullPointer
+        // 日志: 初始化选择对话框时sudokuMatrixWorker is nullPointer
+        Logger::getInstance()->log(Logger::Error, QString(__FUNCTION__) + " "
+                                                      + QString::number(__LINE__) + " "
+                                                      + "sudokuMatrixWorker is nullPointer when initializing selection dialog");
         return;
     }
     m_choiceDialog->setChoices(m_sudokuMatrixOriginal->getBoxRowCount(), m_sudokuMatrixOriginal->getBoxColumnCount(), m_sudokuMatrixOriginal->getNums());
@@ -154,7 +161,7 @@ void SudokuGridWidget::setGameMatrix(std::shared_ptr<Sudoku::SudokuMatrix> answe
     m_sudokuMatrixAnswer = answer;
     m_sudokuMatrixOriginal = original;
     this->buildMatrix(*work);
-    
+
     initChoiceDialog();
 }
 
