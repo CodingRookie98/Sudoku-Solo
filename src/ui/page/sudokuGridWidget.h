@@ -37,7 +37,7 @@ public:
     };
 
 signals:
-    void sigMessageReadyToRead(const Message &gameState);
+    void sigMessageReadyToRead(const SudokuGridWidget::Message &gameState);
 
 public slots:
     void generateRandomSudoku(const Sudoku::SudokuMatrix::SudokuMatrixType &sudokuMatrixType);

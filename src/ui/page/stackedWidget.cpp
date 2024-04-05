@@ -95,7 +95,12 @@ void StackedWidget::gamePauseWidgetSignalsProcess() {
     });
 
     connect(m_gamePauseWidget, &GamePauseWidget::sigLoadGameSave, this, [&] {
-
+        if (m_gamingWidget == nullptr) {
+            m_gamingWidget = new GamingWidget;
+            m_mapWidgets->insert(std::make_pair(qobject_cast<QWidget *>(m_gamingWidget), this->addWidget(m_gamingWidget)));
+            gamingWidgetSignalsProcess();
+        }
+        this->setCurrentIndex(m_mapWidgets->at(qobject_cast<QWidget *>(m_savesBrowserWidget)));
     });
 
     connect(m_gamePauseWidget, &GamePauseWidget::sigGameSetting, this, [&] {
@@ -110,6 +115,8 @@ void StackedWidget::gamePauseWidgetSignalsProcess() {
     });
 
     connect(m_gamePauseWidget, &GamePauseWidget::sigHome, this, [&] {
+        // Todo 在返回主界面之前询问是否保存游戏，若选择保存则保存游戏
+
         this->setCurrentIndex(m_mapWidgets->at(qobject_cast<QWidget *>(m_homeWidget)));
     });
 
@@ -151,11 +158,6 @@ void StackedWidget::homeWidgetSignalsProcess() {
     });
 
     connect(m_homeWidget, &HomeWidget::sigGameSaves, this, [&] {
-        if (m_savesBrowserWidget == nullptr) {
-            m_savesBrowserWidget = new SavesBrowserWidget;
-            m_mapWidgets->insert(std::make_pair(qobject_cast<QWidget *>(m_savesBrowserWidget), this->addWidget(m_savesBrowserWidget)));
-            saveBrowserWidgetSignalsProcess();
-        }
         // 当打开存档浏览界面时，玩家可能会直接从存档继续游戏，所以需要在这里初始化m_gamingWidget
         if (m_gamingWidget == nullptr) {
             m_gamingWidget = new GamingWidget;
