@@ -17,6 +17,7 @@
 #include "mapForQObject.h"
 #include "sudokuGridWidget.h"
 #include "logger.h"
+#include "gameMessageBox.h"
 
 SavesBrowserWidget::SavesBrowserWidget(QWidget *parent) :
     QWidget(parent), ui(new Ui::SavesBrowserWidget) {
@@ -39,26 +40,10 @@ void SavesBrowserWidget::init() {
     ui->filesView->setModel(m_fileSystemModel);
     m_fileSystemModel->setRootPath(QDir::currentPath() + "/save");
     ui->filesView->setRootIndex(m_fileSystemModel->index(QDir::currentPath() + "/save"));
-
-    if (ui->lineEdit->text().isEmpty()) {
-        ui->btnNewSave->setEnabled(false);
-    }
-
-    ui->btnDeleteSave->setEnabled(false);
-    ui->btnNext->setEnabled(false);
-    ui->btnPre->setEnabled(false);
 }
 
 void SavesBrowserWidget::signalsProcess() {
     connect(ui->btnNewSave, &QPushButton::clicked, this, &SavesBrowserWidget::creatNewSave);
-
-    connect(ui->lineEdit, &QLineEdit::textChanged, this, [&](const QString &text) {
-        if (text.isEmpty()) {
-            ui->btnNewSave->setEnabled(false);
-        } else {
-            ui->btnNewSave->setEnabled(true);
-        }
-    });
 
     connect(ui->filesView->selectionModel(), &QItemSelectionModel::currentChanged, this, [&](const QModelIndex &current) {
         ui->btnDeleteSave->setEnabled(true);
@@ -81,17 +66,35 @@ void SavesBrowserWidget::signalsProcess() {
     });
 
     connect(ui->btnDeleteSave, &QPushButton::clicked, this, [&] {
+        if (!ui->filesView->selectionModel()->hasSelection()) {
+            GameMessageBox gameMessageBox(this);
+            gameMessageBox.setMessage(QApplication::translate(metaObject()->className(), tr("请选择一个需要删除的存档").toStdString().c_str()));
+            gameMessageBox.exec();
+            return;
+        }
         deleteSave(m_fileSystemModel->fileInfo(ui->filesView->currentIndex()).filePath());
     });
 
     connect(ui->btnCancel, &QPushButton::clicked, this, &SavesBrowserWidget::sigBackToHome);
 
     connect(ui->btnNext, &QPushButton::clicked, this, [&] {
+        if (!ui->filesView->selectionModel()->hasSelection()) {
+            GameMessageBox gameMessageBox(this);
+            gameMessageBox.setMessage(QApplication::translate(metaObject()->className(), tr("请选择一个存档").toStdString().c_str()));
+            gameMessageBox.exec();
+            return;
+        }
         m_indexForGameData++;
         updateTabWidget();
     });
 
     connect(ui->btnPre, &QPushButton::clicked, this, [&] {
+        if (!ui->filesView->selectionModel()->hasSelection()) {
+            GameMessageBox gameMessageBox(this);
+            gameMessageBox.setMessage(QApplication::translate(metaObject()->className(), tr("请选择一个存档").toStdString().c_str()));
+            gameMessageBox.exec();
+            return;
+        }
         m_indexForGameData--;
         updateTabWidget();
     });
@@ -119,12 +122,11 @@ void SavesBrowserWidget::signalsProcess() {
 }
 
 void SavesBrowserWidget::creatNewSave() {
+    QString saveFileName = ui->lineEdit->text();
     if (ui->lineEdit->text().isEmpty()) {
-        ui->btnNewSave->setEnabled(false);
-        return;
+        saveFileName = QDateTime::currentDateTime().toString("yyyy-MM-dd-hh-mm-ss-zzz");
     }
 
-    QString saveFileName = ui->lineEdit->text();
     QRegularExpression regex;
 
 #ifdef Q_OS_WIN
@@ -136,8 +138,8 @@ void SavesBrowserWidget::creatNewSave() {
 #endif
 
     if (regex.match(saveFileName).hasMatch()) {
-        QMessageBox messageBox(this);
-        messageBox.setText(QApplication::translate(metaObject()->className(), tr("文件名含有非法字符").toStdString().c_str()));
+        GameMessageBox messageBox(this);
+        messageBox.setMessage(QApplication::translate(metaObject()->className(), tr("文件名含有非法字符").toStdString().c_str()));
         messageBox.exec();
         return;
     }
