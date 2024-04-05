@@ -16,6 +16,7 @@ find_package(Qt6 REQUIRED COMPONENTS
         WebEngineWidgets
         Multimedia
 )
+find_package(spdlog CONFIG REQUIRED)
 
 if (CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
     set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON)
@@ -47,6 +48,7 @@ target_link_libraries(Sudoku-Solo PRIVATE
         Qt6::WebEngineWidgets
         Qt6::Multimedia
 )
+target_link_libraries(Sudoku-Solo PRIVATE spdlog::spdlog)
 
 add_subdirectory(src)
 add_subdirectory(translations)
