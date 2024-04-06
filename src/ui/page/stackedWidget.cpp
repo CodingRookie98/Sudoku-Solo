@@ -127,8 +127,13 @@ void StackedWidget::gamePauseWidgetSignalsProcess() {
     });
 
     connect(m_gamePauseWidget, &GamePauseWidget::sigExitGame, this, [&] {
-        // Todo 通知保存游戏状态
-
+        // 通知保存游戏状态
+        ConfirmationDialog confirmationDialog(this);
+        confirmationDialog.setText(QApplication::translate(metaObject()->className(), tr("退出游戏之前是否保存游戏？").toStdString().c_str()));
+        connect(&confirmationDialog, &ConfirmationDialog::sigYes, this, [&] {
+            m_gamingWidget->saveGame();
+        });
+        confirmationDialog.exec();
         QApplication::closeAllWindows();
     });
 }
