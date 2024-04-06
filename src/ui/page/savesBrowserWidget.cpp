@@ -18,6 +18,7 @@
 #include "sudokuGridWidget.h"
 #include "logger.h"
 #include "gameMessageBox.h"
+#include "gameSettings.h"
 
 SavesBrowserWidget::SavesBrowserWidget(QWidget *parent) :
     QWidget(parent), ui(new Ui::SavesBrowserWidget) {
@@ -172,9 +173,29 @@ void SavesBrowserWidget::deleteSave(const QString &filePath) {
                                                       + QString::number(__LINE__) + " "
                                                       + "delete " + filePath + " failed");
     }
+
+    m_sudokuGameData->clear();
+    updateTabWidget();
+    // 如果删除的存档是上一次保存游戏的存档则发出信号，信号会被homeWidget接收，继续游戏按钮会被隐藏
+    if (GameSettings::getInstance()->getSetting(GameSettings::getInstance()->m_lastGameSaveName).toString() == filePath) {
+        emit GameSettings::getInstance() -> sigLastGameIsEmpty();
+        GameSettings::getInstance()->setSetting(GameSettings::getInstance()->m_lastGameSaveName, QJsonValue());
+    }
 }
 
 void SavesBrowserWidget::updateTabWidget() {
+    if (m_sudokuGameData->empty()) {
+        m_indexForGameData = 0;
+        ui->tabWorker->clear();
+        ui->tabOriginal->clear();
+        ui->tabAnswer->clear();
+
+        ui->labelPlayDateTime->setText("");
+        ui->labelSpentTime->setText("");
+        ui->labelndex->setText("");
+        return;
+    }
+
     if (m_indexForGameData < 0) {
         m_indexForGameData = (unsigned int)m_sudokuGameData->size() - 1;
     } else if (m_indexForGameData >= m_sudokuGameData->size()) {

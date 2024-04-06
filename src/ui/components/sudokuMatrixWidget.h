@@ -37,6 +37,7 @@ public:
     Sudoku::SudokuMatrix getSudokuMatrix() const;
     bool isSolved() const; // 返回数独是否被解决
     BtnSudokuUnit *getCheckedButton() const;
+    void clear();
 
 signals:
     void sigUnitClicked(BtnSudokuUnit *btnSudokuUnit);

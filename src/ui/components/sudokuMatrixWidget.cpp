@@ -180,3 +180,9 @@ BtnSudokuUnit *SudokuMatrixWidget::getCheckedButton() const {
     }
     return qobject_cast<BtnSudokuUnit *>(m_buttonGroup->checkedButton());
 }
+
+void SudokuMatrixWidget::clear() {
+    deleteBoxes();
+    deleteButtons();
+    updateButtonGroup();
+}
