@@ -15,6 +15,7 @@
 #include "ui_StackedWidget.h"
 #include "mapForQObject.h"
 #include <qapplication.h>
+#include "confirmationDialog.h"
 
 StackedWidget::StackedWidget(QWidget *parent) :
     QStackedWidget(parent), ui(new Ui::StackedWidget) {
@@ -115,8 +116,13 @@ void StackedWidget::gamePauseWidgetSignalsProcess() {
     });
 
     connect(m_gamePauseWidget, &GamePauseWidget::sigHome, this, [&] {
-        // Todo 在返回主界面之前询问是否保存游戏，若选择保存则保存游戏
-
+        // 在返回主界面之前询问是否保存游戏，若选择保存则保存游戏
+        ConfirmationDialog confirmationDialog(this);
+        confirmationDialog.setText(QApplication::translate(metaObject()->className(), tr("返回主界面之前是否保存游戏？").toStdString().c_str()));
+        connect(&confirmationDialog, &ConfirmationDialog::sigYes, this, [&] {
+            m_gamingWidget->saveGame();
+        });
+        confirmationDialog.exec();
         this->setCurrentIndex(m_mapWidgets->at(qobject_cast<QWidget *>(m_homeWidget)));
     });
 
