@@ -169,6 +169,10 @@ void GameManager::save(const Sudoku::SudokuMatrix &originalMatrix, const Sudoku:
 }
 
 void GameManager::setSaveFilePath(const QString &filePath) {
+    if (filePath.isEmpty()) {
+        return;
+    }
+
     // 设置游戏存档路径
     m_jsonFilePath = filePath;
     QFile saveFile(m_jsonFilePath);
