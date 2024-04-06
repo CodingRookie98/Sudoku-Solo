@@ -94,7 +94,10 @@ void GameSettings::preCheck() {
             if (QFile(m_jsonObjectSettings->value(m_lastGameSaveName).toString()).exists()) {
                 GameManager::getInstance()->setSaveFilePath(m_jsonObjectSettings->value(m_lastGameSaveName).toString());
             } else {
+                // 如果上一次保存游戏的存档不存在
                 setSetting(m_lastGameSaveName, QJsonValue());
+                setSetting(m_lastGameId, QJsonValue());
+                emit sigLastGameIsEmpty();
             }
 
             // 如果上一次游玩的游戏Id为空或者在存档里面加载不出来
@@ -104,6 +107,9 @@ void GameSettings::preCheck() {
                 emit sigLastGameIsEmpty();
                 setSetting(m_lastGameId, QJsonValue());
             }
+        } else {
+            emit sigLastGameIsEmpty();
+            setSetting(m_lastGameId, QJsonValue());
         }
     }
 
