@@ -217,11 +217,11 @@ void SavesBrowserWidget::updateBtnNextAndBtnPreStatus() {
     if (m_sudokuGameData->empty()) {
         GameMessageBox messageBox(this);
         messageBox.setMessage(QApplication::translate(metaObject()->className(), tr("此存档尚未保存任何游戏").toStdString().c_str()));
+        updateTabWidget();
         messageBox.exec();
 
         ui->btnNext->setEnabled(false);
         ui->btnPre->setEnabled(false);
-        return;
     } else {
         ui->btnNext->setEnabled(true);
         ui->btnPre->setEnabled(true);
