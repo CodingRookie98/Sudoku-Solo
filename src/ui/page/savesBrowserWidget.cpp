@@ -10,7 +10,7 @@
 
 // You may need to build the project (run Qt uic code generator) to get "ui_SavesBrowserWidget.h" resolved
 
-#include <QMessageBox>
+#include <QThreadPool>
 #include "savesBrowserWidget.h"
 #include "ui_SavesBrowserWidget.h"
 #include "sudokuMatrix.h"
@@ -26,6 +26,8 @@ SavesBrowserWidget::SavesBrowserWidget(QWidget *parent) :
     m_fileSystemModel = new QFileSystemModel;
     m_sudokuGameData = nullptr;
     m_indexForGameData = 0;
+    m_currentModelIndex = nullptr;
+    m_fileSystemWatcher = new QFileSystemWatcher(this);
 
     init();
     signalsProcess();
@@ -35,6 +37,8 @@ SavesBrowserWidget::~SavesBrowserWidget() {
     delete ui;
     delete m_fileSystemModel;
     delete m_sudokuGameData;
+    delete m_currentModelIndex;
+    delete m_fileSystemWatcher;
 }
 
 void SavesBrowserWidget::init() {
@@ -45,26 +49,6 @@ void SavesBrowserWidget::init() {
 
 void SavesBrowserWidget::signalsProcess() {
     connect(ui->btnNewSave, &QPushButton::clicked, this, &SavesBrowserWidget::creatNewSave);
-
-    connect(ui->filesView->selectionModel(), &QItemSelectionModel::currentChanged, this, [&](const QModelIndex &current) {
-        ui->btnDeleteSave->setEnabled(true);
-
-        QString saveFilePath = m_fileSystemModel->filePath(current);
-        auto gameData = GameManager::getInstance()->loadWithPath(saveFilePath);
-
-        delete m_sudokuGameData;
-        m_sudokuGameData = new std::vector<SudokuGameData>(gameData);
-        m_indexForGameData = 0;
-
-        if (!m_sudokuGameData->empty()) {
-            ui->btnNext->setEnabled(true);
-            ui->btnPre->setEnabled(true);
-            updateTabWidget();
-        } else {
-            ui->btnNext->setEnabled(false);
-            ui->btnPre->setEnabled(false);
-        }
-    });
 
     connect(ui->btnDeleteSave, &QPushButton::clicked, this, [&] {
         if (!ui->filesView->selectionModel()->hasSelection()) {
@@ -114,10 +98,41 @@ void SavesBrowserWidget::signalsProcess() {
                                                           + "The sudokuGridWidget obtained from mapForQObject is a null pointer");
             return;
         } else {
+            if (m_sudokuGameData == nullptr || m_sudokuGameData->empty()) {
+                GameMessageBox gameMessageBox;
+                gameMessageBox.setMessage(QApplication::translate(metaObject()->className(), tr("未选择存档或游戏").toStdString().c_str()));
+                gameMessageBox.exec();
+                return;
+            }
             sudokuGridWidget->setGameMatrix(m_sudokuGameData->at(m_indexForGameData).m_answerMatrix,
                                             m_sudokuGameData->at(m_indexForGameData).m_originalMatrix,
                                             m_sudokuGameData->at(m_indexForGameData).m_workMatrix);
             emit sigStartGame();
+        }
+    });
+
+    connect(m_fileSystemWatcher, &QFileSystemWatcher::fileChanged, this, [&](const QString &path) {
+        auto func = [&, path] {
+            if (QFile(path).exists() && path == m_fileSystemModel->filePath(*m_currentModelIndex)) {
+                auto sudokuGameData = GameManager::getInstance()->loadWithPath(path);
+                delete m_sudokuGameData;
+                m_sudokuGameData = new std::vector<SudokuGameData>(sudokuGameData);
+                updateLabelTextAndBtnStatus();
+            }
+        };
+        QThreadPool::globalInstance()->start(func);
+    });
+
+    connect(ui->filesView, &QListView::clicked, this, [&](const QModelIndex &index) {
+        if (m_currentModelIndex != nullptr && *m_currentModelIndex != index) {
+            delete m_currentModelIndex;
+            m_currentModelIndex = new QModelIndex(index);
+            loadGame();
+            updateBtnNextAndBtnPreStatus();
+        } else if (m_currentModelIndex == nullptr) {
+            m_currentModelIndex = new QModelIndex(index);
+            loadGame();
+            updateBtnNextAndBtnPreStatus();
         }
     });
 }
@@ -184,6 +199,46 @@ void SavesBrowserWidget::deleteSave(const QString &filePath) {
 }
 
 void SavesBrowserWidget::updateTabWidget() {
+    updateLabelTextAndBtnStatus();
+
+    if (m_sudokuGameData->empty()) {
+        return;
+    }
+    ui->tabAnswer->buildMatrix(*(m_sudokuGameData->at(m_indexForGameData).m_answerMatrix));
+    ui->tabOriginal->buildMatrix(*(m_sudokuGameData->at(m_indexForGameData).m_originalMatrix));
+    ui->tabWorker->buildMatrix(*(m_sudokuGameData->at(m_indexForGameData).m_workMatrix));
+}
+
+void SavesBrowserWidget::updateBtnNextAndBtnPreStatus() {
+    if (!ui->filesView->selectionModel()->hasSelection() || !m_currentModelIndex) {
+        return;
+    }
+
+    if (m_sudokuGameData->empty()) {
+        GameMessageBox messageBox(this);
+        messageBox.setMessage(QApplication::translate(metaObject()->className(), tr("此存档尚未保存任何游戏").toStdString().c_str()));
+        messageBox.exec();
+
+        ui->btnNext->setEnabled(false);
+        ui->btnPre->setEnabled(false);
+        return;
+    } else {
+        ui->btnNext->setEnabled(true);
+        ui->btnPre->setEnabled(true);
+        updateTabWidget();
+    }
+}
+
+void SavesBrowserWidget::loadGame() {
+    QString saveFilePath = m_fileSystemModel->filePath(*m_currentModelIndex);
+    m_fileSystemWatcher->addPath(saveFilePath);
+    auto gameData = GameManager::getInstance()->loadWithPath(saveFilePath);
+
+    delete m_sudokuGameData;
+    m_sudokuGameData = new std::vector<SudokuGameData>(gameData);
+}
+
+void SavesBrowserWidget::updateLabelTextAndBtnStatus() {
     if (m_sudokuGameData->empty()) {
         m_indexForGameData = 0;
         ui->tabWorker->clear();
@@ -193,6 +248,8 @@ void SavesBrowserWidget::updateTabWidget() {
         ui->labelPlayDateTime->setText("");
         ui->labelSpentTime->setText("");
         ui->labelndex->setText("");
+        ui->btnNext->setEnabled(false);
+        ui->btnPre->setEnabled(false);
         return;
     }
 
@@ -202,9 +259,8 @@ void SavesBrowserWidget::updateTabWidget() {
         m_indexForGameData = 0;
     }
 
-    ui->tabAnswer->buildMatrix(*(m_sudokuGameData->at(m_indexForGameData).m_answerMatrix));
-    ui->tabOriginal->buildMatrix(*(m_sudokuGameData->at(m_indexForGameData).m_originalMatrix));
-    ui->tabWorker->buildMatrix(*(m_sudokuGameData->at(m_indexForGameData).m_workMatrix));
+    ui->btnNext->setEnabled(true);
+    ui->btnPre->setEnabled(true);
 
     QString textPlayDateTime = QApplication::translate(metaObject()->className(), tr("上一次游玩: ").toStdString().c_str())
                                + m_sudokuGameData->at(m_indexForGameData).m_gameDatetime.toString("yyyy.MM.dd hh:mm:ss");
