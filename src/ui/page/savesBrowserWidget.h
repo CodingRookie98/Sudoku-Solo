@@ -34,7 +34,7 @@ public:
     void updateBtnNextAndBtnPreStatus();
 
 signals:
-    void sigBackToHome();
+    void sigBackToPrevious();
     void sigStartGame();
 
 private:

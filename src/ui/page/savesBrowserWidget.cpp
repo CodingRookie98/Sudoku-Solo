@@ -60,7 +60,7 @@ void SavesBrowserWidget::signalsProcess() {
         deleteSave(m_fileSystemModel->fileInfo(ui->filesView->currentIndex()).filePath());
     });
 
-    connect(ui->btnCancel, &QPushButton::clicked, this, &SavesBrowserWidget::sigBackToHome);
+    connect(ui->btnCancel, &QPushButton::clicked, this, &SavesBrowserWidget::sigBackToPrevious);
 
     connect(ui->btnNext, &QPushButton::clicked, this, [&] {
         if (!ui->filesView->selectionModel()->hasSelection()) {
@@ -86,7 +86,7 @@ void SavesBrowserWidget::signalsProcess() {
 
     connect(ui->btnOK, &QPushButton::clicked, this, [&] {
         GameManager::getInstance()->setSaveFilePath(m_fileSystemModel->filePath(ui->filesView->currentIndex()));
-        emit sigBackToHome();
+        emit sigBackToPrevious();
     });
 
     connect(ui->btnContinueGame, &QPushButton::clicked, this, [&] {
