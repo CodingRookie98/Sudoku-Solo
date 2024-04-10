@@ -14,6 +14,7 @@
 #include "ui_HomeWidget.h"
 #include "mapForQObject.h"
 #include "gameSettings.h"
+#include "gameManager.h"
 
 HomeWidget::HomeWidget(QWidget *parent) :
     QWidget(parent), ui(new Ui::HomeWidget) {
@@ -43,6 +44,10 @@ void HomeWidget::signalProcess() {
 
     connect(GameSettings::getInstance(), &GameSettings::sigLastGameIsEmpty, this, [&] {
         ui->btnGameContinue->setVisible(false);
+    });
+
+    connect(GameManager::getInstance(), &GameManager::lastGameIsExist, this, [&] {
+        ui->btnGameContinue->setVisible(true);
     });
 
     connect(ui->btnGameContinue, &QPushButton::clicked, this, &HomeWidget::sigLoadLastGame);

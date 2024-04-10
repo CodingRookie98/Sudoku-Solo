@@ -17,6 +17,7 @@
 #include <QString>
 #include <vector>
 #include <shared_mutex>
+#include <QObject>
 #include "sudokuMatrix.h"
 
 struct SudokuGameData {
@@ -27,7 +28,8 @@ struct SudokuGameData {
     std::shared_ptr<Sudoku::SudokuMatrix> m_workMatrix = nullptr;
 };
 
-class GameManager {
+class GameManager : public QObject {
+    Q_OBJECT
 public:
     GameManager(const GameManager &) = delete;            // 处理下构造函数，避免拷贝
     GameManager &operator=(const GameManager &) = delete; // 把=赋值号重载了，避免赋值
@@ -42,9 +44,12 @@ public:
               const Sudoku::SudokuMatrix &workMatrix, const int &timeSpent);
     void setSaveFilePath(const QString &filePath);
 
+signals:
+    void lastGameIsExist();
+
 private:
-    GameManager();
-    ~GameManager();
+    GameManager(QObject *parent = nullptr);
+    ~GameManager() override;
 
     QJsonDocument *m_saveJsonDocument;
     QJsonParseError *m_jsonParseError;

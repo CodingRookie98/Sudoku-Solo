@@ -14,7 +14,8 @@
 #include "gameSettings.h"
 #include "logger.h"
 
-GameManager::GameManager() {
+GameManager::GameManager(QObject *parent) :
+    QObject(parent) {
     m_saveJsonDocument = nullptr;
     m_jsonParseError = new QJsonParseError;
     m_jsonObjectRoot = nullptr;
@@ -166,6 +167,8 @@ void GameManager::save(const Sudoku::SudokuMatrix &originalMatrix, const Sudoku:
 
     std::thread saveFileThread(&GameManager::writeTofile, this);
     saveFileThread.detach();
+
+    emit lastGameIsExist();
 }
 
 void GameManager::setSaveFilePath(const QString &filePath) {
