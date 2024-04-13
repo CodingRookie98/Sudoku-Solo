@@ -35,7 +35,13 @@ void GameLanguage::init() {
 }
 
 void GameLanguage::signalsProcess() {
-    connect(ui->comboBox, &QComboBox::currentIndexChanged, this, &GameLanguage::sigSettingsChanged);
+    static int preIndex = -1;
+    connect(ui->comboBox, &QComboBox::currentIndexChanged, this, [&](int index) {
+        if (index != preIndex) {
+            emit this->sigSettingsChanged();
+            preIndex = index;
+        }
+    });
 }
 
 void GameLanguage::saveSettings() {

@@ -76,5 +76,10 @@ void BGMPlayer::setVolume(const float &volume) {
     } else if (vol > 1) {
         vol = 1;
     }
-    m_audioOutput->setVolume(volume);
+    m_audioOutput->setVolume(vol);
+    if (vol == 0) {
+        m_mediaPlayer->pause();
+    } else if (!m_mediaPlayer->isPlaying()) {
+        m_mediaPlayer->play();
+    }
 }
