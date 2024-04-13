@@ -32,6 +32,11 @@ GameLanguage::~GameLanguage() {
 void GameLanguage::init() {
     ui->comboBox->addItem("简体中文", zh_CN);
     ui->comboBox->addItem("English", en_US);
+
+    QString languageFile = GameSettings::getInstance()->getSetting(GameSettings::getInstance()->m_language).toString();
+    if (!languageFile.isEmpty()) {
+        ui->comboBox->setCurrentIndex(ui->comboBox->findData(languageFile));
+    }
 }
 
 void GameLanguage::signalsProcess() {
@@ -59,4 +64,11 @@ void GameLanguage::saveSettings() {
         return;
     }
     GameSettings::getInstance()->setSetting(GameSettings::getInstance()->m_language, languageFile);
+}
+
+bool GameLanguage::event(QEvent *event) {
+    if (event->type() == QEvent::LanguageChange) {
+        ui->retranslateUi(this);
+    }
+    return QWidget::event(event);
 }

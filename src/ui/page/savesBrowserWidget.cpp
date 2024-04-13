@@ -273,3 +273,10 @@ void SavesBrowserWidget::updateLabelTextAndBtnStatus() {
     ui->labelSpentTime->setText(textSpentTime);
     ui->labelndex->setText(textIndex);
 }
+
+bool SavesBrowserWidget::event(QEvent *event) {
+    if (event->type() == QEvent::LanguageChange) {
+        ui->retranslateUi(this);
+    }
+    return QWidget::event(event);
+}

@@ -54,3 +54,10 @@ void HomeWidget::signalProcess() {
 
     connect(ui->btnAbout, &QPushButton::clicked, this, &HomeWidget::sigAbout);
 }
+
+bool HomeWidget::event(QEvent *event) {
+    if (event->type() == QEvent::LanguageChange) {
+        ui->retranslateUi(this);
+    }
+    return QWidget::event(event);
+}

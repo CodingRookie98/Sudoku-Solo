@@ -61,3 +61,10 @@ void GamePauseWidget::keyReleaseEvent(QKeyEvent *event) {
         event->accept();
     }
 }
+
+bool GamePauseWidget::event(QEvent *event) {
+    if (event->type() == QEvent::LanguageChange) {
+        ui->retranslateUi(this);
+    }
+    return QWidget::event(event);
+}

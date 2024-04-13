@@ -60,3 +60,10 @@ void GameSettingWidget::applySettings() {
 void GameSettingWidget::insertToChangedClass(SettingBase *settingBase) {
     m_settingChangedClass->insert(settingBase);
 }
+
+bool GameSettingWidget::event(QEvent *event) {
+    if (event->type() == QEvent::LanguageChange) {
+        ui->retranslateUi(this);
+    }
+    return QWidget::event(event);
+}

@@ -10,6 +10,12 @@
     <height>68</height>
    </rect>
   </property>
+  <property name="font">
+   <font>
+    <family>Arial Black</family>
+    <pointsize>15</pointsize>
+   </font>
+  </property>
   <property name="windowTitle">
    <string>GameSoundSetting</string>
   </property>

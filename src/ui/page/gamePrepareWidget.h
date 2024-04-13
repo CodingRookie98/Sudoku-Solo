@@ -29,18 +29,20 @@ public:
     explicit GamePrepareWidget(QWidget *parent = nullptr);
     ~GamePrepareWidget() override;
 
-public: signals:
-    void sigStart(const Sudoku::SudokuMatrix::SudokuMatrixType & sudokuMatrixTypes);
+public:
+signals:
+    void sigStart(const Sudoku::SudokuMatrix::SudokuMatrixType &sudokuMatrixTypes);
     void sigCancel();
     void sigKeyEscRelease();
-    
+
 protected:
     void keyReleaseEvent(QKeyEvent *event) override;
+    bool event(QEvent *event) override;
 
 private:
     Ui::GamePrepareWidget *ui;
     QButtonGroup *m_buttonGroup;
-    std::map<QPushButton*, Sudoku::SudokuMatrix::SudokuMatrixType> *m_btnWithSudokuType;
+    std::map<QPushButton *, Sudoku::SudokuMatrix::SudokuMatrixType> *m_btnWithSudokuType;
 
     void init();
     void signalProcess();

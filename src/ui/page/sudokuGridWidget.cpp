@@ -9,7 +9,6 @@
  */
 
 #include <QErrorMessage>
-#include <QDateTime>
 #include "sudokuMatrixWidget.h"
 #include "GameManager.h"
 #include "ui_sudokuGridWidget.h"

@@ -20,6 +20,9 @@ public:
 signals:
     void sigFnished();
 
+protected:
+    bool event(QEvent *event) override;
+
 private:
     Ui::GameSettingWidget *ui;
     GameSoundSetting *m_gameSoundSetting;

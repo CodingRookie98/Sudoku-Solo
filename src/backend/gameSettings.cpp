@@ -11,6 +11,7 @@
 #include <mutex>
 #include <QFile>
 #include <QJsonDocument>
+#include <QApplication>
 #include "gameSettings.h"
 #include "gameManager.h"
 #include "logger.h"
@@ -18,11 +19,13 @@
 GameSettings::GameSettings(QObject *parent) :
     QObject(parent) {
     m_jsonObjectSettings = nullptr;
+    m_translator = nullptr;
     init();
 }
 
 GameSettings::~GameSettings() {
     delete m_jsonObjectSettings;
+    delete m_translator;
 }
 
 GameSettings *GameSettings::getInstance() {
@@ -85,39 +88,13 @@ void GameSettings::preCheck() {
         m_jsonObjectSettings = new QJsonObject(jsonDocument->object());
     }
 
-    if (!m_jsonObjectSettings->contains(m_lastGameSaveName)) {
-        emit sigLastGameIsEmpty();
-    } else {
-        if (!m_jsonObjectSettings->value(m_lastGameSaveName).isNull()
-            && !m_jsonObjectSettings->value(m_lastGameSaveName).toString().isEmpty()) {
-            // 如果上一次保存游戏的存档还在,则设为游戏保存存档
-            if (QFile(m_jsonObjectSettings->value(m_lastGameSaveName).toString()).exists()) {
-                GameManager::getInstance()->setSaveFilePath(m_jsonObjectSettings->value(m_lastGameSaveName).toString());
-            } else {
-                // 如果上一次保存游戏的存档不存在
-                setSetting(m_lastGameSaveName, QJsonValue());
-                setSetting(m_lastGameId, QJsonValue());
-                emit sigLastGameIsEmpty();
-            }
-
-            // 如果上一次游玩的游戏Id为空或者在存档里面加载不出来
-            if (m_jsonObjectSettings->value(m_lastGameId).isNull()
-                || m_jsonObjectSettings->value(m_lastGameId).toString().isEmpty()
-                || GameManager::getInstance()->loadWithId(m_jsonObjectSettings->value(m_lastGameId).toString()).m_workMatrix == nullptr) {
-                emit sigLastGameIsEmpty();
-                setSetting(m_lastGameId, QJsonValue());
-            }
-        } else {
-            emit sigLastGameIsEmpty();
-            setSetting(m_lastGameId, QJsonValue());
-        }
-    }
-
     settingsFile->close();
-
     delete settingsFile;
     delete jsonParseError;
     delete jsonDocument;
+
+    checkLastGameSave();
+    checkLanguage();
 }
 
 void GameSettings::setSetting(const QString &key, const QJsonValue &value) {
@@ -164,4 +141,58 @@ QJsonValue GameSettings::getSetting(const QString &key) {
         return (*m_jsonObjectSettings)[key];
     }
     return {};
+}
+
+void GameSettings::checkLastGameSave() {
+    // 上一次游戏存档检查
+    if (!m_jsonObjectSettings->contains(m_lastGameSaveName)) {
+        emit sigLastGameIsEmpty();
+    } else {
+        if (!m_jsonObjectSettings->value(m_lastGameSaveName).isNull()
+            && !m_jsonObjectSettings->value(m_lastGameSaveName).toString().isEmpty()) {
+            // 如果上一次保存游戏的存档还在,则设为游戏保存存档
+            if (QFile(m_jsonObjectSettings->value(m_lastGameSaveName).toString()).exists()) {
+                GameManager::getInstance()->setSaveFilePath(m_jsonObjectSettings->value(m_lastGameSaveName).toString());
+            } else {
+                // 如果上一次保存游戏的存档不存在
+                setSetting(m_lastGameSaveName, QJsonValue());
+                setSetting(m_lastGameId, QJsonValue());
+                emit sigLastGameIsEmpty();
+            }
+
+            // 如果上一次游玩的游戏Id为空或者在存档里面加载不出来
+            if (m_jsonObjectSettings->value(m_lastGameId).isNull()
+                || m_jsonObjectSettings->value(m_lastGameId).toString().isEmpty()
+                || GameManager::getInstance()->loadWithId(m_jsonObjectSettings->value(m_lastGameId).toString()).m_workMatrix == nullptr) {
+                emit sigLastGameIsEmpty();
+                setSetting(m_lastGameId, QJsonValue());
+            }
+        } else {
+            emit sigLastGameIsEmpty();
+            setSetting(m_lastGameId, QJsonValue());
+        }
+    }
+}
+
+void GameSettings::checkLanguage() {
+    if (!m_jsonObjectSettings->contains(m_language)) {
+        return;
+    }
+
+    QString languageFile = getSetting(m_language).toString();
+    if (m_translator == nullptr) {
+        m_translator = new QTranslator;
+    }
+    if (!m_translator->load(languageFile)) {
+        Logger::getInstance()->log(Logger::LogLevel::Error, QString(__FUNCTION__) + " "
+                                                                + QString::number(__LINE__) + " "
+                                                                + languageFile + " load failed.");
+        return;
+    }
+    if (!QApplication::installTranslator(m_translator)) {
+        Logger::getInstance()->log(Logger::LogLevel::Error, QString(__FUNCTION__) + " "
+                                                                + QString::number(__LINE__) + " "
+                                                                + "translator install failed.");
+        return;
+    }
 }

@@ -36,7 +36,7 @@ MainWindow::~MainWindow() {
 
 void MainWindow::init() {
     this->setWindowIcon(m_icon);
-//    this->setWindowFlag(Qt::FramelessWindowHint);
+    //    this->setWindowFlag(Qt::FramelessWindowHint);
 
     m_stackedLayout->addWidget(m_backgroundWidget);
     m_stackedLayout->addWidget(m_stackedWidget);
@@ -50,17 +50,6 @@ void MainWindow::init() {
 }
 
 void MainWindow::signalsProcess() {
-//    connect(ui->actionEngLish, &QAction::triggered, [&] {
-//        if (m_translator->load(":/language/en_US.qm")) {
-//            QApplication::installTranslator(m_translator);
-//        }
-//    });
-//
-//    connect(ui->actionChinese, &QAction::triggered, [&] {
-//        if (m_translator->load(":/language/zh_CN.qm")) {
-//            QApplication::installTranslator(m_translator);
-//        }
-//    });
 }
 
 bool MainWindow::eventFilter(QObject *object, QEvent *event) {

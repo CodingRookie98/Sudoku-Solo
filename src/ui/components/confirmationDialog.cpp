@@ -46,3 +46,10 @@ void ConfirmationDialog::signalsProcess() {
 void ConfirmationDialog::setText(const QString &text) {
     ui->label->setText(text);
 }
+
+bool ConfirmationDialog::event(QEvent *event) {
+    if (event->type() == QEvent::LanguageChange) {
+        ui->retranslateUi(this);
+    }
+    return QWidget::event(event);
+}

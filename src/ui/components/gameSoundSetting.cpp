@@ -79,3 +79,10 @@ void GameSoundSetting::saveSettings() {
     GameSettings::getInstance()->setSetting(GameSettings::getInstance()->m_backgroundMusicVolume,
                                             QJsonValue(ui->bgmSpinBox->value()));
 }
+
+bool GameSoundSetting::event(QEvent *event) {
+    if (event->type() == QEvent::LanguageChange) {
+        ui->retranslateUi(this);
+    }
+    return QWidget::event(event);
+}

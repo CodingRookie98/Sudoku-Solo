@@ -48,7 +48,7 @@ BGMPlayer::~BGMPlayer() {
 
 void BGMPlayer::init() {
     m_mediaPlayer->setAudioOutput(m_audioOutput);
-    m_mediaPlayer->setSource(QUrl::fromLocalFile(""));
+    m_mediaPlayer->setSource(QUrl::fromLocalFile("F:/Music/酷我/单曲/法老&KKECHO-会魔法的老人.flac"));
 
     QJsonValue value = GameSettings::getInstance()->getSetting(GameSettings::getInstance()->m_soundEffectVolume);
     float volume = 100;

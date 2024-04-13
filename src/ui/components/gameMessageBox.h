@@ -28,6 +28,9 @@ public:
 
     void setMessage(const QString &message);
 
+protected:
+    bool event(QEvent *event) override;
+
 private:
     Ui::GameMessageBox *ui;
 

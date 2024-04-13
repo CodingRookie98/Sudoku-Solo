@@ -37,6 +37,9 @@ signals:
     void sigBackToPrevious();
     void sigStartGame();
 
+protected:
+    bool event(QEvent *event) override;
+
 private:
     Ui::SavesBrowserWidget *ui;
     QFileSystemModel *m_fileSystemModel;

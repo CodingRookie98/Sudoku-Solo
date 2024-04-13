@@ -15,6 +15,7 @@
 #include <QObject>
 #include <QJsonObject>
 #include <shared_mutex>
+#include <QTranslator>
 
 class GameSettings : public QObject {
     Q_OBJECT
@@ -43,9 +44,12 @@ private:
     std::shared_mutex m_mutex;
     const QString m_settingsJsonFileName = "./settings.json";
     QJsonObject *m_jsonObjectSettings;
+    QTranslator *m_translator;
 
     void init();
     void writeToFile();
+    void checkLastGameSave();
+    void checkLanguage();
 };
 
 #endif // SUDOKU_SOLO_SRC_BACKEND_GAMESETTINGS_H_

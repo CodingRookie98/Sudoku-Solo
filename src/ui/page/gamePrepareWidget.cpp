@@ -57,3 +57,10 @@ void GamePrepareWidget::keyReleaseEvent(QKeyEvent *event) {
         event->accept();
     }
 }
+
+bool GamePrepareWidget::event(QEvent *event) {
+    if (event->type() == QEvent::LanguageChange) {
+        ui->retranslateUi(this);
+    }
+    return QWidget::event(event);
+}

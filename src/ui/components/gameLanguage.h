@@ -33,6 +33,9 @@ public:
 signals:
     void sigSettingsChanged();
 
+protected:
+    bool event(QEvent *event) override;
+
 private:
     Ui::GameLanguage *ui;
     const QString en_US = ":/language/en_US.qm";

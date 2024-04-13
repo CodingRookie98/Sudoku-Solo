@@ -43,3 +43,10 @@ void GameMessageBox::init() {
 void GameMessageBox::signalsProcess() {
     connect(ui->btnClose, &QPushButton::clicked, this, &GameMessageBox::close);
 }
+
+bool GameMessageBox::event(QEvent *event) {
+    if (event->type() == QEvent::LanguageChange) {
+        ui->retranslateUi(this);
+    }
+    return QWidget::event(event);
+}

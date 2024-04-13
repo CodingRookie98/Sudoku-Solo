@@ -37,6 +37,7 @@ signals:
 
 protected:
     void keyReleaseEvent(QKeyEvent *event) override;
+    bool event(QEvent *event) override;
 
 private:
     Ui::GamePauseWidget *ui;

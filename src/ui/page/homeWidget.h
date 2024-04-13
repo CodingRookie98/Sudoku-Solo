@@ -33,6 +33,9 @@ signals:
     void sigLoadLastGame();
     void sigAbout();
 
+protected:
+    bool event(QEvent *event) override;
+
 private:
     Ui::HomeWidget *ui;
 

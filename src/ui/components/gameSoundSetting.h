@@ -33,6 +33,9 @@ public:
 signals:
     void sigSettingsChanged();
 
+protected:
+    bool event(QEvent *event) override;
+
 private:
     Ui::GameSoundSetting *ui;
 

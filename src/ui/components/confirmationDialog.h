@@ -31,6 +31,9 @@ signals:
     void sigYes();
     void sigNo();
 
+protected:
+    bool event(QEvent *event) override;
+
 private:
     Ui::ConfirmationDialog *ui;
 
