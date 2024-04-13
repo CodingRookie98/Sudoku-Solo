@@ -12,6 +12,8 @@
 #define SUDOKU_SOLO_SRC_UI_COMPONENTS_GAMESOUNDSETTING_H_
 
 #include <QWidget>
+#include <unordered_set>
+#include "settingBase.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -19,14 +21,17 @@ class GameSoundSetting;
 }
 QT_END_NAMESPACE
 
-class GameSoundSetting : public QWidget {
+class GameSoundSetting : public QWidget, public SettingBase {
     Q_OBJECT
 
 public:
     explicit GameSoundSetting(QWidget *parent = nullptr);
     ~GameSoundSetting() override;
 
-    void saveSettings() const;
+    void saveSettings() override;
+
+signals:
+    void sigSettingsChanged();
 
 private:
     Ui::GameSoundSetting *ui;

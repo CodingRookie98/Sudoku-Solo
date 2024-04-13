@@ -63,9 +63,12 @@ void GameSoundSetting::signalsProcess() {
 
     connect(ui->bgmSlider, &QSlider::valueChanged, ui->bgmSpinBox, &QSpinBox::setValue);
     connect(ui->bgmSpinBox, &QSpinBox::valueChanged, ui->bgmSlider, &QSlider::setValue);
+
+    connect(ui->buttonSoundSpinBox, &QSpinBox::valueChanged, this, &GameSoundSetting::sigSettingsChanged);
+    connect(ui->bgmSpinBox, &QSpinBox::valueChanged, this, &GameSoundSetting::sigSettingsChanged);
 }
 
-void GameSoundSetting::saveSettings() const {
+void GameSoundSetting::saveSettings() {
     float soundEffectVolume = (float)ui->buttonSoundSpinBox->value() / 100;
     float bgmVolume = (float)ui->bgmSpinBox->value() / 100;
     SoundEffects::getInstance()->setVolume(soundEffectVolume);

@@ -3,6 +3,8 @@
 
 #include <QWidget>
 #include "gameSoundSetting.h"
+#include "gameLanguage.h"
+#include "settingBase.h"
 
 namespace Ui {
 class GameSettingWidget;
@@ -21,9 +23,15 @@ signals:
 private:
     Ui::GameSettingWidget *ui;
     GameSoundSetting *m_gameSoundSetting;
+    GameLanguage *m_gameLanguage;
+
+    std::unordered_set<SettingBase *> *m_settingChangedClass;
 
     void init();
     void signalsProcess();
+    void applySettings();
+    void childSignalsProcess();
+    void insertToChangedClass(SettingBase *settingBase);
 };
 
 #endif // GAMESETTING_H

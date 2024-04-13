@@ -31,6 +31,7 @@ public:
     const QString m_lastGameSaveName = "LastGameSaveName";
     const QString m_soundEffectVolume = "soundEffectVolume";
     const QString m_backgroundMusicVolume = "backgroundMusicVolume";
+    const QString m_language = "language";
 
 signals:
     void sigLastGameIsEmpty();
