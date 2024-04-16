@@ -8,9 +8,6 @@
     <qresource prefix="/html">
         <file>about.md</file>
     </qresource>
-    <qresource prefix="/json">
-        <file>saveTemplate.json</file>
-    </qresource>
     <qresource prefix="/audio">
         <file>audio/hover_34.wav</file>
         <file>audio/click_001.wav</file>
