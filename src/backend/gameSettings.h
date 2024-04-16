@@ -33,6 +33,7 @@ public:
     const QString m_soundEffectVolume = "soundEffectVolume";
     const QString m_backgroundMusicVolume = "backgroundMusicVolume";
     const QString m_language = "language";
+    const QString m_backgroundWebPath = "backgroundWebPath";
 
 signals:
     void sigLastGameIsEmpty();

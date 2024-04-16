@@ -137,6 +137,9 @@ void GameSettings::writeToFile() {
 }
 
 QJsonValue GameSettings::getSetting(const QString &key) {
+    if (m_jsonObjectSettings == nullptr) {
+        preCheck();
+    }
     if (m_jsonObjectSettings->find(key) != m_jsonObjectSettings->end()) {
         return (*m_jsonObjectSettings)[key];
     }

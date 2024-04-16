@@ -22,20 +22,21 @@ class BackgroundWidget;
 QT_END_NAMESPACE
 
 class BackgroundWidget : public QWidget {
-  Q_OBJECT
+    Q_OBJECT
 
 public:
-  explicit BackgroundWidget(QWidget *parent = nullptr);
-  ~BackgroundWidget() override;
-  
-  signals:
-  
+    explicit BackgroundWidget(QWidget *parent = nullptr);
+    ~BackgroundWidget() override;
+
+    void setBackground(const QString &path);
+signals:
+
 private:
-  Ui::BackgroundWidget *ui;
-  WebEngineView *m_webEngineView;
-  
-  void init();
-  void signalProcess();
+    Ui::BackgroundWidget *ui;
+    WebEngineView *m_webEngineView;
+
+    void init();
+    void signalProcess();
 };
 
 #endif // TEST__BACKGROUNDWIDGET_H_

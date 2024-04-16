@@ -6,6 +6,7 @@ GameSettingWidget::GameSettingWidget(QWidget *parent) :
     ui->setupUi(this);
     m_gameSoundSetting = new GameSoundSetting;
     m_gameLanguage = new GameLanguage;
+    m_backgroundSetting = new BackgroundSetting;
     m_settingChangedClass = new std::unordered_set<SettingBase *>;
 
     init();
@@ -17,12 +18,14 @@ GameSettingWidget::~GameSettingWidget() {
     delete ui;
     delete m_gameSoundSetting;
     delete m_gameLanguage;
+    delete m_backgroundSetting;
     delete m_settingChangedClass;
 }
 
 void GameSettingWidget::init() {
-    ui->verticalLayout_2->insertWidget(0, m_gameSoundSetting); // 0
-    ui->verticalLayout_2->insertWidget(1, m_gameLanguage);     // 1
+    ui->verticalLayout_2->insertWidget(0, m_gameSoundSetting);  // 0
+    ui->verticalLayout_2->insertWidget(1, m_gameLanguage);      // 1
+    ui->verticalLayout_2->insertWidget(2, m_backgroundSetting); // 2
 }
 
 void GameSettingWidget::signalsProcess() {
@@ -47,6 +50,10 @@ void GameSettingWidget::childSignalsProcess() {
 
     connect(m_gameLanguage, &GameLanguage::sigSettingsChanged, this, [&] {
         insertToChangedClass(m_gameLanguage);
+    });
+
+    connect(m_backgroundSetting, &BackgroundSetting::sigSettingsChanged, this, [&] {
+        insertToChangedClass(m_backgroundSetting);
     });
 }
 

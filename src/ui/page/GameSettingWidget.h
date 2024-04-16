@@ -5,6 +5,7 @@
 #include "gameSoundSetting.h"
 #include "gameLanguage.h"
 #include "settingBase.h"
+#include "backgroundSetting.h"
 
 namespace Ui {
 class GameSettingWidget;
@@ -27,6 +28,7 @@ private:
     Ui::GameSettingWidget *ui;
     GameSoundSetting *m_gameSoundSetting;
     GameLanguage *m_gameLanguage;
+    BackgroundSetting *m_backgroundSetting;
 
     std::unordered_set<SettingBase *> *m_settingChangedClass;
 

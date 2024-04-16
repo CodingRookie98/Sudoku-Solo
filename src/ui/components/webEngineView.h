@@ -25,15 +25,13 @@ class WebEngineView : public QWebEngineView {
 public:
     explicit WebEngineView(QWidget *parent = nullptr);
     ~WebEngineView() override;
-    
+
+    void setHtml(const QString &path);
 signals:
     void sigKeyEscRelease();
 
-protected:
-
 private:
     Ui::WebEngineView *ui;
-    
     void init();
 };
 
