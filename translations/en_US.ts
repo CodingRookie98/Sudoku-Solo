@@ -5,13 +5,11 @@
     <name>AboutWidget</name>
     <message>
         <location filename="../src/ui/page/aboutWidget.ui" line="14"/>
-        <location/>
         <source>AboutWidget</source>
         <translation></translation>
     </message>
     <message>
         <location filename="../src/ui/page/aboutWidget.ui" line="91"/>
-        <location/>
         <source>关闭</source>
         <translation>Close</translation>
     </message>
@@ -20,7 +18,6 @@
     <name>BackgroundWidget</name>
     <message>
         <location filename="../src/ui/page/backgroundWidget.ui" line="14"/>
-        <location/>
         <source>BackgroundWidget</source>
         <translation></translation>
     </message>
@@ -29,7 +26,6 @@
     <name>BtnSudokuUnit</name>
     <message>
         <location filename="../src/ui/components/btnSudokuUnit.ui" line="27"/>
-        <location/>
         <source>BtnSudokuUnit</source>
         <translation></translation>
     </message>
@@ -38,25 +34,21 @@
     <name>ConfirmationDialog</name>
     <message>
         <location filename="../src/ui/components/confirmationDialog.ui" line="14"/>
-        <location/>
         <source>ConfirmationDialog</source>
         <translation></translation>
     </message>
     <message>
         <location filename="../src/ui/components/confirmationDialog.ui" line="26"/>
-        <location/>
         <source>TextLabel</source>
         <translation></translation>
     </message>
     <message>
         <location filename="../src/ui/components/confirmationDialog.ui" line="62"/>
-        <location/>
         <source>是</source>
         <translation>OK</translation>
     </message>
     <message>
         <location filename="../src/ui/components/confirmationDialog.ui" line="93"/>
-        <location/>
         <source>否</source>
         <translation>No</translation>
     </message>
@@ -65,7 +57,6 @@
     <name>GameButton</name>
     <message>
         <location filename="../src/ui/components/gameButton.ui" line="17"/>
-        <location/>
         <source>GameButton</source>
         <translation></translation>
     </message>
@@ -74,13 +65,11 @@
     <name>GameLanguage</name>
     <message>
         <location filename="../src/ui/components/gameLanguage.ui" line="14"/>
-        <location/>
         <source>GameLanguage</source>
         <translation></translation>
     </message>
     <message>
         <location filename="../src/ui/components/gameLanguage.ui" line="26"/>
-        <location/>
         <source>语言</source>
         <translation>Language</translation>
     </message>
@@ -89,19 +78,16 @@
     <name>GameMessageBox</name>
     <message>
         <location filename="../src/ui/components/gameMessageBox.ui" line="14"/>
-        <location/>
         <source>GameMessageBox</source>
         <translation></translation>
     </message>
     <message>
         <location filename="../src/ui/components/gameMessageBox.ui" line="32"/>
-        <location/>
         <source>TextLabel</source>
         <translation></translation>
     </message>
     <message>
         <location filename="../src/ui/components/gameMessageBox.ui" line="75"/>
-        <location/>
         <source>关闭</source>
         <translation>Close</translation>
     </message>
@@ -110,49 +96,41 @@
     <name>GamePauseWidget</name>
     <message>
         <location filename="../src/ui/page/gamePauseWidget.ui" line="14"/>
-        <location/>
         <source>GamePauseWidget</source>
         <translation></translation>
     </message>
     <message>
         <location filename="../src/ui/page/gamePauseWidget.ui" line="41"/>
-        <location/>
         <source>游戏已暂停</source>
         <translation>Game paused</translation>
     </message>
     <message>
         <location filename="../src/ui/page/gamePauseWidget.ui" line="86"/>
-        <location/>
         <source>返回游戏</source>
         <translation>Back To Game</translation>
     </message>
     <message>
         <location filename="../src/ui/page/gamePauseWidget.ui" line="101"/>
-        <location/>
         <source>存档</source>
         <translation>Save</translation>
     </message>
     <message>
         <location filename="../src/ui/page/gamePauseWidget.ui" line="116"/>
-        <location/>
         <source>加载存档</source>
         <translation>Load Save</translation>
     </message>
     <message>
         <location filename="../src/ui/page/gamePauseWidget.ui" line="131"/>
-        <location/>
         <source>设置</source>
         <translation>Settings</translation>
     </message>
     <message>
         <location filename="../src/ui/page/gamePauseWidget.ui" line="146"/>
-        <location/>
         <source>主界面</source>
         <translation>Home</translation>
     </message>
     <message>
         <location filename="../src/ui/page/gamePauseWidget.ui" line="161"/>
-        <location/>
         <source>退出游戏</source>
         <translation>Quit</translation>
     </message>
@@ -161,37 +139,31 @@
     <name>GamePrepareWidget</name>
     <message>
         <location filename="../src/ui/page/gamePrepareWidget.ui" line="14"/>
-        <location/>
         <source>GamePrepareWidget</source>
         <translation></translation>
     </message>
     <message>
         <location filename="../src/ui/page/gamePrepareWidget.ui" line="88"/>
-        <location/>
         <source>4 * 4</source>
         <translation></translation>
     </message>
     <message>
         <location filename="../src/ui/page/gamePrepareWidget.ui" line="106"/>
-        <location/>
         <source>6 * 6</source>
         <translation></translation>
     </message>
     <message>
         <location filename="../src/ui/page/gamePrepareWidget.ui" line="124"/>
-        <location/>
         <source>9 * 9</source>
         <translation></translation>
     </message>
     <message>
         <location filename="../src/ui/page/gamePrepareWidget.ui" line="189"/>
-        <location/>
         <source>开始</source>
         <translation>Start</translation>
     </message>
     <message>
         <location filename="../src/ui/page/gamePrepareWidget.ui" line="217"/>
-        <location/>
         <source>返回</source>
         <translation>Cancel</translation>
     </message>
@@ -200,37 +172,31 @@
     <name>GameSettingWidget</name>
     <message>
         <location filename="../src/ui/page/GameSettingWidget.ui" line="14"/>
-        <location/>
         <source>Form</source>
         <translation></translation>
     </message>
     <message>
         <location filename="../src/ui/page/GameSettingWidget.ui" line="49"/>
-        <location/>
         <source>声音</source>
         <translation>Sound</translation>
     </message>
     <message>
         <location filename="../src/ui/page/GameSettingWidget.ui" line="61"/>
-        <location/>
         <source>语言</source>
         <translation>Language</translation>
     </message>
     <message>
         <location filename="../src/ui/page/GameSettingWidget.ui" line="155"/>
-        <location/>
         <source>确定</source>
         <translation>OK</translation>
     </message>
     <message>
         <location filename="../src/ui/page/GameSettingWidget.ui" line="180"/>
-        <location/>
         <source>取消</source>
         <translation>Cancel</translation>
     </message>
     <message>
         <location filename="../src/ui/page/GameSettingWidget.ui" line="205"/>
-        <location/>
         <source>应用</source>
         <translation>Apply</translation>
     </message>
@@ -239,19 +205,16 @@
     <name>GameSoundSetting</name>
     <message>
         <location filename="../src/ui/components/gameSoundSetting.ui" line="20"/>
-        <location/>
         <source>GameSoundSetting</source>
         <translation></translation>
     </message>
     <message>
         <location filename="../src/ui/components/gameSoundSetting.ui" line="29"/>
-        <location/>
         <source>按钮声音</source>
         <translation>Button Sound</translation>
     </message>
     <message>
         <location filename="../src/ui/components/gameSoundSetting.ui" line="57"/>
-        <location/>
         <source>背景音乐</source>
         <translation>Music</translation>
     </message>
@@ -260,7 +223,6 @@
     <name>GamingWidget</name>
     <message>
         <location filename="../src/ui/page/gamingWidget.ui" line="104"/>
-        <location/>
         <source>提示</source>
         <translation>Tip</translation>
     </message>
@@ -294,43 +256,36 @@
     <name>HomeWidget</name>
     <message>
         <location filename="../src/ui/page/homeWidget.ui" line="14"/>
-        <location/>
         <source>HomeWidget</source>
         <translation></translation>
     </message>
     <message>
         <location filename="../src/ui/page/homeWidget.ui" line="85"/>
-        <location/>
         <source>继续游戏</source>
         <translation>Continue</translation>
     </message>
     <message>
         <location filename="../src/ui/page/homeWidget.ui" line="109"/>
-        <location/>
         <source>新游戏</source>
         <translation>New Game</translation>
     </message>
     <message>
         <location filename="../src/ui/page/homeWidget.ui" line="130"/>
-        <location/>
         <source>游戏存档</source>
         <translation>Saves</translation>
     </message>
     <message>
         <location filename="../src/ui/page/homeWidget.ui" line="151"/>
-        <location/>
         <source>游戏设置</source>
         <translation>Settings</translation>
     </message>
     <message>
         <location filename="../src/ui/page/homeWidget.ui" line="172"/>
-        <location/>
         <source>关于</source>
         <translation>About</translation>
     </message>
     <message>
         <location filename="../src/ui/page/homeWidget.ui" line="193"/>
-        <location/>
         <source>退出游戏</source>
         <translation>Quit</translation>
     </message>
@@ -339,25 +294,21 @@
     <name>MainWindow</name>
     <message>
         <location filename="../src/ui/mainWindow.ui" line="20"/>
-        <location/>
         <source>MainWindow</source>
         <translation>Sudoku-Solo</translation>
     </message>
     <message>
         <location filename="../src/ui/mainWindow.ui" line="46"/>
-        <location/>
         <source>EngLish</source>
         <translation></translation>
     </message>
     <message>
         <location filename="../src/ui/mainWindow.ui" line="51"/>
-        <location/>
         <source>简体中文</source>
         <translation></translation>
     </message>
     <message>
         <location filename="../src/ui/mainWindow.ui" line="56"/>
-        <location/>
         <source>关于</source>
         <translation></translation>
     </message>
@@ -366,19 +317,16 @@
     <name>NumberChoiceDialog</name>
     <message>
         <location filename="../src/ui/components/numberChoiceDialog.ui" line="23"/>
-        <location/>
         <source>NumberChoiceDialog</source>
         <translation></translation>
     </message>
     <message>
         <location filename="../src/ui/components/numberChoiceDialog.ui" line="40"/>
-        <location/>
         <source>清除</source>
         <translation>Clear</translation>
     </message>
     <message>
         <location filename="../src/ui/components/numberChoiceDialog.ui" line="62"/>
-        <location/>
         <source>退出</source>
         <translation>Close</translation>
     </message>
@@ -387,55 +335,46 @@
     <name>SavesBrowserWidget</name>
     <message>
         <location filename="../src/ui/page/savesBrowserWidget.ui" line="14"/>
-        <location/>
         <source>SavesBrowserWidget</source>
         <translation></translation>
     </message>
     <message>
         <location filename="../src/ui/page/savesBrowserWidget.ui" line="42"/>
-        <location/>
         <source>新建存档</source>
         <translation>New Save</translation>
     </message>
     <message>
         <location filename="../src/ui/page/savesBrowserWidget.ui" line="87"/>
-        <location/>
         <source>删除存档</source>
         <translation>Delete Save</translation>
     </message>
     <message>
         <location filename="../src/ui/page/savesBrowserWidget.ui" line="204"/>
-        <location/>
         <source>答案</source>
         <translation>Answer</translation>
     </message>
     <message>
         <location filename="../src/ui/page/savesBrowserWidget.ui" line="209"/>
-        <location/>
         <source>原始</source>
         <translation>Original</translation>
     </message>
     <message>
         <location filename="../src/ui/page/savesBrowserWidget.ui" line="214"/>
-        <location/>
         <source>状态</source>
         <translation>Save</translation>
     </message>
     <message>
         <location filename="../src/ui/page/savesBrowserWidget.ui" line="264"/>
-        <location/>
         <source>确定</source>
         <translation>OK</translation>
     </message>
     <message>
         <location filename="../src/ui/page/savesBrowserWidget.ui" line="292"/>
-        <location/>
         <source>继续游戏</source>
         <translation>Continue</translation>
     </message>
     <message>
         <location filename="../src/ui/page/savesBrowserWidget.ui" line="320"/>
-        <location/>
         <source>返回</source>
         <translation>Cancel</translation>
     </message>
@@ -480,7 +419,6 @@
     <name>StackedWidget</name>
     <message>
         <location filename="../src/ui/page/stackedWidget.ui" line="17"/>
-        <location/>
         <source>StackedWidget</source>
         <translation></translation>
     </message>
@@ -499,7 +437,6 @@
     <name>SudokuGridWidget</name>
     <message>
         <location filename="../src/ui/page/sudokuGridWidget.ui" line="20"/>
-        <location/>
         <source>SudokuGridWidget</source>
         <translation></translation>
     </message>
@@ -508,7 +445,6 @@
     <name>SudokuMatrixWidget</name>
     <message>
         <location filename="../src/ui/components/sudokuMatrixWidget.ui" line="17"/>
-        <location/>
         <source>SudokuMatrixWidget</source>
         <translation></translation>
     </message>
