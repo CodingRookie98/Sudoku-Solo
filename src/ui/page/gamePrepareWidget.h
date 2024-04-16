@@ -29,7 +29,6 @@ public:
     explicit GamePrepareWidget(QWidget *parent = nullptr);
     ~GamePrepareWidget() override;
 
-public:
 signals:
     void sigStart(const Sudoku::SudokuMatrix::SudokuMatrixType &sudokuMatrixTypes);
     void sigCancel();
