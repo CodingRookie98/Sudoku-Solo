@@ -13,6 +13,7 @@
 
 #include <QMediaPlayer>
 #include <QAudioOutput>
+#include <vector>
 
 class BGMPlayer : public QObject {
     Q_OBJECT
@@ -30,8 +31,12 @@ private:
 
     QMediaPlayer *m_mediaPlayer;
     QAudioOutput *m_audioOutput;
+    const QString m_musicPath = "./music";
+    std::vector<QString> *m_musicFiles;
 
     void init();
+    void signalsProcess();
+    static int getRandomNum(const int &min, const int &max);
 };
 
 #endif // SUDOKU_SOLO_SRC_BACKEND_BGMPLAYER_H_

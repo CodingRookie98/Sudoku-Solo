@@ -9,6 +9,8 @@
  */
 
 #include <mutex>
+#include <QDir>
+#include <random>
 #include "bgmPlayer.h"
 #include "gameSettings.h"
 #include "logger.h"
@@ -37,18 +39,34 @@ BGMPlayer::BGMPlayer(QObject *parent) :
     QObject(parent) {
     m_mediaPlayer = new QMediaPlayer;
     m_audioOutput = new QAudioOutput;
+    m_musicFiles = new std::vector<QString>;
 
     init();
+    signalsProcess();
 }
 
 BGMPlayer::~BGMPlayer() {
     delete m_mediaPlayer;
     delete m_audioOutput;
+    delete m_musicFiles;
 }
 
 void BGMPlayer::init() {
     m_mediaPlayer->setAudioOutput(m_audioOutput);
-    m_mediaPlayer->setSource(QUrl::fromLocalFile("F:/Music/酷我/单曲/法老&KKECHO-会魔法的老人.flac"));
+
+    QStringList fileList = QDir(m_musicPath).entryList(QStringList() << "*.wav", QDir::Filter::Files);
+    foreach (const QString &filePath, fileList) {
+        QString absolutePath = std::string(std::filesystem::absolute(m_musicPath.toStdString() + std::string("/") + filePath.toStdString()).string()).c_str();
+        m_musicFiles->emplace_back(absolutePath);
+    }
+
+    if (!m_musicFiles->empty()) {
+        int index = getRandomNum(0, (int)m_musicFiles->size());
+        if (QFile(m_musicFiles->at(index)).exists()) {
+            m_mediaPlayer->setSource(QUrl::fromLocalFile(m_musicFiles->at(index)));
+            m_mediaPlayer->play();
+        }
+    }
 
     QJsonValue value = GameSettings::getInstance()->getSetting(GameSettings::getInstance()->m_soundEffectVolume);
     float volume = 100;
@@ -57,6 +75,20 @@ void BGMPlayer::init() {
         volume = (float)value.toInt() / 100;
     }
     m_audioOutput->setVolume(volume);
+}
+
+void BGMPlayer::signalsProcess() {
+    connect(m_mediaPlayer, &QMediaPlayer::playbackStateChanged, this, [&](const QMediaPlayer::PlaybackState &playbackState) {
+        qDebug() << "##############";
+        if (playbackState == QMediaPlayer::PlaybackState::StoppedState) {
+            qDebug() << "@@@@@@@@@@@@@";
+            int index = getRandomNum(0, (int)m_musicFiles->size());
+            if (QFile(m_musicFiles->at(0)).exists()) {
+                m_mediaPlayer->setSource(QUrl::fromLocalFile(m_musicFiles->at(index)));
+                m_mediaPlayer->play();
+            }
+        }
+    });
 }
 
 void BGMPlayer::play() {
@@ -82,4 +114,14 @@ void BGMPlayer::setVolume(const float &volume) {
     } else if (!m_mediaPlayer->isPlaying()) {
         m_mediaPlayer->play();
     }
+}
+
+int BGMPlayer::getRandomNum(const int &min, const int &max) {
+    // 设置随机数生成器
+    std::random_device rd;
+    std::mt19937 gen(rd());
+
+    // 生成随机数
+    std::uniform_int_distribution<> dis(min, max);
+    return dis(gen);
 }
