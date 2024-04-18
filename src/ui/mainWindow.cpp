@@ -36,7 +36,7 @@ MainWindow::~MainWindow() {
 
 void MainWindow::init() {
     this->setWindowIcon(m_icon);
-    //    this->setWindowFlag(Qt::FramelessWindowHint);
+    this->setWindowFlag(Qt::FramelessWindowHint);
 
     m_stackedLayout->addWidget(m_backgroundWidget);
     m_stackedLayout->addWidget(m_stackedWidget);

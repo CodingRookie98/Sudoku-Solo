@@ -69,3 +69,10 @@ void BackgroundSetting::signalsProcess() {
         }
     });
 }
+
+bool BackgroundSetting::event(QEvent *event) {
+    if (event->type() == QEvent::LanguageChange) {
+        ui->retranslateUi(this);
+    }
+    return QWidget::event(event);
+}

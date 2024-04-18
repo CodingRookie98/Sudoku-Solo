@@ -19,6 +19,7 @@ int main(int argc, char *argv[]) {
     GameSettings::getInstance()->preCheck();
     BGMPlayer::getInstance()->play();
 
-    w.show();
+    //    w.show();
+    w.showFullScreen();
     return a.exec();
 }

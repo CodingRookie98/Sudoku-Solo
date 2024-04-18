@@ -29,12 +29,29 @@
            <verstretch>0</verstretch>
           </sizepolicy>
          </property>
+         <property name="font">
+          <font>
+           <family>Arial Black</family>
+          </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">background-color: rgba(255, 255, 255, 0);
+border: 2px solid #39acac;
+color: rgb(0, 255, 255);</string>
+         </property>
+         <property name="inputMask">
+          <string/>
+         </property>
+         <property name="placeholderText">
+          <string>新存档名</string>
+         </property>
         </widget>
        </item>
        <item>
         <widget class="GameButton" name="btnNewSave">
          <property name="font">
           <font>
+           <family>Arial Black</family>
            <pointsize>12</pointsize>
           </font>
          </property>
@@ -56,8 +73,24 @@
          <verstretch>0</verstretch>
         </sizepolicy>
        </property>
+       <property name="font">
+        <font>
+         <family>Arial Black</family>
+         <pointsize>13</pointsize>
+         <italic>false</italic>
+         <bold>true</bold>
+        </font>
+       </property>
        <property name="autoFillBackground">
         <bool>false</bool>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">background-color: rgba(255, 255, 255, 50);
+font: 900 13pt &quot;Arial Black&quot;;
+color: rgb(0, 255, 255);</string>
+       </property>
+       <property name="frameShape">
+        <enum>QFrame::Box</enum>
        </property>
       </widget>
      </item>
@@ -80,6 +113,7 @@
         <widget class="GameButton" name="btnDeleteSave">
          <property name="font">
           <font>
+           <family>Arial Black</family>
            <pointsize>12</pointsize>
           </font>
          </property>
@@ -119,9 +153,13 @@
          <widget class="QLabel" name="labelPlayDateTime">
           <property name="font">
            <font>
+            <family>Arial Black</family>
             <pointsize>12</pointsize>
             <bold>false</bold>
            </font>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">color: rgb(0, 255, 255);</string>
           </property>
           <property name="text">
            <string/>
@@ -135,8 +173,12 @@
          <widget class="QLabel" name="labelndex">
           <property name="font">
            <font>
+            <family>Arial Black</family>
             <pointsize>12</pointsize>
            </font>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">color: rgb(0, 255, 255);</string>
           </property>
           <property name="text">
            <string/>
@@ -150,8 +192,12 @@
          <widget class="QLabel" name="labelSpentTime">
           <property name="font">
            <font>
+            <family>Arial Black</family>
             <pointsize>12</pointsize>
            </font>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">color: rgb(0, 255, 255);</string>
           </property>
           <property name="text">
            <string/>
@@ -187,6 +233,16 @@
         </item>
         <item>
          <widget class="QTabWidget" name="tabWidget">
+          <property name="font">
+           <font>
+            <family>Arial Black</family>
+            <pointsize>16</pointsize>
+            <bold>true</bold>
+           </font>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">color: rgb(0, 255, 255);</string>
+          </property>
           <property name="tabPosition">
            <enum>QTabWidget::North</enum>
           </property>
@@ -194,7 +250,7 @@
            <enum>QTabWidget::Rounded</enum>
           </property>
           <property name="currentIndex">
-           <number>1</number>
+           <number>0</number>
           </property>
           <property name="movable">
            <bool>true</bool>
@@ -257,6 +313,7 @@
          <widget class="GameButton" name="btnOK">
           <property name="font">
            <font>
+            <family>Arial Black</family>
             <pointsize>15</pointsize>
            </font>
           </property>
@@ -285,6 +342,7 @@
          <widget class="GameButton" name="btnContinueGame">
           <property name="font">
            <font>
+            <family>Arial Black</family>
             <pointsize>15</pointsize>
            </font>
           </property>
@@ -313,6 +371,7 @@
          <widget class="GameButton" name="btnCancel">
           <property name="font">
            <font>
+            <family>Arial Black</family>
             <pointsize>15</pointsize>
            </font>
           </property>

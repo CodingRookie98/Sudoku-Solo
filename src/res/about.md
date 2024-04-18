@@ -8,10 +8,7 @@
         <a>Version 0.0.1</a>
     </p>
     <p>
-        By <a href="https://github.com/CodingRookie98">CodingRookie</a>
+        By <a href="https://github.com/CodingRookie98">CodingRookie98</a>
     </p>
     <p><a href="https://github.com/CodingRookie98/Sudoku-Solo">项目地址：https://github.com/CodingRookie98/Sudoku-Solo</a></p>
 </div>
-
-
-

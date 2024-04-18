@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>238</width>
-    <height>54</height>
+    <height>61</height>
    </rect>
   </property>
   <property name="font">
@@ -20,7 +20,7 @@
    <string>BackgroundSetting</string>
   </property>
   <property name="styleSheet">
-   <string notr="true">color: rgb(0, 255, 255);</string>
+   <string notr="true">background-color: rgba(255, 255, 255, 0);</string>
   </property>
   <layout class="QHBoxLayout" name="horizontalLayout_2">
    <item>
@@ -45,6 +45,12 @@
          <family>Arial Black</family>
          <pointsize>13</pointsize>
         </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">border: 2px solid #39acac;</string>
+       </property>
+       <property name="sizeAdjustPolicy">
+        <enum>QComboBox::AdjustToContents</enum>
        </property>
       </widget>
      </item>

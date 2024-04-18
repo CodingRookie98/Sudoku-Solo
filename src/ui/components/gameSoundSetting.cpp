@@ -10,11 +10,13 @@
 
 // You may need to build the project (run Qt uic code generator) to get "ui_GameSoundSetting.h" resolved
 
+#include <QFile>
 #include "gameSoundSetting.h"
 #include "ui_GameSoundSetting.h"
 #include "gameSettings.h"
 #include "soundEffects.h"
 #include "bgmPlayer.h"
+#include "logger.h"
 
 GameSoundSetting::GameSoundSetting(QWidget *parent) :
     QWidget(parent), ui(new Ui::GameSoundSetting) {
@@ -54,6 +56,16 @@ void GameSoundSetting::init() {
     } else {
         ui->bgmSpinBox->setValue(ui->bgmSpinBox->maximum());
         ui->bgmSlider->setValue(ui->bgmSlider->maximum());
+    }
+
+    QFile qssFile(":/qss/gameSoundSetting.qss");
+    if (!qssFile.open(QIODevice::OpenMode::enum_type::ReadOnly)) {
+        Logger::getInstance()->log(Logger::LogLevel::Error, QString(__FUNCTION__) + " "
+                                                                + QString::number(__LINE__) + " "
+                                                                + GameSettings::getInstance()->m_backgroundWebPath
+                                                                + qssFile.fileName() + " open failed");
+    } else {
+        this->setStyleSheet(qssFile.readAll());
     }
 }
 

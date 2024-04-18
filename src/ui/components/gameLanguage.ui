@@ -7,11 +7,14 @@
     <x>0</x>
     <y>0</y>
     <width>349</width>
-    <height>47</height>
+    <height>58</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>GameLanguage</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">background-color: rgba(255, 255, 255, 0);</string>
   </property>
   <layout class="QFormLayout" name="formLayout">
    <item row="0" column="0">
@@ -41,6 +44,18 @@
         <font>
          <pointsize>13</pointsize>
         </font>
+       </property>
+       <property name="autoFillBackground">
+        <bool>false</bool>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">border: 2px solid #39acac;</string>
+       </property>
+       <property name="sizeAdjustPolicy">
+        <enum>QComboBox::AdjustToContents</enum>
+       </property>
+       <property name="frame">
+        <bool>true</bool>
        </property>
       </widget>
      </item>

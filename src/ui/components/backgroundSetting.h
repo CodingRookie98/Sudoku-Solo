@@ -32,6 +32,9 @@ public:
 signals:
     void sigSettingsChanged();
 
+protected:
+    bool event(QEvent *event) override;
+
 private:
     Ui::BackgroundSetting *ui;
     const QString m_path = "./background";

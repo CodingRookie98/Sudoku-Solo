@@ -42,6 +42,7 @@
       <widget class="GameButton" name="btnVoice">
        <property name="font">
         <font>
+         <family>Arial Black</family>
          <pointsize>16</pointsize>
         </font>
        </property>
@@ -54,11 +55,25 @@
       <widget class="GameButton" name="btnLanguage">
        <property name="font">
         <font>
+         <family>Arial Black</family>
          <pointsize>16</pointsize>
         </font>
        </property>
        <property name="text">
         <string>语言</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="GameButton" name="btnBackground">
+       <property name="font">
+        <font>
+         <family>Arial Black</family>
+         <pointsize>16</pointsize>
+        </font>
+       </property>
+       <property name="text">
+        <string>背景</string>
        </property>
       </widget>
      </item>
@@ -78,7 +93,20 @@
     </layout>
    </item>
    <item>
-    <layout class="QVBoxLayout" name="verticalLayout">
+    <layout class="QVBoxLayout" name="verticalLayout" stretch="0,1,0">
+     <item>
+      <spacer name="verticalSpacer_3">
+       <property name="orientation">
+        <enum>Qt::Vertical</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>20</width>
+         <height>40</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
      <item>
       <widget class="QScrollArea" name="scrollArea">
        <property name="font">
@@ -109,7 +137,7 @@ color: rgb(0, 255, 255);</string>
           <x>0</x>
           <y>0</y>
           <width>591</width>
-          <height>454</height>
+          <height>406</height>
          </rect>
         </property>
         <property name="autoFillBackground">
@@ -158,6 +186,7 @@ color: rgb(0, 255, 255);</string>
         <widget class="GameButton" name="btnOK">
          <property name="font">
           <font>
+           <family>Arial Black</family>
            <pointsize>14</pointsize>
           </font>
          </property>
@@ -183,6 +212,7 @@ color: rgb(0, 255, 255);</string>
         <widget class="GameButton" name="btnCancel">
          <property name="font">
           <font>
+           <family>Arial Black</family>
            <pointsize>14</pointsize>
           </font>
          </property>
@@ -208,6 +238,7 @@ color: rgb(0, 255, 255);</string>
         <widget class="GameButton" name="btnApply">
          <property name="font">
           <font>
+           <family>Arial Black</family>
            <pointsize>14</pointsize>
           </font>
          </property>

@@ -2,5 +2,6 @@
     <qresource prefix="/qss">
         <file>gameButton.qss</file>
         <file>gameMessageBox.qss</file>
+        <file>gameSoundSetting.qss</file>
     </qresource>
 </RCC>

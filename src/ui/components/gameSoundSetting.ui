@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>368</width>
-    <height>68</height>
+    <height>117</height>
    </rect>
   </property>
   <property name="font">
@@ -19,12 +19,24 @@
   <property name="windowTitle">
    <string>GameSoundSetting</string>
   </property>
+  <property name="styleSheet">
+   <string notr="true">background-color: rgba(255, 255, 255, 0);</string>
+  </property>
   <layout class="QFormLayout" name="formLayout">
    <property name="formAlignment">
     <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
    </property>
    <item row="0" column="0">
     <widget class="QLabel" name="label">
+     <property name="font">
+      <font>
+       <family>Arial Black</family>
+       <pointsize>15</pointsize>
+      </font>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">background-color: rgba(255, 255, 255, 0);</string>
+     </property>
      <property name="text">
       <string>按钮声音</string>
      </property>
@@ -34,16 +46,34 @@
     <layout class="QHBoxLayout" name="horizontalLayout" stretch="0,1">
      <item>
       <widget class="QSpinBox" name="buttonSoundSpinBox">
+       <property name="font">
+        <font>
+         <family>Arial Black</family>
+         <pointsize>15</pointsize>
+        </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">background-color: rgba(255, 255, 255, 0);</string>
+       </property>
+       <property name="frame">
+        <bool>false</bool>
+       </property>
        <property name="alignment">
         <set>Qt::AlignCenter</set>
        </property>
+       <property name="readOnly">
+        <bool>false</bool>
+       </property>
        <property name="buttonSymbols">
-        <enum>QAbstractSpinBox::UpDownArrows</enum>
+        <enum>QAbstractSpinBox::NoButtons</enum>
        </property>
       </widget>
      </item>
      <item>
       <widget class="QSlider" name="buttonSoundSlider">
+       <property name="styleSheet">
+        <string notr="true">background-color: rgba(255, 255, 255, 0);</string>
+       </property>
        <property name="orientation">
         <enum>Qt::Horizontal</enum>
        </property>
@@ -53,6 +83,15 @@
    </item>
    <item row="1" column="0">
     <widget class="QLabel" name="label_2">
+     <property name="font">
+      <font>
+       <family>Arial Black</family>
+       <pointsize>15</pointsize>
+      </font>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">background-color: rgba(255, 255, 255, 0);</string>
+     </property>
      <property name="text">
       <string>背景音乐</string>
      </property>
@@ -62,13 +101,34 @@
     <layout class="QHBoxLayout" name="horizontalLayout_2" stretch="0,1">
      <item>
       <widget class="QSpinBox" name="bgmSpinBox">
+       <property name="font">
+        <font>
+         <family>Arial Black</family>
+         <pointsize>15</pointsize>
+        </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">background-color: rgba(255, 255, 255, 0);</string>
+       </property>
+       <property name="frame">
+        <bool>false</bool>
+       </property>
        <property name="alignment">
         <set>Qt::AlignCenter</set>
+       </property>
+       <property name="readOnly">
+        <bool>false</bool>
+       </property>
+       <property name="buttonSymbols">
+        <enum>QAbstractSpinBox::NoButtons</enum>
        </property>
       </widget>
      </item>
      <item>
       <widget class="QSlider" name="bgmSlider">
+       <property name="styleSheet">
+        <string notr="true">background-color: rgba(255, 255, 255, 0);</string>
+       </property>
        <property name="orientation">
         <enum>Qt::Horizontal</enum>
        </property>
