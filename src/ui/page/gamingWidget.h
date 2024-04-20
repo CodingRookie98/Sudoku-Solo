@@ -48,7 +48,7 @@ private:
     void init();
     void signalsProcess();
     void sudokuGridWidgetSignalsProcess();
-    void timerInitAndSignalsProcess();
+    void initTimeElapsedAndMessageLabel();
     void onGameFinished();
     void showMessage(const QString &message);
 };

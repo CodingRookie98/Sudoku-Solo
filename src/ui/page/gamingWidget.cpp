@@ -20,7 +20,7 @@ GamingWidget::GamingWidget(QWidget *parent) :
     QWidget(parent), ui(new Ui::GamingWidget) {
     ui->setupUi(this);
     m_sudokuGridWidget = new SudokuGridWidget(this);
-    m_timerForGameSpent = nullptr;
+    m_timerForGameSpent = new QTimer;
     m_timerForMessageLabel = nullptr;
 
     init();
@@ -42,11 +42,15 @@ void GamingWidget::signalsProcess() {
     sudokuGridWidgetSignalsProcess();
 
     connect(ui->btnHint, &QPushButton::clicked, m_sudokuGridWidget, &SudokuGridWidget::hintAnswer);
+    connect(m_timerForGameSpent, &QTimer::timeout, [&] {
+        m_timeElapsed++;
+        ui->labelTime->setText(QApplication::translate(metaObject()->className(), tr("时间 ").toStdString().c_str()) + QString::number(m_timeElapsed) + QString(" S"));
+    });
 }
 
 void GamingWidget::generateSudokuMatrix(const Sudoku::SudokuMatrix::SudokuMatrixType &sudokuMatrixType) {
     m_sudokuGridWidget->generateRandomSudoku(sudokuMatrixType);
-    timerInitAndSignalsProcess();
+    initTimeElapsedAndMessageLabel();
 
     // 这句代码是为了让当前Widget获得焦点使快捷键生效
     this->setFocus(Qt::FocusReason::NoFocusReason);
@@ -91,17 +95,10 @@ void GamingWidget::loadLastGame() {
     SudokuGameData sudoData = GameManager::getInstance()->loadWithId(GameSettings::getInstance()->getSetting(GameSettings::getInstance()->m_lastGameId).toString());
     m_sudokuGridWidget->setGameMatrix(sudoData.m_answerMatrix, sudoData.m_originalMatrix, sudoData.m_workMatrix);
 
-    timerInitAndSignalsProcess();
+    initTimeElapsedAndMessageLabel();
 }
 
-void GamingWidget::timerInitAndSignalsProcess() {
-    if (m_timerForGameSpent == nullptr) {
-        m_timerForGameSpent = new QTimer;
-        connect(m_timerForGameSpent, &QTimer::timeout, [&] {
-            m_timeElapsed++;
-            ui->labelTime->setText(QApplication::translate(metaObject()->className(), tr("时间 ").toStdString().c_str()) + QString::number(m_timeElapsed) + QString(" S"));
-        });
-    }
+void GamingWidget::initTimeElapsedAndMessageLabel() {
     m_timeElapsed = 0;
     ui->labelTime->setText(QApplication::translate(metaObject()->className(), tr("时间 0 S").toStdString().c_str()));
     startTimeCount();
@@ -109,9 +106,6 @@ void GamingWidget::timerInitAndSignalsProcess() {
 
 void GamingWidget::onGameFinished() {
     m_sudokuGridWidget->setAllUnitDisable();
-    if (m_timerForGameSpent == nullptr) {
-        m_timerForGameSpent = new QTimer;
-    }
     m_timerForGameSpent->stop();
     // 存档
     saveGame();
@@ -132,12 +126,11 @@ void GamingWidget::showMessage(const QString &message) {
     ui->labelMessage->setText(message);
 
     if (m_timerForMessageLabel == nullptr) {
-        m_timerForMessageLabel = new QTimer;
+        connect(m_timerForMessageLabel, &QTimer::timeout, this, [&] {
+            ui->labelMessage->setText("");
+            m_timerForMessageLabel->stop();
+        });
     }
 
     m_timerForMessageLabel->start(10000);
-    connect(m_timerForMessageLabel, &QTimer::timeout, this, [&] {
-        ui->labelMessage->setText("");
-        m_timerForMessageLabel->stop();
-    });
 }
