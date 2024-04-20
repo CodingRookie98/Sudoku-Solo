@@ -36,6 +36,8 @@ public:
         PleaseSelectButtonToHint,
     };
 
+    void setAllUnitDisable();
+
 signals:
     void sigMessageReadyToRead(const SudokuGridWidget::Message &gameState);
 

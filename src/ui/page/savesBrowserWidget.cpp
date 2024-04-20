@@ -112,15 +112,12 @@ void SavesBrowserWidget::signalsProcess() {
     });
 
     connect(m_fileSystemWatcher, &QFileSystemWatcher::fileChanged, this, [&](const QString &path) {
-        auto func = [&, path] {
-            if (QFile(path).exists() && path == m_fileSystemModel->filePath(*m_currentModelIndex)) {
-                auto sudokuGameData = GameManager::getInstance()->loadWithPath(path);
-                delete m_sudokuGameData;
-                m_sudokuGameData = new std::vector<SudokuGameData>(sudokuGameData);
-                updateLabelTextAndBtnStatus();
-            }
-        };
-        QThreadPool::globalInstance()->start(func);
+        if (QFile(path).exists() && path == m_fileSystemModel->filePath(*m_currentModelIndex)) {
+            auto sudokuGameData = GameManager::getInstance()->loadWithPath(path);
+            delete m_sudokuGameData;
+            m_sudokuGameData = new std::vector<SudokuGameData>(sudokuGameData);
+            updateLabelTextAndBtnStatus();
+        }
     });
 
     connect(ui->filesView, &QListView::clicked, this, [&](const QModelIndex &index) {

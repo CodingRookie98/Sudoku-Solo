@@ -47,6 +47,9 @@ void GamingWidget::signalsProcess() {
 void GamingWidget::generateSudokuMatrix(const Sudoku::SudokuMatrix::SudokuMatrixType &sudokuMatrixType) {
     m_sudokuGridWidget->generateRandomSudoku(sudokuMatrixType);
     timerInitAndSignalsProcess();
+
+    // 这句代码是为了让当前Widget获得焦点使快捷键生效
+    this->setFocus(Qt::FocusReason::NoFocusReason);
 }
 
 void GamingWidget::keyReleaseEvent(QKeyEvent *event) {
@@ -105,11 +108,24 @@ void GamingWidget::timerInitAndSignalsProcess() {
 }
 
 void GamingWidget::onGameFinished() {
+    m_sudokuGridWidget->setAllUnitDisable();
+    if (m_timerForGameSpent == nullptr) {
+        m_timerForGameSpent = new QTimer;
+    }
     m_timerForGameSpent->stop();
-    // 显示游戏结束消息
-    showMessage(QApplication::translate(metaObject()->className(), tr("游戏结束").toStdString().c_str()));
     // 存档
     saveGame();
+
+    static QTimer countDown;
+    // 显示游戏结束消息
+    showMessage(QApplication::translate(metaObject()->className(), tr("游戏结束，10秒后开始下一局游戏。").toStdString().c_str()));
+    // 这句代码是为了让当前Widget获得焦点使快捷键生效
+    this->setFocus(Qt::FocusReason::NoFocusReason);
+    countDown.start(10000);
+    connect(&countDown, &QTimer::timeout, this, [&] {
+        countDown.stop();
+        generateSudokuMatrix(m_sudokuGridWidget->getSudokuMatrix().getSudokuType());
+    });
 }
 
 void GamingWidget::showMessage(const QString &message) {

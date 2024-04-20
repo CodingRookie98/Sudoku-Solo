@@ -162,6 +162,9 @@ void SudokuGridWidget::setGameMatrix(std::shared_ptr<Sudoku::SudokuMatrix> answe
     this->buildMatrix(*work);
 
     initChoiceDialog();
+    if (this->isSolved()) {
+        emit sigMessageReadyToRead(Message::IsFilledAndFinished);
+    }
 }
 
 void SudokuGridWidget::choiceDialogSignalsProcess() {
@@ -173,4 +176,12 @@ void SudokuGridWidget::choiceDialogSignalsProcess() {
         }
         this->setMatrixValue(m_lastClickedBtnSudokuUnit->getPosForMatrix().first, m_lastClickedBtnSudokuUnit->getPosForMatrix().second, num);
     });
+}
+
+void SudokuGridWidget::setAllUnitDisable() {
+    for (int i = 0; i < m_sudokuMatrixAnswer->getRowCount(); ++i) {
+        for (int j = 0; j < m_sudokuMatrixAnswer->getColumnCount(); ++j) {
+            setButtonEnable(i, j, false);
+        }
+    }
 }
