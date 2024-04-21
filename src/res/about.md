@@ -5,7 +5,7 @@
 <div style="text-align:center">
     <p>
         <a>Sudoku-Solo</a><br>
-        <a>Version 0.0.1</a>
+        <a>Version 0.2.0</a>
     </p>
     <p>
         By <a href="https://github.com/CodingRookie98">CodingRookie98</a>
