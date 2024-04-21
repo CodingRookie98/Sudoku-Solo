@@ -126,6 +126,7 @@ void GamingWidget::showMessage(const QString &message) {
     ui->labelMessage->setText(message);
 
     if (m_timerForMessageLabel == nullptr) {
+        m_timerForMessageLabel = new QTimer;
         connect(m_timerForMessageLabel, &QTimer::timeout, this, [&] {
             ui->labelMessage->setText("");
             m_timerForMessageLabel->stop();

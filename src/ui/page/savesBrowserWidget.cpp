@@ -90,25 +90,17 @@ void SavesBrowserWidget::signalsProcess() {
     });
 
     connect(ui->btnContinueGame, &QPushButton::clicked, this, [&] {
-        auto sudokuGridWidget = qobject_cast<SudokuGridWidget *>(MapForQObject::getInstance()->getObject(TypeName<SudokuGridWidget>::get()));
-        if (sudokuGridWidget == nullptr) {
-            // 从mapForQObject中取得的sudokuGridWidget是空指针
-            Logger::getInstance()->log(Logger::Error, QString(__FUNCTION__) + " "
-                                                          + QString::number(__LINE__) + " "
-                                                          + "The sudokuGridWidget obtained from mapForQObject is a null pointer");
-            return;
-        } else {
-            if (m_sudokuGameData == nullptr || m_sudokuGameData->empty()) {
-                GameMessageBox gameMessageBox;
-                gameMessageBox.setMessage(QApplication::translate(metaObject()->className(), tr("未选择存档或游戏").toStdString().c_str()));
-                gameMessageBox.exec();
-                return;
-            }
-            sudokuGridWidget->setGameMatrix(m_sudokuGameData->at(m_indexForGameData).m_answerMatrix,
-                                            m_sudokuGameData->at(m_indexForGameData).m_originalMatrix,
-                                            m_sudokuGameData->at(m_indexForGameData).m_workMatrix);
-            emit sigStartGame();
-        }
+        // 继续游戏
+        setMatrixForGame(m_sudokuGameData->at(m_indexForGameData).m_answerMatrix,
+                         m_sudokuGameData->at(m_indexForGameData).m_originalMatrix,
+                         m_sudokuGameData->at(m_indexForGameData).m_workMatrix);
+    });
+
+    connect(ui->btnReStart, &QPushButton::clicked, this, [&] {
+        // 重新开始游戏
+        setMatrixForGame(m_sudokuGameData->at(m_indexForGameData).m_answerMatrix,
+                         m_sudokuGameData->at(m_indexForGameData).m_originalMatrix,
+                         m_sudokuGameData->at(m_indexForGameData).m_originalMatrix);
     });
 
     connect(m_fileSystemWatcher, &QFileSystemWatcher::fileChanged, this, [&](const QString &path) {
@@ -276,4 +268,26 @@ bool SavesBrowserWidget::event(QEvent *event) {
         ui->retranslateUi(this);
     }
     return QWidget::event(event);
+}
+
+void SavesBrowserWidget::setMatrixForGame(const std::shared_ptr<Sudoku::SudokuMatrix> &answer,
+                                          const std::shared_ptr<Sudoku::SudokuMatrix> &original,
+                                          const std::shared_ptr<Sudoku::SudokuMatrix> &work) {
+    auto sudokuGridWidget = qobject_cast<SudokuGridWidget *>(MapForQObject::getInstance()->getObject(TypeName<SudokuGridWidget>::get()));
+    if (sudokuGridWidget == nullptr) {
+        // 从mapForQObject中取得的sudokuGridWidget是空指针
+        Logger::getInstance()->log(Logger::Error, QString(__FUNCTION__) + " "
+                                                      + QString::number(__LINE__) + " "
+                                                      + "The sudokuGridWidget obtained from mapForQObject is a null pointer");
+        return;
+    } else {
+        if (m_sudokuGameData == nullptr || m_sudokuGameData->empty()) {
+            GameMessageBox gameMessageBox;
+            gameMessageBox.setMessage(QApplication::translate(metaObject()->className(), tr("未选择存档或游戏").toStdString().c_str()));
+            gameMessageBox.exec();
+            return;
+        }
+        sudokuGridWidget->setGameMatrix(answer, original, work);
+        emit sigStartGame();
+    }
 }

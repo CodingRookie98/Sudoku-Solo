@@ -339,6 +339,35 @@ color: rgb(0, 255, 255);</string>
          </spacer>
         </item>
         <item>
+         <widget class="GameButton" name="btnReStart">
+          <property name="font">
+           <font>
+            <family>Arial Black</family>
+            <pointsize>15</pointsize>
+           </font>
+          </property>
+          <property name="text">
+           <string>重新开始</string>
+          </property>
+          <property name="flat">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <spacer name="horizontalSpacer_6">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>40</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+        <item>
          <widget class="GameButton" name="btnContinueGame">
           <property name="font">
            <font>

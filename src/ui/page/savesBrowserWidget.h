@@ -55,6 +55,9 @@ private:
     void updateTabWidget();
     void loadGame();
     void updateLabelTextAndBtnStatus();
+    void setMatrixForGame(const std::shared_ptr<Sudoku::SudokuMatrix> &answer,
+                          const std::shared_ptr<Sudoku::SudokuMatrix> &original,
+                          const std::shared_ptr<Sudoku::SudokuMatrix> &work);
 };
 
 #endif // SUDOKU_SOLO_SRC_UI_PAGE_SAVESBROWSERWIDGET_H_
