@@ -10,7 +10,7 @@
         <translation></translation>
     </message>
     <message>
-        <location line="+77"/>
+        <location line="+116"/>
         <location/>
         <source>关闭</source>
         <translation>关闭</translation>
@@ -233,6 +233,7 @@
     </message>
     <message>
         <location line="+13"/>
+        <location/>
         <source>背景</source>
         <translation>背景</translation>
     </message>
@@ -285,7 +286,7 @@
         <translation>提示</translation>
     </message>
     <message>
-        <location filename="../src/ui/page/gamingWidget.cpp" line="+65"/>
+        <location filename="../src/ui/page/gamingWidget.cpp" line="+72"/>
         <source>数独已经填完但答案不正确，请仔细检查</source>
         <translation>数独已经填完但答案不正确，请仔细检查</translation>
     </message>
@@ -295,17 +296,21 @@
         <translation>请选择需要提示答案的位置</translation>
     </message>
     <message>
-        <location line="+27"/>
+        <location line="+36"/>
+        <source>游戏结束，10秒后开始下一局游戏。</source>
+        <translation>游戏结束，10秒后开始下一局游戏。</translation>
+    </message>
+    <message>
+        <location line="-68"/>
         <source>时间 </source>
         <translation>时间 </translation>
     </message>
     <message>
-        <location line="+4"/>
+        <location line="+56"/>
         <source>时间 0 S</source>
         <translation>时间 0 S</translation>
     </message>
     <message>
-        <location line="+7"/>
         <source>游戏结束</source>
         <translation>游戏结束</translation>
     </message>
@@ -412,7 +417,8 @@
         <translation></translation>
     </message>
     <message>
-        <location line="+28"/>
+        <location line="+32"/>
+        <location/>
         <source>新存档名</source>
         <translation>新存档名</translation>
     </message>
@@ -429,7 +435,7 @@
         <translation>删除存档</translation>
     </message>
     <message>
-        <location line="+138"/>
+        <location line="+139"/>
         <location/>
         <source>答案</source>
         <translation>答案</translation>
@@ -451,6 +457,11 @@
         <location/>
         <source>确定</source>
         <translation>确定</translation>
+    </message>
+    <message>
+        <location line="+29"/>
+        <source>重新开始</source>
+        <translation>重新开始</translation>
     </message>
     <message>
         <location line="+29"/>
@@ -476,12 +487,12 @@
         <translation>请选择一个存档</translation>
     </message>
     <message>
-        <location line="+24"/>
+        <location line="+207"/>
         <source>未选择存档或游戏</source>
         <translation>未选择存档或游戏</translation>
     </message>
     <message>
-        <location line="+55"/>
+        <location line="-139"/>
         <source>文件名含有非法字符</source>
         <translation>文件名含有非法字符</translation>
     </message>
