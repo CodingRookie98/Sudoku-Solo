@@ -20,6 +20,7 @@ GameSettings::GameSettings(QObject *parent) :
     QObject(parent) {
     m_jsonObjectSettings = nullptr;
     m_translator = nullptr;
+
     init();
 }
 
@@ -49,16 +50,12 @@ GameSettings *GameSettings::getInstance() {
 }
 
 void GameSettings::init() {
-}
-
-void GameSettings::preCheck() {
     auto *settingsFile = new QFile(m_settingsJsonFileName);
     if (!settingsFile->open(QIODevice::ReadOnly)) {
         // log: 设置文件创建或打开失败
         Logger::getInstance()->log(Logger::Error, QString(__FUNCTION__) + " "
                                                       + QString::number(__LINE__) + " "
                                                       + settingsFile->errorString());
-        emit sigLastGameIsEmpty();
         m_jsonObjectSettings = new QJsonObject;
         return;
     }
@@ -67,7 +64,6 @@ void GameSettings::preCheck() {
     auto *jsonDocument = new QJsonDocument(QJsonDocument::fromJson(settingsFile->readAll(), jsonParseError));
 
     if (jsonParseError->error != QJsonParseError::NoError) {
-        emit sigLastGameIsEmpty();
         // log: 设置文件解析失败
         Logger::getInstance()->log(Logger::Error, QString(__FUNCTION__) + " "
                                                       + QString::number(__LINE__) + " "
@@ -77,7 +73,6 @@ void GameSettings::preCheck() {
     }
 
     if (jsonDocument->isEmpty()) {
-        emit sigLastGameIsEmpty();
         // log: 设置文件为空
         Logger::getInstance()->log(Logger::Error, QString(__FUNCTION__) + " "
                                                       + QString::number(__LINE__) + " "
@@ -92,7 +87,9 @@ void GameSettings::preCheck() {
     delete settingsFile;
     delete jsonParseError;
     delete jsonDocument;
+}
 
+void GameSettings::preCheck() {
     checkLastGameSave();
     checkLanguage();
 }
@@ -137,9 +134,6 @@ void GameSettings::writeToFile() {
 }
 
 QJsonValue GameSettings::getSetting(const QString &key) {
-    if (m_jsonObjectSettings == nullptr) {
-        preCheck();
-    }
     if (m_jsonObjectSettings->find(key) != m_jsonObjectSettings->end()) {
         return (*m_jsonObjectSettings)[key];
     }
@@ -178,20 +172,24 @@ void GameSettings::checkLastGameSave() {
 }
 
 void GameSettings::checkLanguage() {
+    // 如果设置jsonw文件中没有language项则直接返回，程序采用默认语言设置
     if (!m_jsonObjectSettings->contains(m_language)) {
         return;
     }
 
+    // 如果设置json文件中有language项则获取值
     QString languageFile = getSetting(m_language).toString();
     if (m_translator == nullptr) {
         m_translator = new QTranslator;
     }
+    // 加载语言文件
     if (!m_translator->load(languageFile)) {
         Logger::getInstance()->log(Logger::LogLevel::Error, QString(__FUNCTION__) + " "
                                                                 + QString::number(__LINE__) + " "
                                                                 + languageFile + " load failed.");
         return;
     }
+    // 安装语言
     if (!QApplication::installTranslator(m_translator)) {
         Logger::getInstance()->log(Logger::LogLevel::Error, QString(__FUNCTION__) + " "
                                                                 + QString::number(__LINE__) + " "
