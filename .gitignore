@@ -1,3 +1,7 @@
 ﻿.idea
+.vscode
 /bin
 /build
+src/res/audio
+src/res/music
+.gitignore
