@@ -31,13 +31,14 @@ signals:
     void sigDownloadingFile(const std::string &fileName);
 
 private:
-    AlibabaCloud::OSS::OssClient *m_ossClient;
+    std::shared_ptr<AlibabaCloud::OSS::OssClient> m_ossClient;
     const std::string m_endPoint = "EndPoint";
     const std::string m_bucketName = "BucketName";
     const std::string m_accessKeyId = "AccessKeyId";
     const std::string m_accessKeySecret = "AccessKeySecret";
     std::vector<std::string> *m_cloudFiles;
     std::map<std::string, std::string> *m_ossInfo;
+    std::mutex m_mutex;
 
     void init();
     void initOssInfo();

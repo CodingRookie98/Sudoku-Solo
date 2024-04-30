@@ -9,6 +9,7 @@
  */
 
 #include <QFile>
+#include <QDir>
 #include <QJsonDocument>
 #include <QJsonObject>
 #include <utility>
@@ -16,7 +17,7 @@
 #include "logger.h"
 
 ResourceDownloader::ResourceDownloader(QObject *parent) :
-    QObject(parent){
+    QObject(parent) {
     m_ossClient = nullptr;
     m_cloudFiles = new std::vector<std::string>;
     m_ossInfo = new std::map<std::string, std::string>;
@@ -29,8 +30,8 @@ void ResourceDownloader::init() {
     AlibabaCloud::OSS::InitializeSdk();
 
     initOssInfo();
-    m_ossClient = new AlibabaCloud::OSS::OssClient(m_ossInfo->at(m_endPoint), m_ossInfo->at(m_accessKeyId),
-                                                   m_ossInfo->at(m_accessKeySecret), conf);
+    m_ossClient = std::make_shared<AlibabaCloud::OSS::OssClient>(AlibabaCloud::OSS::OssClient(m_ossInfo->at(m_endPoint), m_ossInfo->at(m_accessKeyId),
+                                                                                              m_ossInfo->at(m_accessKeySecret), conf));
 
     /* 列举文件。*/
     std::string nextMarker;
@@ -88,10 +89,8 @@ void ResourceDownloader::initOssInfo() {
 }
 
 ResourceDownloader::~ResourceDownloader() {
-    /* 释放网络等资源。*/
-    delete m_ossClient;
     delete m_ossInfo;
-    AlibabaCloud::OSS::ShutdownSdk();
+    std::lock_guard<std::mutex> lockGuard(m_mutex); // 别动这行代码，我写的我也不知道为什么
 }
 
 int ResourceDownloader::getFilesSize() const {
@@ -106,25 +105,35 @@ std::string ResourceDownloader::getFileName(const int &index) const {
 }
 
 void ResourceDownloader::downloadFile(const std::string &fileName, std::function<void(size_t, int64_t, int64_t, void *)> progressCallback) {
-    std::cout << __FUNCTION__  << std::endl;
     emit sigDownloadingFile(fileName);
+
+    std::string parentPath = std::filesystem::path(fileName).parent_path().string();
+    if (!QDir(parentPath.c_str()).exists()) {
+        QDir dir(parentPath.c_str());
+        if (!dir.mkpath(parentPath.c_str())) {
+            Logger::getInstance()->log(Logger::Error, QString(__FUNCTION__) + " "
+                                                          + QString::number(__LINE__) + " "
+                                                          + "mkdir " + parentPath.c_str() + " is failed");
+            return;
+        }
+    }
+
+    std::lock_guard<std::mutex> lockGuard(m_mutex); // 别动这行代码，我写的我也不知道为什么
     /* 断点续传下载。*/
     // DownloadObjectRequest request(BucketName, ObjectName, DownloadFilePath, CheckpointFilePath);
     AlibabaCloud::OSS::DownloadObjectRequest request(m_ossInfo->at(m_bucketName), fileName, fileName,
-                                                        std::filesystem::path(fileName).parent_path().string());
-    
-//    std::function<void(size_t, int64_t, int64_t, void *)> progressCallback = std::bind(&ResourceDownloader::progressCallback, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3, std::placeholders::_4);
-    AlibabaCloud::OSS::TransferProgress transferProgress = {progressCallback, nullptr};
+                                                     std::filesystem::path(fileName).parent_path().string());
+    AlibabaCloud::OSS::TransferProgress transferProgress = {std::move(progressCallback), nullptr};
     request.setTransferProgress(transferProgress);
-    
+
     auto outcome = m_ossClient->ResumableDownloadObject(request);
     if (!outcome.isSuccess()) {
         /* 异常处理。*/
         std::stringstream info;
         info << "ResumableDownloadObject fail" << ",code:" << outcome.error().Code() << ",message:" << outcome.error().Message() << ",requestId:" << outcome.error().RequestId();
         Logger::getInstance()->log(Logger::Error, QString(__FUNCTION__) + " "
-                                                  + QString::number(__LINE__) + " "
-                                                  + info.str().c_str());
+                                                      + QString::number(__LINE__) + " "
+                                                      + info.str().c_str());
         return;
     } else {
         emit sigFileDownloadFinished();
@@ -137,5 +146,4 @@ void ResourceDownloader::progressCallback(size_t increment, int64_t transfered, 
     // total表示下载文件的总大小。
     int value = (int)((transfered * 100) / total);
     emit sigUpdateProgressBar(value);
-    std::cout << __FUNCTION__ << "transferred:" << transfered << " total:" << total << " value:" << value << std::endl;
 }

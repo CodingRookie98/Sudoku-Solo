@@ -12,6 +12,7 @@
 
 #include <QFile>
 #include <QThreadPool>
+#include <QApplication>
 #include "gameResourceCheckWidget.h"
 #include "ui_GameResourceCheckWidget.h"
 
@@ -28,11 +29,13 @@ GameResourceCheckWidget::GameResourceCheckWidget(QWidget *parent) :
 
 GameResourceCheckWidget::~GameResourceCheckWidget() {
     delete ui;
-    delete m_resourceDownloader;
     delete m_neededDownloadFiles;
+    delete m_resourceDownloader;
 }
 
 void GameResourceCheckWidget::init() {
+    this->setWindowFlag(Qt::WindowType::FramelessWindowHint);
+
     ui->progressBar_check->setValue(0);
     ui->progressBar_download->setValue(0);
     m_filesSize = m_resourceDownloader->getFilesSize();
@@ -43,6 +46,12 @@ void GameResourceCheckWidget::init() {
 void GameResourceCheckWidget::signalsProcess() {
     connect(m_resourceDownloader, &ResourceDownloader::sigUpdateProgressBar,
             this, &GameResourceCheckWidget::updateDownloadProgressBar);
+
+    connect(ui->btnClose, &QPushButton::clicked, this, [] {
+        QThreadPool::globalInstance()->clear();
+        QThreadPool::globalInstance()->waitForDone(1000);
+        QApplication::closeAllWindows();
+    });
 }
 
 void GameResourceCheckWidget::start() {
@@ -89,11 +98,11 @@ void GameResourceCheckWidget::start() {
                 emit sigCheckResourceFinished();
             }
         });
-        
+
         connect(m_resourceDownloader, &ResourceDownloader::sigDownloadingFile, this, [&](const std::string &fileName) {
-          ui->widget_download->setVisible(true);
-          ui->label_check_2->setText(fileName.c_str());
-          ui->label_download->setText(QApplication::translate(metaObject()->className(), tr("正在下载文件：").toStdString().c_str()) + fileName.c_str());
+            ui->widget_download->setVisible(true);
+            ui->label_check_2->setText(fileName.c_str());
+            ui->label_download->setText(QApplication::translate(metaObject()->className(), tr("正在下载文件：").toStdString().c_str()) + fileName.c_str());
         });
 
         QThreadPool::globalInstance()->start(task);
@@ -112,5 +121,4 @@ void GameResourceCheckWidget::progressCallback(size_t increment, int64_t transfe
     // total表示下载文件的总大小。
     int value = (int)((transfered * 100) / total);
     emit m_resourceDownloader->sigUpdateProgressBar(value);
-    std::cout << __FUNCTION__ << "transferred:" << transfered << " total:" << total << " value:" << value << std::endl;
 }

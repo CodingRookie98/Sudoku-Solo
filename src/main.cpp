@@ -8,13 +8,13 @@
  ******************************************************************************
  */
 
+#include <QThreadPool>
 #include "gameApplication.h"
 
 int main(int argc, char *argv[]) {
     GameApplication a(argc, argv);
 
     a.start();
-
 
     return a.exec();
 }
