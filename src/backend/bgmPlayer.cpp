@@ -61,7 +61,7 @@ void BGMPlayer::init() {
     }
 
     if (!m_musicFiles->empty()) {
-        int index = getRandomNum(0, (int)m_musicFiles->size());
+        int index = getRandomNum(0, (int)m_musicFiles->size() - 1);
         if (QFile(m_musicFiles->at(index)).exists()) {
             m_mediaPlayer->setSource(QUrl::fromLocalFile(m_musicFiles->at(index)));
             m_mediaPlayer->play();

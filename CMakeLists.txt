@@ -17,6 +17,7 @@ find_package(Qt6 REQUIRED COMPONENTS
         Multimedia
 )
 find_package(spdlog CONFIG REQUIRED)
+find_package(CURL REQUIRED)
 
 if (CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
     set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON)
@@ -47,10 +48,21 @@ target_link_libraries(Sudoku-Solo PRIVATE
         Qt6::WebEngineWidgets
         Qt6::Multimedia
 )
-target_link_libraries(Sudoku-Solo PRIVATE spdlog::spdlog)
+target_link_libraries(Sudoku-Solo PRIVATE
+        spdlog::spdlog
+        CURL::libcurl
+)
 
 add_subdirectory(src)
 add_subdirectory(translations)
+add_subdirectory(third_party)
+
+# link alibabacloud-oss-cpp-sdk
+if (WIN32)
+    target_link_libraries(Sudoku-Solo PRIVATE ${CMAKE_BINARY_DIR}/third_party/install/aliyun-oss-cpp-sdk/lib/alibabacloud-oss-cpp-sdk.lib)
+elseif (UNIX)
+    target_link_libraries(Sudoku-Solo PRIVATE ${CMAKE_BINARY_DIR}/third_party/install/aliyun-oss-cpp-sdk/lib/alibabacloud-oss-cpp-sdk.so)
+endif ()
 
 set_target_properties(Sudoku-Solo PROPERTIES
         MACOSX_BUNDLE_GUI_IDENTIFIER my.example.com
@@ -58,12 +70,6 @@ set_target_properties(Sudoku-Solo PROPERTIES
         MACOSX_BUNDLE_SHORT_VERSION_STRING ${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}
         MACOSX_BUNDLE TRUE
         WIN32_EXECUTABLE TRUE
-)
-
-install(TARGETS Sudoku-Solo
-        BUNDLE DESTINATION .
-        LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
-        RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
 )
 
 if (QT_VERSION_MAJOR EQUAL 6)

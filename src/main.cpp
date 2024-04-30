@@ -7,18 +7,14 @@
  * @date           : 2024/2/3
  ******************************************************************************
  */
-#include "ui/mainWindow.h"
-#include <QApplication>
-#include "gameSettings.h"
-#include "bgmPlayer.h"
+
+#include "gameApplication.h"
 
 int main(int argc, char *argv[]) {
-    QApplication a(argc, argv);
-    MainWindow w;
+    GameApplication a(argc, argv);
 
-    GameSettings::getInstance()->preCheck();
-    BGMPlayer::getInstance()->play();
+    a.start();
 
-    w.showFullScreen();
+
     return a.exec();
 }

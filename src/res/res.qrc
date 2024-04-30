@@ -12,4 +12,7 @@
         <file>audio/hover_34.wav</file>
         <file>audio/click_001.wav</file>
     </qresource>
+    <qresource prefix="/json">
+        <file>OssInfo.json</file>
+    </qresource>
 </RCC>
