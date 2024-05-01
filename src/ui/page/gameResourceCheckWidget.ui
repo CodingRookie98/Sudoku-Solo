@@ -35,7 +35,7 @@
       </font>
      </property>
      <property name="text">
-      <string>正在启动游,这可能需要一些时间...</string>
+      <string>正在启动游戏,这可能需要一些时间...</string>
      </property>
      <property name="alignment">
       <set>Qt::AlignCenter</set>

@@ -212,6 +212,41 @@
     </message>
 </context>
 <context>
+    <name>GameResourceCheckWidget</name>
+    <message>
+        <location filename="../src/ui/page/gameResourceCheckWidget.ui" line="+14"/>
+        <location/>
+        <source>正在启动游戏</source>
+        <translation>Starting game</translation>
+    </message>
+    <message>
+        <location line="+24"/>
+        <location/>
+        <source>正在启动游戏,这可能需要一些时间...</source>
+        <translation>Starting the game, this may take some time...</translation>
+    </message>
+    <message>
+        <source>正在启动游,这可能需要一些时间...</source>
+        <translation>Starting the game, this may take some time...</translation>
+    </message>
+    <message>
+        <location line="+132"/>
+        <location/>
+        <source>退出</source>
+        <translation>Quit</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/page/gameResourceCheckWidget.cpp" line="+42"/>
+        <source>正在验证程序要求：</source>
+        <translation>Verifying program requirements:</translation>
+    </message>
+    <message>
+        <location line="+63"/>
+        <source>正在下载文件：</source>
+        <translation>Downloading file:</translation>
+    </message>
+</context>
+<context>
     <name>GameSettingWidget</name>
     <message>
         <location filename="../src/ui/page/GameSettingWidget.ui" line="+14"/>
@@ -460,6 +495,7 @@
     </message>
     <message>
         <location line="+29"/>
+        <location/>
         <source>重新开始</source>
         <translation>Restart</translation>
     </message>
@@ -534,7 +570,7 @@
 <context>
     <name>SudokuGridWidget</name>
     <message>
-        <location filename="../src/ui/page/sudokuGridWidget.ui" line="+20"/>
+        <location filename="../src/ui/components/sudokuGridWidget.ui" line="+20"/>
         <location/>
         <source>SudokuGridWidget</source>
         <translation></translation>
