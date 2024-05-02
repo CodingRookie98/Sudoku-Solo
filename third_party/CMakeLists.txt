@@ -9,3 +9,14 @@ ExternalProject_Add(
         BUILD_ALWAYS true
 )
 target_include_directories(Sudoku-Solo PRIVATE ${CMAKE_BINARY_DIR}/third_party/install/aliyun-oss-cpp-sdk/include)
+
+ExternalProject_Add(
+        QCefView-sdk
+        GIT_REPOSITORY https://github.com/CefView/QCefView.git
+        GIT_TAG main
+        PREFIX ${CMAKE_BINARY_DIR}/third_party/QCefView-sdk
+        CMAKE_ARGS -DCMAKE_INSTALL_PREFIX=${CMAKE_BINARY_DIR}/third_party/install/QCefView-sdk -DCMAKE_RUNTIME_OUTPUT_DIRECTORY=${CMAKE_RUNTIME_OUTPUT_DIRECTORY} -DCMAKE_WINDOWS_EXPORT_ALL_SYMBOLS=ON -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}
+        DOWNLOAD_EXTRACT_TIMESTAMP true
+        BUILD_ALWAYS true
+)
+#target_include_directories(Sudoku-Solo PRIVATE ${CMAKE_BINARY_DIR}/third_party/install/aliyun-oss-cpp-sdk/include)

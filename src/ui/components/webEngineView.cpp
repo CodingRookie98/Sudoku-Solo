@@ -10,10 +10,11 @@
 
 // You may need to build the project (run Qt uic code generator) to get "ui_WebEngineView.h" resolved
 
-#include "webEngineView.h"
-#include "ui_WebEngineView.h"
 #include <QKeyEvent>
 #include <QFile>
+#include <QWebEngineSettings>
+#include "webEngineView.h"
+#include "ui_WebEngineView.h"
 #include "logger.h"
 
 WebEngineView::WebEngineView(QWidget *parent) :
@@ -28,6 +29,8 @@ WebEngineView::~WebEngineView() {
 }
 
 void WebEngineView::init() {
+//    this->settings()->setAttribute(QWebEngineSettings::Accelerated2dCanvasEnabled, true);
+//    this->settings()->setAttribute(QWebEngineSettings::WebGLEnabled, true);
 }
 
 void WebEngineView::setHtml(const QString &path) {
