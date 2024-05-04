@@ -12,8 +12,7 @@
 #define TEST__BACKGROUNDWIDGET_H_
 
 #include <QWidget>
-#include <QWebEngineView>
-#include "webEngineView.h"
+#include "QCefView.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -33,7 +32,8 @@ signals:
 
 private:
     Ui::BackgroundWidget *ui;
-    WebEngineView *m_webEngineView;
+    QCefSetting *m_cefSetting;
+    QCefView *m_cefView;
 
     void init();
     void signalProcess();

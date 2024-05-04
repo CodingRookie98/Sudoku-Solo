@@ -13,8 +13,6 @@ find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets)
 find_package(Qt6 REQUIRED COMPONENTS
         Core
         Multimedia
-        WebEngineWidgets
-        Multimedia
 )
 find_package(spdlog CONFIG REQUIRED)
 find_package(CURL REQUIRED)
@@ -45,8 +43,6 @@ target_link_libraries(Sudoku-Solo PRIVATE Sudoku)
 target_link_libraries(Sudoku-Solo PRIVATE
         Qt6::Core
         Qt6::Multimedia
-        Qt6::WebEngineWidgets
-        Qt6::Multimedia
 )
 target_link_libraries(Sudoku-Solo PRIVATE
         spdlog::spdlog
@@ -57,9 +53,13 @@ add_subdirectory(src)
 add_subdirectory(translations)
 add_subdirectory(third_party)
 
-# link alibabacloud-oss-cpp-sdk
 if (WIN32)
+    # link alibabacloud-oss-cpp-sdk
     target_link_libraries(Sudoku-Solo PRIVATE ${CMAKE_BINARY_DIR}/third_party/install/aliyun-oss-cpp-sdk/lib/alibabacloud-oss-cpp-sdk.lib)
+
+    # link QCefView
+    set_target_properties(QCefView PROPERTIES IMPORTED_LOCATION ${CMAKE_BINARY_DIR}/third_party/QCefView-sdk-build/src/${CMAKE_BUILD_TYPE}/QCefView.lib)
+    target_link_libraries(Sudoku-Solo PRIVATE QCefView)
 elseif (UNIX)
     target_link_libraries(Sudoku-Solo PRIVATE ${CMAKE_BINARY_DIR}/third_party/install/aliyun-oss-cpp-sdk/lib/alibabacloud-oss-cpp-sdk.so)
 endif ()
