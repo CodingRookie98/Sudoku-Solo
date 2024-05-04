@@ -25,6 +25,7 @@ BackgroundWidget::BackgroundWidget(QWidget *parent) :
 
     m_cefSetting = new QCefSetting;
     m_cefView = nullptr;
+    m_cefViewThread = new QThread;
 
     init();
     signalProcess();
@@ -34,6 +35,7 @@ BackgroundWidget::~BackgroundWidget() {
     delete ui;
     delete m_cefSetting;
     delete m_cefView;
+    delete m_cefViewThread;
 }
 
 void BackgroundWidget::init() {
@@ -49,7 +51,7 @@ void BackgroundWidget::init() {
     } else {
         QFile file(QString("./background/geometry/") + "index.html");
         QString absolutePath = std::string(std::filesystem::absolute(file.filesystemFileName()).string()).c_str();
-        url += QDir(webFilePath).absolutePath();
+        url += absolutePath;
         
         GameSettings::getInstance()->setSetting(GameSettings::getInstance()->m_backgroundWebPath,
                                                 absolutePath);
@@ -83,4 +85,5 @@ void BackgroundWidget::setBackground(const QString &path) {
     }
     m_cefView = new QCefView(url, m_cefSetting);
     ui->gridLayout_2->addWidget(m_cefView);
+    m_cefView->moveToThread(m_cefViewThread);
 }

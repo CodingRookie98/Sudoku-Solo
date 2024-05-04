@@ -66,7 +66,9 @@ void GameResourceCheckWidget::start() {
         }
     }
 
-    ui->progressBar_check->setValue((int)((m_filesSize - m_neededDownloadFiles->size()) * 100 / m_filesSize));
+    if (m_filesSize != 0) {
+        ui->progressBar_check->setValue((int)((m_filesSize - m_neededDownloadFiles->size()) * 100 / m_filesSize));
+    }
 
     if (!m_neededDownloadFiles->empty()) {
         static auto iter = m_neededDownloadFiles->cbegin();

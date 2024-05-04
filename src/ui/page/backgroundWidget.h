@@ -12,6 +12,7 @@
 #define TEST__BACKGROUNDWIDGET_H_
 
 #include <QWidget>
+#include <QThread>
 #include "QCefView.h"
 
 QT_BEGIN_NAMESPACE
@@ -34,6 +35,7 @@ private:
     Ui::BackgroundWidget *ui;
     QCefSetting *m_cefSetting;
     QCefView *m_cefView;
+    QThread *m_cefViewThread;
 
     void init();
     void signalProcess();
