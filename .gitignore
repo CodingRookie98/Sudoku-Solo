@@ -5,3 +5,4 @@
 src/res/audio
 src/res/music
 .gitignore
+src/res/OssInfo.json

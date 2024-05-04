@@ -8,7 +8,7 @@ This is a Sudoku game project, currently only supports single player play.
 
 ## Todo
 
--   [ ] Put resource files into object storage to reduce the size of the release package.
+-   [x] Put resource files into object storage to reduce the size of the release package.
 
 ## Usage
 

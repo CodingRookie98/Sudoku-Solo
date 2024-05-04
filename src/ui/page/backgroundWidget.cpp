@@ -12,6 +12,7 @@
 // "ui_BackgroundWidget.h" resolved
 
 #include <QFile>
+#include <QDir>
 #include "backgroundWidget.h"
 #include "ui_BackgroundWidget.h"
 #include "mapForQObject.h"
@@ -22,7 +23,9 @@ BackgroundWidget::BackgroundWidget(QWidget *parent) :
     QWidget(parent), ui(new Ui::BackgroundWidget) {
     ui->setupUi(this);
 
-    m_webEngineView = new WebEngineView(this);
+    m_cefSetting = new QCefSetting;
+    m_cefView = nullptr;
+    m_cefViewThread = new QThread;
 
     init();
     signalProcess();
@@ -30,21 +33,26 @@ BackgroundWidget::BackgroundWidget(QWidget *parent) :
 
 BackgroundWidget::~BackgroundWidget() {
     delete ui;
-    delete m_webEngineView;
+    delete m_cefSetting;
+    delete m_cefView;
+    delete m_cefViewThread;
 }
 
 void BackgroundWidget::init() {
     MapForQObject::getInstance()->registerObject(TypeName<BackgroundWidget>::get(), this);
-    ui->gridLayout_2->addWidget(m_webEngineView);
+    //    ui->gridLayout_2->addWidget(m_cefView);
 
     QString webFilePath = GameSettings::getInstance()->getSetting(GameSettings::getInstance()->m_backgroundWebPath).toString();
+    QString url = QString("file://");
     if (!webFilePath.isEmpty()) {
-        m_webEngineView->setHtml(webFilePath);
+        delete m_cefView;
+        url += QDir(webFilePath).absolutePath();
+
     } else {
         QFile file(QString("./background/geometry/") + "index.html");
         QString absolutePath = std::string(std::filesystem::absolute(file.filesystemFileName()).string()).c_str();
-        m_webEngineView->setHtml(absolutePath);
-
+        url += absolutePath;
+        
         GameSettings::getInstance()->setSetting(GameSettings::getInstance()->m_backgroundWebPath,
                                                 absolutePath);
 
@@ -53,6 +61,8 @@ void BackgroundWidget::init() {
                                                                 + GameSettings::getInstance()->m_backgroundWebPath
                                                                 + " is not exits");
     }
+    m_cefView = new QCefView(url, m_cefSetting);
+    ui->gridLayout_2->addWidget(m_cefView);
 }
 
 void BackgroundWidget::signalProcess() {
@@ -66,5 +76,14 @@ void BackgroundWidget::setBackground(const QString &path) {
                                                                 + path + " is not exits");
         return;
     }
-    m_webEngineView->setHtml(path);
+    
+    
+    QString url = QString("file://") + QDir(path).absolutePath();
+    if (m_cefView != nullptr) {
+        ui->gridLayout_2->removeWidget(m_cefView);
+        delete m_cefView;
+    }
+    m_cefView = new QCefView(url, m_cefSetting);
+    ui->gridLayout_2->addWidget(m_cefView);
+    m_cefView->moveToThread(m_cefViewThread);
 }
