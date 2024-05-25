@@ -18,12 +18,11 @@ find_package(spdlog CONFIG REQUIRED)
 find_package(CURL REQUIRED)
 
 if (CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
-    set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON)
     add_compile_options("$<$<C_COMPILER_ID:MSVC>:/utf-8>")
     add_compile_options("$<$<CXX_COMPILER_ID:MSVC>:/utf-8>")
 endif ()
 
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/bin)
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/bin/${CMAKE_BUILD_TYPE})
 
 if (${QT_VERSION_MAJOR} GREATER_EQUAL 6)
     qt_add_executable(Sudoku-Solo
@@ -37,7 +36,6 @@ target_link_libraries(Sudoku-Solo PRIVATE
         Qt${QT_VERSION_MAJOR}::Widgets
 )
 
-add_library(Sudoku SHARED)
 
 target_link_libraries(Sudoku-Solo PRIVATE Sudoku)
 target_link_libraries(Sudoku-Solo PRIVATE
